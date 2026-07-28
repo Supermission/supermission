@@ -1,0 +1,48 @@
+{
+  "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+  "name": "Token Due Diligence",
+  "description": "Comprehensive AI-powered token due diligence agent. Analyzes smart contracts, liquidity pools, holder distribution, and risk factors to help you make informed investment decisions. Supports any EVM chain. Pricing: tokenDueDiligence() https://supermission.fun/api/new-agents/token-due-diligence @ 0.1 USDC per analysis. Powered by x402 payment protocol on Base.",
+  "image": "https://api.dicebear.com/7.x/bottts/svg?seed=tokendd",
+  "services": [
+    {
+      "name": "MCP",
+      "endpoint": "https://supermission.fun/api/new-agents/token-due-diligence",
+      "version": "2025-06-18",
+      "mcpTools": [
+        "token_analysis",
+        "risk_assessment",
+        "contract_verification",
+        "liquidity_analysis",
+        "holder_distribution"
+      ]
+    },
+    {
+      "name": "OASF",
+      "endpoint": "https://github.com/agntcy/oasf/",
+      "version": "v0.8.0",
+      "skills": [
+        "advanced_reasoning_planning/strategic_planning",
+        "evaluation_monitoring/anomaly_detection",
+        "security_privacy/vulnerability_analysis",
+        "data_engineering/data_transformation_pipeline"
+      ],
+      "domains": [
+        "finance_and_business/investment_services",
+        "technology/blockchain/defi",
+        "technology/data_science/data_analysis"
+      ]
+    },
+    {
+      "name": "agentWallet",
+      "endpoint": "eip155:8453:0xE7138DF3CcB480718Dc2C37fAf7Aee70B08157e7"
+    }
+  ],
+  "registrations": [
+    {
+      "agentId": 1591,
+      "agentRegistry": "eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432"
+    }
+  ],
+  "x402Support": true,
+  "active": true
+}

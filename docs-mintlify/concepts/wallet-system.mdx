@@ -1,0 +1,106 @@
+---
+title: "Wallet System"
+description: "How Supermission handles wallets, keys, and authentication. MPC infrastructure, non-custodial design, and zero-gas UX."
+---
+
+# Wallet architecture
+
+Supermission uses Privy's MPC (Multi-Party Computation) infrastructure to give users a crypto wallet without any of the traditional pain points — no seed phrases, no gas management, no chain switching.
+
+## How it works
+
+<Steps>
+  <Step title="User signs up">
+    Email, Google OAuth, or connect an existing wallet (MetaMask, Coinbase Wallet, WalletConnect).
+  </Step>
+  <Step title="MPC wallet created">
+    Privy generates a smart wallet on Base. The private key is split into multiple shards using MPC — no single party (including Supermission or Privy) ever has the full key.
+  </Step>
+  <Step title="Key reconstruction on sign-in">
+    When you authenticate, the key shards are reconstructed securely in a trusted execution environment. You can sign transactions without ever seeing or managing a private key.
+  </Step>
+  <Step title="Transactions signed locally">
+    Every trade is signed by your wallet. The signed transaction is submitted to the blockchain. Supermission cannot execute transactions without your authentication.
+  </Step>
+</Steps>
+
+## Key properties
+
+| Property | Description |
+|----------|-------------|
+| **Non-custodial** | Supermission never holds your funds or full private key. We technically cannot access your wallet. |
+| **No seed phrases** | MPC eliminates the 24-word recovery phrase. Recovery is handled through your email/social login. |
+| **Sponsored gas** | All transaction gas fees are covered. You never need ETH. Trades, bridges, redemptions — all free. |
+| **No chain switching** | Your wallet lives on Base. When you trade on Polymarket (Polygon), we bridge automatically. Invisible to you. |
+| **Batch transactions** | Multiple operations (approve + swap, bridge + trade) can execute in a single click. |
+
+## Multi-chain flow
+
+Your wallet lives on Base, but trades execute on Polygon. Here's how that works seamlessly:
+
+```
+Your Base Wallet (USDC)
+        │
+        ▼ Circle CCTP Bridge
+Polygon (USDC.e)
+        │
+        ▼ Polymarket CLOB
+Position Created
+        │
+        ▼ On resolution / sell
+USDC.e released on Polygon
+        │
+        ▼ Auto-bridge back
+Your Base Wallet (USDC)
+```
+
+You see step 1 (confirm trade) and the last step (position in portfolio). Everything in between is invisible.
+
+## Authentication flow
+
+<Tabs>
+  <Tab title="New User">
+    1. Login via Privy (email code or Google OAuth)
+    2. Privy creates embedded MPC wallet on Base
+    3. Wallet address assigned to your account
+    4. Waitlist check — if approved, full access granted
+    5. Session token stored, auto-renewed
+  </Tab>
+  <Tab title="Returning User">
+    1. Login via same method (email or Google)
+    2. Privy reconstructs wallet from MPC shards
+    3. Session validated against Supabase
+    4. Full terminal access restored
+  </Tab>
+  <Tab title="Existing Wallet">
+    1. Connect MetaMask, Coinbase Wallet, or WalletConnect
+    2. External wallet linked to your Privy account
+    3. Can use either embedded or external wallet for trading
+    4. Multi-wallet support — link multiple wallets to one account
+  </Tab>
+</Tabs>
+
+## Security model
+
+<CardGroup cols={2}>
+  <Card title="Key Compromise" icon="key">
+    MPC splits your key across multiple parties. Compromising one shard is useless without the others. No single point of failure.
+  </Card>
+  <Card title="Phishing Protection" icon="shield-halved">
+    No seed phrase to steal. No private key to export. Authentication is through your email/social provider with Privy's security infrastructure.
+  </Card>
+  <Card title="Gas Griefing" icon="gas-pump">
+    Gas is fully sponsored by Supermission. You never need to hold ETH or worry about gas price manipulation.
+  </Card>
+  <Card title="Front-Running" icon="lock">
+    Orders go directly to Polymarket's CLOB — not through a public mempool. No MEV exposure on your trades.
+  </Card>
+</CardGroup>
+
+<Warning>
+  Non-custodial means non-custodial. If you lose access to your email/social login and cannot recover through Privy's recovery flow, we cannot help you access your wallet. Secure your authentication credentials.
+</Warning>
+
+<Info>
+  For developers building agents: server-side wallets are also available with AES-256 encrypted private key storage and configurable spending policies. See [Agent Economy](/agent-economy/overview) for details.
+</Info>

@@ -1,0 +1,87 @@
+---
+title: "Contract Audit"
+description: "Smart contract security auditing with AI-powered vulnerability detection, severity-coded findings, code snippets, and optional deep audit."
+---
+
+# Contract audit
+
+The **Contract Audit** agent analyzes smart contracts for vulnerabilities, access control issues, and security best practices. Available in the DeFAI chat and as a dedicated page at `/security` with auto-payment enabled.
+
+## How to use
+
+**From DeFAI** (`/defai` or `/chat`):
+- Select the Contract Audit agent
+- `"Audit this contract: 0x..."`
+- `"Check for reentrancy vulnerabilities in this token contract"`
+- `"Is this contract safe to interact with?"`
+
+**From Security page** (`/security`):
+- Dedicated interface hardcoded to the audit agent
+- Prompt cards on load: "Audit a contract by address", "Check for vulnerabilities", "Gas optimization review", "OpenZeppelin compliance"
+- **Auto-payment** — payments execute silently without prompting (via `useAutoPayment()` hook)
+- **Deep audit toggle** — checkbox that appends `[deep-audit]` flag for extended analysis
+
+## Result panel: ContractAuditResultPanel
+
+### Risk score gauge
+
+A **circular score gauge** (0-100) with color coding:
+- **0-25**: Low risk (green)
+- **25-50**: Medium risk (amber)
+- **50-75**: High risk (orange)
+- **75-100**: Critical risk (red)
+
+Overall risk level banner below the gauge: `SAFE`, `CAUTION`, `WARNING`, or `AVOID`.
+
+### Findings
+
+Each finding is a severity-coded card:
+
+| Severity | Color | Description |
+|----------|-------|-------------|
+| **CRITICAL** | Red with glow | Exploitable vulnerabilities, fund loss risk |
+| **HIGH** | Orange | Significant security concerns |
+| **MEDIUM** | Amber | Moderate issues that should be addressed |
+| **LOW** | Blue/sky | Minor issues, best practice violations |
+| **INFO** | Slate/gray | Informational notes, no security impact |
+
+Each finding card contains:
+- **Title** — concise description of the issue
+- **Description** — detailed explanation
+- **Code snippet** — relevant code with line numbers (syntax highlighted)
+- **Recommendation** — how to fix the issue
+
+### Recommendations section
+
+Overall recommendations for the contract: `SAFE` (green), `CAUTION` (amber), `WARNING` (orange), `AVOID` (red).
+
+### AI report
+
+Collapsible markdown section with the full AI-generated analysis narrative.
+
+## Deep audit
+
+When the deep audit toggle is enabled (or `[deep-audit]` is appended to the message), the system runs an extended analysis:
+
+- **Nemesis analysis** — advanced vulnerability detection framework
+- **Pashov analysis** — specialized audit methodology
+
+The UI shows a loading message: _"Running Deep Audit (Nemesis + Pashov)..."_ while the extended analysis runs. Results include all standard findings plus the deep analysis results.
+
+## Security page specifics
+
+The `/security` page wraps the same chat infrastructure with:
+
+- **Hardcoded agent**: Contract Audit (`contract-audit`)
+- **Auto-payment**: `useAutoPayment()` hook intercepts `param_request` and `x402_payment_required` actions, handling them automatically without user interaction
+- **Sidebar**: Full session management (ChatSidebar) for saving audit history
+- **Greeting injection**: Welcome message on new sessions
+- **Scroll-down arrow**: Mobile optimization for navigating long audit results
+
+<Warning>
+  AI-powered audits are a supplement to, not a replacement for, professional security audits. For contracts handling significant value, always commission a formal audit from a reputable security firm. This tool is best for initial screening and quick assessments.
+</Warning>
+
+<Tip>
+  Use the deep audit for contracts you're about to interact with for the first time, especially if they handle deposits or approvals. The extended analysis catches patterns that the standard audit might miss.
+</Tip>

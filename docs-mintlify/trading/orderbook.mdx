@@ -1,0 +1,77 @@
+---
+title: "Orderbook"
+description: "Real-time bid/ask ladder and cumulative depth chart. Understand market liquidity before sizing your order."
+---
+
+# Orderbook
+
+The orderbook shows you the actual liquidity behind a market's price. Before placing a trade — especially a large one — check the orderbook to understand how much you can buy or sell without significant price impact.
+
+## Orderbook ladder
+
+The **OrderBookLadder** component displays a traditional trading ladder:
+
+| Column | Side | Color |
+|--------|------|-------|
+| **Bid Size** | Left | Emerald/green background fill |
+| **Price** | Center | Price level in cents |
+| **Ask Size** | Right | Rose/red background fill |
+
+**Key features:**
+- Shows the top 8 price levels by default
+- Bid and ask sizes are merged by price level from the raw orderbook data
+- Size background fills proportionally — the largest order at any level gets maximum fill width (50% of column)
+- Hover to see cumulative depth at that price level
+- Real-time updates every 5 seconds (background refetch)
+
+**How to read it:**
+- Large bid sizes (left, green) = strong buy support at that price
+- Large ask sizes (right, red) = selling pressure at that price
+- Gaps in the ladder = thin liquidity, potential for slippage
+- Asymmetric depth (much more on one side) = directional pressure
+
+## Depth chart
+
+The **OrderBookDepth** component shows cumulative order book depth:
+
+- **Left side**: Bids (emerald gradient) — cumulative buy orders from midpoint down
+- **Right side**: Asks (rose gradient) — cumulative sell orders from midpoint up
+- **Horizontal bars**: Each bar represents a price level, width proportional to cumulative depth
+- **Midpoint**: The current market price, displayed at center
+
+**How to read it:**
+- Steep depth = lots of liquidity concentrated near the current price
+- Gradual slope = liquidity spread across many price levels
+- A "wall" (sudden large step) = a significant resting order at that price
+
+## Spread indicator
+
+The **SpreadIndicator** component shows the real-time bid-ask spread:
+- Displayed as a number in cents (e.g., "Spread: $0.02")
+- Tight spread (1-2¢) = healthy, liquid market
+- Wide spread (5¢+) = be careful, consider limit orders
+
+## Data source
+
+Orderbook data is fetched from Polymarket's CLOB API via the `useOrderBook` hook:
+- **Refresh interval**: 5 seconds (background polling)
+- **Data**: Raw bid and ask levels with cumulative depth calculation
+- **Parallel fetches**: Orderbook, spread, and midpoint are all fetched simultaneously
+
+## Using the orderbook to trade better
+
+<Tabs>
+  <Tab title="Before a market order">
+    Check the ask side (right) if buying, or the bid side (left) if selling. If your order size is more than ~10% of the visible depth at the best price, you'll experience slippage. Consider a limit order instead.
+  </Tab>
+  <Tab title="Setting limit order prices">
+    Look for price levels with thin depth — these are "air pockets" where your limit order is more likely to fill. Placing your order just inside (slightly better price than) a large resting order means you get filled first.
+  </Tab>
+  <Tab title="Reading market direction">
+    Significant bid-side depth with thin ask-side = buying pressure building. The market may move up. Significant ask-side depth with thin bid-side = selling pressure. The market may move down. This isn't predictive, but it's one more data point.
+  </Tab>
+</Tabs>
+
+<Tip>
+  The orderbook is the ground truth of a market. Price charts show where the market has been; the orderbook shows where the market IS. Always check depth before sizing up on a trade.
+</Tip>

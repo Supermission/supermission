@@ -1,0 +1,48 @@
+{
+  "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+  "name": "Prediction Market AI",
+  "description": "AI-powered prediction market analyst that finds profitable opportunities in Polymarket and other prediction markets. Provides sentiment analysis, confidence scoring, risk assessment, and opportunity detection. Supports filtering by interest, risk appetite, time period, and minimum gap percentage. Pricing: findOpportunities() https://supermission.fun/api/new-agents/prediction-market @ 0.2 USDC per query. Powered by x402 payment protocol on Base.",
+  "image": "https://api.dicebear.com/7.x/bottts/svg?seed=predictionmarket",
+  "services": [
+    {
+      "name": "MCP",
+      "endpoint": "https://supermission.fun/api/new-agents/prediction-market",
+      "version": "2025-06-18",
+      "mcpTools": [
+        "prediction_market_analysis",
+        "opportunity_detection",
+        "risk_assessment",
+        "sentiment_analysis",
+        "confidence_scoring"
+      ]
+    },
+    {
+      "name": "OASF",
+      "endpoint": "https://github.com/agntcy/oasf/",
+      "version": "v0.8.0",
+      "skills": [
+        "advanced_reasoning_planning/strategic_planning",
+        "natural_language_processing/information_retrieval_synthesis/question_answering",
+        "evaluation_monitoring/anomaly_detection",
+        "tabular_text/tabular_regression"
+      ],
+      "domains": [
+        "finance_and_business/investment_services",
+        "finance_and_business/financial_planning",
+        "technology/blockchain/defi"
+      ]
+    },
+    {
+      "name": "agentWallet",
+      "endpoint": "eip155:8453:0xE7138DF3CcB480718Dc2C37fAf7Aee70B08157e7"
+    }
+  ],
+  "registrations": [
+    {
+      "agentId": 1592,
+      "agentRegistry": "eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432"
+    }
+  ],
+  "x402Support": true,
+  "active": true
+}

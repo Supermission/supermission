@@ -1,0 +1,66 @@
+---
+title: "Image Generation"
+description: "AI image generation with style presets, quality tiers, and variation support. Generate and customize images through conversation."
+---
+
+# Image generation
+
+The DeFAI chat supports AI-powered image generation via DALL-E and Stable Diffusion models through OpenRouter. Generate images through natural language prompts, then customize with variations, style changes, and quality upgrades.
+
+## How to use
+
+Select any agent or type directly:
+- `"Generate a cyberpunk city at night"`
+- `"Create an image of a futuristic trading terminal"`
+- `"Draw a logo concept for a crypto project"`
+
+## Parameter request
+
+Before generation, a **ParamRequestPanel** may appear with:
+
+| Option | Choices |
+|--------|---------|
+| **Quality tier** | Flash (cheapest, fastest), Standard, Premium (highest quality) — each shows price in USDC |
+| **Aspect ratio** | 1:1, 16:9, 9:16, 4:3, 3:4 |
+| **Style preset** | Auto, Vibrant, Muted, Cinematic, B&W, Anime, Neon, Vintage |
+| **Background** | Auto, Transparent, White, Blur |
+| **AI model** | Model selector for choosing the generation model |
+
+## Result panel: ImageGenResultPanel
+
+| Element | Description |
+|---------|-------------|
+| **Header** | "SuperImageGen" icon, cost badge (USDC amount), info toggle |
+| **Image display** | Square aspect ratio with loading skeleton and error state fallback |
+| **Download button** | Save the generated image |
+| **Info panel** (collapsible) | Model used, image size, detected style |
+
+## Action cards
+
+After generation, three action cards appear for customization:
+
+<CardGroup cols={3}>
+  <Card title="Variation" icon="clone">
+    Choose variation intensity: Similar (small changes), Different (moderate changes), Extreme (major reimagining). Each triggers a new generation with payment.
+  </Card>
+  <Card title="Style" icon="palette">
+    Pick a new style from the same 8 presets (Vibrant, Muted, Cinematic, B&W, Anime, Neon, Vintage, Auto). Applies the style to the existing image concept.
+  </Card>
+  <Card title="Quality" icon="sparkles">
+    Upgrade or change the quality tier (Flash/Standard/Premium). Higher tiers produce more detailed, higher-resolution images.
+  </Card>
+</CardGroup>
+
+## Image modification
+
+A **ImageModificationPanel** also supports:
+- Pre-built modification presets (Vibrant, Neon, Vintage, Anime, Cinematic, Enhance, B&W)
+- Custom prompt textarea for specific modifications
+- AI model selector
+- Payment + execution flow
+
+Each variation/modification is a new generation that requires its own USDC payment via the X402 payment flow.
+
+<Info>
+  Image generation costs vary by quality tier. Flash is the cheapest (~$0.08), Premium is the most expensive but produces the highest quality. Costs are shown before you confirm.
+</Info>

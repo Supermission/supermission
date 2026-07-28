@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# Supermission pre-commit secret scanner.
+# Prefers gitleaks; falls back to a scoped built-in scan so it works on any machine.
+# Enable once per clone:  git config core.hooksPath .githooks
+set -euo pipefail
+
+# Only look at what is actually being committed.
+staged=$(git diff --cached --name-only --diff-filter=ACM)
+[ -z "$staged" ] && exit 0
+
+# --- Preferred path: gitleaks (full ruleset + allowlist in .gitleaks.toml) ---
+if command -v gitleaks >/dev/null 2>&1; then
+  if ! gitleaks protect --staged --redact --config .gitleaks.toml; then
+    echo ""
+    echo "❌ gitleaks blocked this commit: a secret was detected in staged changes."
+    echo "   Remove/redact it (and ROTATE the key if it was ever real) before committing."
+    echo "   False positive? Add an allowlist entry in .gitleaks.toml."
+    exit 1
+  fi
+  exit 0
+fi
+
+# --- Fallback: scoped regex scan of the staged diff (no external deps) ---
+# Deliberately narrow to avoid noise on legit 32-byte hashes/constants.
+diff=$(git diff --cached --no-color -U0 -- $staged | grep '^\+' || true)
+[ -z "$diff" ] && exit 0
+
+fail=0
+report() { echo "❌ possible secret ($1) in staged changes"; fail=1; }
+
+echo "$diff" | grep -Eiq '(private_key|minter_key|deployer_key|trading_wallet_private_key)[[:space:]]*[:=][[:space:]]*"?'"'"'?0x[a-f0-9]{64}' && report "EVM private key assignment"
+echo "$diff" | grep -Eq -- '-----BEGIN (EC|RSA|PRIVATE) ?(KEY)?-----' && report "PEM private key block"
+echo "$diff" | grep -Eq 'sk-or-v1-[A-Za-z0-9]{32,}' && report "OpenRouter API key"
+echo "$diff" | grep -Eq 'sk-proj-[A-Za-z0-9_-]{20,}' && report "OpenAI API key"
+echo "$diff" | grep -Eq '(SERVICE_ROLE|service_role)[^=]*[:=][[:space:]]*"?'"'"'?eyJ[A-Za-z0-9_-]{10,}\.' && report "Supabase service_role JWT"
+
+if [ "$fail" -ne 0 ]; then
+  echo ""
+  echo "Commit aborted. Remove/redact the value and ROTATE the key if it was ever real."
+  echo "Tip: install gitleaks (brew install gitleaks) for full coverage."
+  exit 1
+fi
+exit 0

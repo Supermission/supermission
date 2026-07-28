@@ -1,0 +1,38 @@
+# Cloudflare Worker configuration for real-time negotiation
+name = "supermission-negotiation"
+main = "src/index.ts"
+compatibility_date = "2024-12-30"
+
+# Durable Objects for stateful WebSocket connections
+[durable_objects]
+bindings = [
+  { name = "NEGOTIATION_ROOM", class_name = "NegotiationRoom" }
+]
+
+# Migrations for Durable Objects
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["NegotiationRoom"]
+
+# Environment variables (set via wrangler secret)
+# SUPABASE_URL - Supabase project URL
+# SUPABASE_SERVICE_KEY - Supabase service role key
+# INTERNAL_SECRET - Secret for internal API authentication
+# JWT_SECRET - Secret for verifying auth tokens
+
+[vars]
+ENVIRONMENT = "production"
+
+# Development overrides
+[env.dev]
+name = "supermission-negotiation-dev"
+
+[env.dev.vars]
+ENVIRONMENT = "development"
+
+# Staging overrides
+[env.staging]
+name = "supermission-negotiation-staging"
+
+[env.staging.vars]
+ENVIRONMENT = "staging"

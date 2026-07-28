@@ -1,0 +1,93 @@
+---
+title: "Alpha Scanner"
+description: "Automated edge detection. AI probability vs market price, expected value math, Kelly criterion sizing, and full reasoning chains."
+---
+
+# Find the mispriced markets
+
+The Alpha Scanner runs every 30 minutes, comparing the AI's probability estimate against the market price for every active market. When it finds a meaningful divergence, it calculates the expected value, Kelly fraction, and packages the full reasoning chain into an actionable edge card.
+
+## How it works
+
+<Steps>
+  <Step title="AI analyzes every market">
+    The multi-agent system produces a probability estimate for each active market (tiered by volume/importance).
+  </Step>
+  <Step title="Edge calculated">
+    For each market: `edge = AI probability - market probability`. A 72% AI estimate vs 45% market price = 27% edge.
+  </Step>
+  <Step title="EV and Kelly computed">
+    Expected value per $1 bet and Kelly criterion optimal position size are calculated from the edge and odds.
+  </Step>
+  <Step title="Edges ranked and classified">
+    Edges are ranked by conviction, edge size, and EV. Classified as high conviction, moderate, or speculative.
+  </Step>
+</Steps>
+
+## Edge card anatomy
+
+Each edge card shows:
+
+| Component | Description |
+|-----------|-------------|
+| **Edge badge** | "27% EDGE" — color-coded by conviction level |
+| **Market question** | The market being analyzed |
+| **The numbers** | "AI says 72%" vs "Market says 45%" — visual comparison |
+| **EV display** | "+$0.60 EV per $1" with Kelly optimal sizing |
+| **Reasoning summary** | 2-3 sentence thesis (expandable to full reasoning chain) |
+| **Key factors** | Bullet points of supporting evidence |
+| **Agent agreement** | "4/4 agents agree" with confidence bar |
+| **Risk factors** | Collapsed by default — the bear case |
+| **Trade button** | "Buy YES @ 45¢" with pre-filled amount |
+
+## Classification
+
+| Level | Criteria | Meaning |
+|-------|----------|---------|
+| **High conviction** | Edge ≥ 25%, agreement ≥ 3/4, confidence ≥ 75 | Strongest setups — agents agree, evidence is clear |
+| **Moderate** | Edge ≥ 15%, agreement ≥ 2/4, confidence ≥ 50 | Decent opportunity with some uncertainty |
+| **Speculative** | Below moderate thresholds | Interesting but uncertain — smaller position sizes |
+
+## The math
+
+<Tabs>
+  <Tab title="Expected Value">
+    ```
+    EV = (AI probability × payout) - (1 - AI probability × cost)
+    ```
+
+    Example: AI says 72%, market price 45¢
+    - Cost per share: $0.45
+    - Payout if right: $1.00
+    - EV = (0.72 × $1.00) - (0.28 × $0.45) = $0.72 - $0.126 = **+$0.594 per share**
+  </Tab>
+  <Tab title="Kelly Criterion">
+    ```
+    Kelly fraction = (edge / odds) = (AI prob - market prob) / (1 - market prob)
+    ```
+
+    Example: AI 72%, Market 45%
+    - Kelly = (0.72 - 0.45) / (1 - 0.45) = 0.27 / 0.55 = **49%**
+    - Capped by user's max-per-trade setting (typically much lower)
+
+    Kelly tells you the mathematically optimal fraction of your bankroll to bet. In practice, half-Kelly or quarter-Kelly is safer.
+  </Tab>
+</Tabs>
+
+## Filtering edges
+
+| Filter | Options |
+|--------|---------|
+| **Sort by** | Confidence, Edge %, EV, Kelly fraction |
+| **Edge type** | High conviction, Moderate, Speculative |
+| **Category** | Politics, Crypto, Sports, Finance, etc. |
+| **Min confidence** | Slider (0-100) |
+| **Min edge** | Slider (0-50%) |
+
+<Tip>
+  Most profitable setup: High conviction edges in high-volume markets. The liquidity ensures clean execution, and agent agreement means the evidence is strong. Sort by EV, filter to 75+ confidence.
+</Tip>
+
+<Warning>
+  Edge ≠ guaranteed profit. The AI can systematically misjudge novel situations. Always read the reasoning chain and risk factors before sizing up. The edge card shows you everything you need to form your own view.
+</Warning>

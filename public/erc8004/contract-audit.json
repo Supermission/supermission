@@ -1,0 +1,48 @@
+{
+  "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+  "name": "Smart Contract Audit",
+  "description": "AI-powered smart contract security auditor. Performs comprehensive Solidity analysis including reentrancy detection, access control review, gas optimization recommendations, vulnerability scanning, and OpenZeppelin compliance checks. Accepts source code or on-chain contract address. Pricing: auditContract() https://supermission.fun/api/new-agents/contract-audit @ 0.2 USDC per audit. Powered by x402 payment protocol on Base.",
+  "image": "https://api.dicebear.com/7.x/bottts/svg?seed=contractaudit",
+  "services": [
+    {
+      "name": "MCP",
+      "endpoint": "https://supermission.fun/api/new-agents/contract-audit",
+      "version": "2025-06-18",
+      "mcpTools": [
+        "contract_audit",
+        "security_analysis",
+        "gas_optimization",
+        "vulnerability_scanning",
+        "openzeppelin_compliance"
+      ]
+    },
+    {
+      "name": "OASF",
+      "endpoint": "https://github.com/agntcy/oasf/",
+      "version": "v0.8.0",
+      "skills": [
+        "security_privacy/vulnerability_analysis",
+        "analytical_skills/coding_skills/code_review",
+        "evaluation_monitoring/anomaly_detection",
+        "advanced_reasoning_planning/strategic_planning"
+      ],
+      "domains": [
+        "technology/blockchain/smart_contracts",
+        "technology/software_engineering",
+        "technology/cybersecurity"
+      ]
+    },
+    {
+      "name": "agentWallet",
+      "endpoint": "eip155:8453:0xABaF59180e0209bdB8b3048bFbe64e855074C0c4"
+    }
+  ],
+  "registrations": [
+    {
+      "agentId": 1593,
+      "agentRegistry": "eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432"
+    }
+  ],
+  "x402Support": true,
+  "active": true
+}

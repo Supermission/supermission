@@ -1,0 +1,104 @@
+---
+title: "Polymarket Integration"
+description: "How Supermission connects to Polymarket's CLOB, orderbook, and settlement infrastructure."
+---
+
+# Built on Polymarket
+
+Supermission doesn't run its own prediction market. It's a terminal built on top of Polymarket — the largest prediction market platform with $44B+ in lifetime volume. Same liquidity, same prices, dramatically better interface.
+
+## What Polymarket provides
+
+| Component | Description |
+|-----------|-------------|
+| **CLOB (Central Limit Order Book)** | The orderbook where all trades execute. Deepest prediction market liquidity globally. |
+| **Data API (Gamma)** | Real-time market data — prices, volume, orderbook depth, market metadata. |
+| **UMA Oracle** | Decentralized resolution system. Determines market outcomes through optimistic verification. |
+| **USDC.e Settlement** | All trades settle in USDC.e (bridged USDC) on Polygon. |
+
+## What Supermission adds
+
+| Component | Description |
+|-----------|-------------|
+| **AI Research Layer** | 4-agent analysis and signals — intelligence Polymarket doesn't provide. |
+| **Smart Wallet UX** | Email login, no gas, auto-bridging — trading without crypto friction. |
+| **Oracle Agent** | Natural language trading — "buy $50 on YES" through chat. |
+| **Whale Intelligence** | Smart money tracking per market — position data analysis. |
+| **Portfolio Management** | Unified P&L tracking, position monitoring, trade history export. |
+
+## Order execution
+
+<Tabs>
+  <Tab title="Market Orders (FAK)">
+    **Fill-And-Kill** — grabs all available liquidity at current prices, fills what it can, cancels the remainder.
+
+    - Instant execution
+    - May get partial fills on thin markets
+    - Best for: high-conviction entries, fast-moving events
+  </Tab>
+  <Tab title="Limit Orders (GTC)">
+    **Good-Till-Cancel** — sits on the orderbook at your specified price until someone takes the other side, or you cancel.
+
+    - Patient execution
+    - Price guaranteed (or better)
+    - Best for: wide spreads, scaling in, slow-moving markets
+  </Tab>
+</Tabs>
+
+## Settlement flow
+
+<Steps>
+  <Step title="Trade confirmed">
+    You confirm a trade in Supermission's UI (or via Oracle). Your MPC wallet signs the transaction.
+  </Step>
+  <Step title="USDC bridged">
+    USDC bridges from your Base wallet to Polygon via Circle CCTP. Converts to USDC.e automatically.
+  </Step>
+  <Step title="Order submitted to CLOB">
+    The signed order goes directly to Polymarket's orderbook. No mempool — no front-running risk.
+  </Step>
+  <Step title="Outcome tokens received">
+    On fill, you receive YES or NO outcome tokens. These are ERC-1155 tokens on Polygon representing your position.
+  </Step>
+  <Step title="Resolution">
+    When the market resolves, winning tokens are redeemable for $1 USDC.e each. Losing tokens are worth $0.
+  </Step>
+  <Step title="Redemption + bridge back">
+    Redeem winning tokens. USDC.e released on Polygon. Auto-bridged back to your Base wallet.
+  </Step>
+</Steps>
+
+## Market data
+
+Supermission syncs Polymarket data to a local `market_catalog` table in Supabase for fast querying and AI enrichment:
+
+| Field | Description |
+|-------|-------------|
+| `condition_id` | Polymarket's unique market identifier |
+| `question` | The market question text |
+| `yes_price` / `no_price` | Current outcome prices |
+| `volume_24h` / `volume_total` | Trading volume |
+| `liquidity` | Orderbook depth |
+| `end_date` | Resolution deadline |
+| `categories` | Market categories (Politics, Crypto, Sports, etc.) |
+| `ai_confidence` | Supermission's AI confidence score |
+| `ai_sentiment` | Bullish / Bearish |
+| `favorite_outcome` | AI's preferred side |
+
+## Resolution process
+
+Polymarket uses the **UMA Optimistic Oracle** for resolution:
+
+1. An event happens (or doesn't)
+2. Someone proposes a resolution (YES or NO)
+3. A challenge period allows disputes
+4. If undisputed, resolution is finalized
+5. Winning shares become redeemable for $1.00
+
+<Info>
+  Resolution is based on objective, verifiable criteria defined when the market was created. Supermission monitors resolution status and updates position cards automatically.
+</Info>
+
+<Tip>
+  Supermission enriches Polymarket's raw data with AI analysis, whale tracking, and signal generation. The underlying execution is 100% Polymarket — we never hold funds or execute trades on your behalf outside the CLOB.
+</Tip>

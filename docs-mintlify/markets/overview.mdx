@@ -1,0 +1,102 @@
+---
+title: "Markets Terminal"
+description: "The main prediction market terminal. Browse 4,500+ markets, trade inline, track signals, manage your portfolio — all in one view."
+---
+
+# Markets terminal
+
+The Markets page (`/markets`) is the core of Supermission. It's a full prediction market terminal with five tabs, real-time SSE price feeds, virtualized grids for thousands of markets, and inline trading — you never leave the page to place an order.
+
+## Terminal layout
+
+The terminal has three sections:
+
+1. **Category sidebar** (left) — category navigation, search, sort options, view mode toggle
+2. **Main grid** (center) — market cards in a responsive grid, or stacked event view
+3. **Detail panel** (right slide-over) — opens when you click a market card, shows full analysis + trading
+
+## Five tabs
+
+The top navigation bar switches between five views:
+
+<Tabs>
+  <Tab title="Browse">
+    The default view. Shows all active markets in a virtualized grid (handles 4,500+ markets without performance issues). Markets load in pages of 50 with infinite scroll — more markets load automatically as you scroll near the bottom.
+
+    Each market is a **MarketCard** showing:
+    - Market question (2-line max)
+    - Category badges and trending/hot tags
+    - Volume and 24h volume stats
+    - Countdown to resolution (color-coded: red < 1 hour, amber < 24 hours, gray otherwise)
+    - Mini probability bars for YES and NO outcomes
+    - Bookmark button (toggle watchlist)
+    - Two outcome buttons with live prices (YES / NO)
+    - AI Pick badge (emerald for bullish, rose for bearish, gray for neutral) — shows when the AI has a signal
+
+    **Inline trading**: Click a YES or NO button on any card → an amount picker slides in with presets ($1, $5, $10, $25, $50, $100 + custom input) → select amount → confirmation panel shows potential profit/loss → confirm to execute. The card gets an amber border with pulse animation while trading is active.
+  </Tab>
+  <Tab title="Agent">
+    The Oracle AI chat interface, embedded directly in the Markets page. A full conversational trading assistant where you can:
+    - Search markets: "What markets are there about the Fed?"
+    - Analyze positions: "How's my portfolio doing?"
+    - Place trades: "Buy $25 on YES for Bitcoin above 100k"
+    - Sell positions: "Sell my Trump position"
+    - Research topics: "What's the market saying about the next Fed meeting?"
+
+    Oracle always confirms before executing. You see market name, current price, share count, and total cost before any USDC moves. See the full [Oracle Agent](/ai/oracle-agent) docs.
+  </Tab>
+  <Tab title="Signals">
+    The AI signal feed. Shows markets where Supermission's multi-agent AI system has found a meaningful divergence between its probability estimate and the current market price.
+
+    Each signal card shows:
+    - Signal type badge (Sentiment: purple, Momentum: amber, Spot Price: cyan)
+    - Market question
+    - Confidence bar (0-100%)
+    - Live price + AI pick badge
+    - Asset tag (if crypto-related)
+    - Animated "Trade" button
+
+    Filter by: signal type, category, minimum confidence. Sort by: confidence, volume, ending soon, price change. See the full [Signal Feed](/ai/signal-feed) docs.
+  </Tab>
+  <Tab title="Portfolio">
+    Your active positions, open limit orders, and complete trade history.
+
+    **Position cards** show: market question, your side (YES/NO), entry price → current price, P&L ($ and %), shares held, current value, countdown to resolution, and Sell or Redeem buttons depending on status.
+
+    **Tabs within Portfolio**: Positions (active), Orders (open limit orders with cancel buttons), History (every trade with date, market, side, price, shares, total).
+
+    Resolved markets show green (redeemable) or red badges. Markets ending within 24 hours show amber "ending soon" indicators. See [Portfolio](/trading/portfolio) for full details.
+  </Tab>
+  <Tab title="Watchlist">
+    Markets you've bookmarked for tracking.
+
+    Each watchlisted market shows: market icon + question, time since added ("2h ago"), volume and 24h stats, probability bars, remove button (requires double-click confirmation with 3-second timeout), and quick-trade buttons.
+
+    Sort by: Date Added, Volume, Ending Soon, Price Change. See [Watchlist](/trading/watchlist) for full details.
+  </Tab>
+</Tabs>
+
+## Real-time prices
+
+All market prices update in real-time via **Server-Sent Events (SSE)**. A singleton EventSource connection is shared across all visible market cards — efficient even with hundreds of cards on screen. Prices stream from the Polymarket CLOB and update the YES/NO prices on each card without page refresh.
+
+## Virtualized rendering
+
+The market grid uses `@tanstack/react-virtual` for virtualization. Only the visible cards plus a small buffer are rendered in the DOM, even when displaying 4,500+ markets. The grid detects the container width and adapts to 1, 2, or 3 columns automatically. New pages load when you scroll within 3 rows of the bottom.
+
+## Welcome modal
+
+First-time visitors see a 7-step onboarding carousel explaining:
+1. Prediction Markets basics
+2. AI Signals
+3. Oracle Agent
+4. Delphi DeFi agent
+5. Security features
+6. Dashboard
+7. Agent marketplace
+
+Each step has a title, description, highlight bullets, and preloaded video preview. Navigate with Next/Previous buttons.
+
+<Info>
+  The Markets page requires authentication. You'll need to [create an account](/getting-started/create-account) and be approved through the waitlist before accessing the terminal.
+</Info>

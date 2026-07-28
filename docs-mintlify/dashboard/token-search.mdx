@@ -1,0 +1,65 @@
+---
+title: "Token Search & Analysis"
+description: "Search any token by address or symbol. View price data, market metrics, and access premium AI-powered due diligence and sentiment analysis."
+---
+
+# Token search
+
+The **Tokens** tab in the Dashboard provides a free token search tool with optional premium AI analysis.
+
+## Search interface
+
+| Element | Description |
+|---------|-------------|
+| **Input field** | Enter a token address (`0x...`) or symbol (e.g., `WETH`) |
+| **Network selector** | Choose the chain: Base, Polygon, Optimism, Ethereum |
+| **Quick search buttons** | One-click shortcuts for popular tokens: USDC, WETH, USDT, WBTC, LINK, UNI, AAVE, MATIC, OP, ARB |
+
+## Token info card
+
+After searching, a card displays:
+
+| Metric | Description |
+|--------|-------------|
+| **Logo** | Token logo image |
+| **Symbol + Name** | Token identifier with full name |
+| **Chain + Address** | Network badge with contract address, clickable for block explorer |
+| **Current Price** | USD price with 24h change (green/red) |
+| **Market Cap** | Total market capitalization |
+| **24h Volume** | Trading volume in the last 24 hours |
+| **7d / 30d Change** | Price change over 7 and 30 days |
+
+## Premium analysis
+
+Below the free token info, premium features are gated behind the **PremiumGate** component:
+
+### How PremiumGate works
+
+- Shows a **blurred preview** of the premium content
+- Overlay with **unlock button** showing the feature name and USDC price
+- Click to pay → content unlocks
+- Loading state during the payment transaction
+
+### TokenAnalysisPanel (Premium)
+
+Full AI-powered token due diligence:
+
+- **Investment verdict** — BUY / HOLD / SELL / AVOID with color coding
+- **Risk score** — overall risk assessment
+- **Key metrics** — volatility, liquidity depth, trend direction
+- **AI narrative** — detailed analysis of the token's fundamentals, risks, and outlook
+
+### SentimentCard (Premium)
+
+Market sentiment analysis:
+
+| Metric | Description |
+|--------|-------------|
+| **Sentiment signal** | STRONG_BUY / BUY / NEUTRAL / SELL / STRONG_SELL |
+| **Sentiment score** | 0-100 with colored progress bar |
+| **Price trend** | Rising / Falling / Stable with direction indicator |
+| **Market trend assessment** | AI-generated narrative on current market conditions for this token |
+
+<Tip>
+  Use the free token info card for quick price checks. Reserve the premium analysis for tokens you're seriously considering — the AI due diligence is most valuable when you're about to commit capital.
+</Tip>

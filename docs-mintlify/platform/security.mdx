@@ -1,0 +1,73 @@
+---
+title: "Security"
+description: "How your funds are protected. Non-custodial smart wallets, no seed phrases, sponsored gas."
+---
+
+# Your keys, our convenience
+
+Security in crypto usually means one of two things: "you manage 24 words and pray you don't lose them" or "we hold your funds and pray we don't get hacked." Supermission does neither.
+
+## Smart wallet architecture
+
+<Steps>
+  <Step title="Privy-powered MPC wallet">
+    When you sign up, a smart wallet is created using Privy's MPC (Multi-Party Computation) infrastructure. Your private key is split across multiple parties — no single entity (including us) ever has the full key.
+  </Step>
+  <Step title="Non-custodial">
+    Supermission never holds your funds. Your wallet is yours. We can't move your money, freeze your account, or access your private key. Technically can't, not "promise we won't."
+  </Step>
+  <Step title="No seed phrases">
+    MPC eliminates the need for a 24-word recovery phrase. You authenticate with your email or social login. The key shards are reconstructed securely when you sign in.
+  </Step>
+  <Step title="Sponsored gas">
+    All transaction gas fees are covered by Supermission. You never need ETH for gas. Every action — trades, bridges, redemptions — just works.
+  </Step>
+</Steps>
+
+## How trades are secured
+
+Every trade on Supermission is signed by your wallet. The flow:
+
+1. You confirm a trade in the UI (or via Oracle agent)
+2. Your MPC wallet signs the transaction
+3. The signed transaction is submitted to Polymarket's contracts
+4. Execution happens on-chain — verifiable, irreversible, transparent
+
+<Info>
+  No one — not Supermission, not Privy, not your Oracle agent — can execute a trade without your wallet signing it. The agent confirms with you, you approve, your wallet signs. That's the chain of custody.
+</Info>
+
+## Contract security
+
+<Accordion title="Securo: AI Audit Agent">
+  Supermission includes Securo, an AI-powered contract audit agent. It analyzes smart contracts for common vulnerabilities, reentrancy risks, and access control issues. Think of it as a security co-pilot for advanced users who want to inspect the contracts they're interacting with.
+</Accordion>
+
+<Accordion title="Polymarket contracts">
+  All prediction market trades execute on Polymarket's audited smart contracts. These contracts have processed billions in volume and have been reviewed by multiple security firms. Supermission interacts with them — we don't replace them.
+</Accordion>
+
+## What we protect against
+
+<CardGroup cols={2}>
+  <Card title="Key Compromise" icon="key">
+    MPC splits your key across parties. Compromising one shard is useless without the others.
+  </Card>
+  <Card title="Phishing" icon="fish">
+    No seed phrase to steal. Email/social auth with Privy's security infrastructure.
+  </Card>
+  <Card title="Gas Griefing" icon="gas-pump">
+    Gas is sponsored. You never need to hold ETH or worry about gas manipulation.
+  </Card>
+  <Card title="Front-Running" icon="person-running">
+    Orders go directly to Polymarket's CLOB, not through a public mempool. No MEV exposure.
+  </Card>
+</CardGroup>
+
+<Warning>
+  Non-custodial means non-custodial. If you lose access to your email/social login and can't recover through Privy's recovery flow, we cannot help you access your wallet. Secure your authentication credentials.
+</Warning>
+
+<Tip>
+  The best security is invisible security. If you're thinking about private keys, gas fees, or RPC endpoints while trading — the UX has failed. We've designed Supermission so you never have to.
+</Tip>

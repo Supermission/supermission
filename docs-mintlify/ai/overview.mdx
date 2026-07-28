@@ -1,0 +1,80 @@
+---
+title: "AI Agents Overview"
+description: "Multi-agent intelligence for prediction markets. 4 independent agents debate every market. You see the reasoning, not just the number."
+---
+
+# AI that shows its work
+
+Every prediction market tool gives you a probability. Supermission gives you the **argument**.
+
+Our AI system isn't a single model making guesses. It's four independent agents with different analytical biases — Bull, Bear, Contrarian, and Quant — that analyze every market, debate the evidence, and produce a synthesized view with full transparency.
+
+## The philosophy
+
+**Don't delegate understanding.** Every signal shows its thesis. Every edge card shows the full reasoning chain, including the underlying agent debate. You're not trusting a black box — you're evaluating arguments from four distinct perspectives and deciding for yourself.
+
+## The 4-agent system
+
+| Agent | Role | Analytical bias | Data priorities |
+|-------|------|----------------|-----------------|
+| **Bull** | Narrative and source credibility analysis | Qualitative | Source credibility, political dynamics, institutional incentives, social context |
+| **Bear** | Microstructure and price-in analysis | Structural | Whether news is already priced in, trading volume, liquidity, bid-ask spread dynamics |
+| **Contrarian** | Asks "what if everyone is wrong?" | Skeptical | Crowded trades, false consensus, scenarios the market isn't pricing, regime changes |
+| **Quant** | Base-rate anchoring with statistical rigor | Quantitative | Historical frequency, current market prices vs base rates, time remaining, calibration |
+
+A **Judge** agent synthesizes all four analyses into a final probability + confidence score, weighing argument quality, evidence strength, and historical calibration.
+
+## AI features across the terminal
+
+<CardGroup cols={2}>
+  <Card title="AI Signals" icon="signal" href="/ai/signals">
+    Real-time alerts when the AI's probability diverges from market price. Three types: Sentiment (research-driven edge), Momentum (price confirms AI), Spot Price (crypto threshold triggers). Confidence-scored 0-100.
+  </Card>
+  <Card title="Signal Feed" icon="list" href="/ai/signal-feed">
+    Dedicated filterable feed of all active signals. Filter by type, category, confidence minimum. Sort by confidence, volume, ending soon, or price change. Cursor-based infinite pagination.
+  </Card>
+  <Card title="Oracle Agent" icon="message-bot" href="/ai/oracle-agent">
+    Chat-based trading assistant in the Markets terminal. Search markets, analyze positions, place trades, sell positions, manage portfolio — all through natural language with SSE streaming responses.
+  </Card>
+  <Card title="Whale Intelligence" icon="fish" href="/ai/whale-intelligence">
+    Top 20 holders per market with position sizes, outcome badges, and aggregate whale sentiment. Surfaces "Smart money leans YES/NO" when whale positions lean 55%+ in one direction.
+  </Card>
+  <Card title="Alpha Scanner" icon="crosshairs" href="/ai/alpha-scanner">
+    Automated edge detection running every 30 minutes. Compares AI probability vs market price, calculates EV and Kelly criterion sizing, classifies edges as high conviction / moderate / speculative.
+  </Card>
+  <Card title="Auto-Pilot" icon="robot" href="/ai/auto-pilot">
+    Autonomous trade execution. Set budget, risk tolerance, and signal preferences. The system executes when high-conviction opportunities appear. Full audit trail for every decision (including skips).
+  </Card>
+</CardGroup>
+
+## Signal strength hierarchy
+
+The strongest trade setups combine multiple AI layers:
+
+<Steps>
+  <Step title="AI Signal fires">
+    The multi-agent system finds a meaningful divergence between its probability and the market price. Confidence score is 70+, agents largely agree (3/4 or 4/4 aligned), and the edge is significant.
+  </Step>
+  <Step title="Whales align">
+    Top Holders panel shows large positions leaning in the same direction as the AI's thesis. Smart money sentiment crosses 55% threshold.
+  </Step>
+  <Step title="Execute with confidence">
+    When both layers agree — AI signal conviction + whale alignment — that's as close to a high-probability trade as prediction markets offer.
+  </Step>
+</Steps>
+
+## Market tiering
+
+Not all markets get the same AI treatment. Analysis depth scales with market importance:
+
+| Tier | Criteria | Analysis | Update frequency |
+|------|----------|----------|------------------|
+| **Tier 1** | Trending OR volume > $50K | Full 4-agent debate with judge synthesis | Every 15 minutes |
+| **Tier 2** | Volume > $5K | 2-agent quick analysis (Bull + Bear) | Every 30 minutes |
+| **Tier 3** | Everything else | Single-model sentiment only | Every 60 minutes |
+
+Markets also get **event-driven** re-analysis when matched news arrives, regardless of tier.
+
+<Warning>
+  AI signals are analysis, not financial advice. The multi-agent system improves signal quality but cannot predict the future. Markets are adversarial. Always understand the reasoning chain before acting on a signal — that's why we show the full debate.
+</Warning>

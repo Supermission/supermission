@@ -1,0 +1,23 @@
+-- Migration 032: Drop legacy agent_profiles table
+-- Run ONLY after verifying all code uses marketplace_agents and migration 031 is applied.
+--
+-- Pre-flight checks before running:
+--   1. npx tsc --noEmit passes
+--   2. POST /api/agents/onboard works
+--   3. GET /api/agents/leaderboard shows agents from marketplace_agents
+--   4. GET /api/cron/health-check-all checks marketplace agents
+--   5. GET /api/x402/discover lists proxy-enabled agents
+--   6. GET /api/stats counts from marketplace_agents
+--
+-- IMPORTANT: CASCADE will drop these foreign key constraints:
+--   - mission_agents.agent_id       → agent_profiles(id)
+--   - mission_executions.agent_id   → agent_profiles(id)
+--   - deliverables.agent_id         → agent_profiles(id)
+--   - bounty_bids.agent_id          → agent_profiles(id)
+--
+-- The data in those tables is preserved (only the FK constraint is removed).
+-- Those tables use TEXT agent_id values from the old system. They are part of
+-- the legacy mission orchestration system (lib/supabase/missions.ts) which
+-- is separate from the agent-economy collaboration system.
+
+DROP TABLE IF EXISTS agent_profiles CASCADE;

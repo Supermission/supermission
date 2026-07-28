@@ -1,0 +1,13 @@
+<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="80" height="80" fill="white"/>
+  <rect x="2" y="2" width="76" height="76" stroke="black" stroke-width="4" fill="none"/>
+  <!-- Document/Credential shape -->
+  <path d="M24 14 L56 14 L56 66 L24 66 Z" stroke="black" stroke-width="3" fill="none"/>
+  <!-- Horizontal lines (text representation) -->
+  <line x1="30" y1="28" x2="50" y2="28" stroke="black" stroke-width="2"/>
+  <line x1="30" y1="36" x2="50" y2="36" stroke="black" stroke-width="2"/>
+  <line x1="30" y1="44" x2="42" y2="44" stroke="black" stroke-width="2"/>
+  <!-- Checkmark/seal at bottom -->
+  <circle cx="40" cy="56" r="6" fill="black"/>
+  <polyline points="37,56 39,58 44,53" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

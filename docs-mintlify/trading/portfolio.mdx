@@ -1,0 +1,65 @@
+---
+title: "Portfolio Dashboard"
+description: "Track every position, every trade, every dollar. Your complete trading overview."
+---
+
+# Your trading command center
+
+The Portfolio dashboard is where performance meets accountability. Every position, every P&L number, every trade — all in one view.
+
+## Dashboard stats
+
+The top section shows your aggregate numbers at a glance:
+
+<CardGroup cols={2}>
+  <Card title="Portfolio Value + P&L" icon="chart-line">
+    A gradient hero card showing your total portfolio value and profit/loss front and center — the numbers that matter most.
+  </Card>
+  <Card title="Stats Strip" icon="chart-bar">
+    Below the hero: **Win Rate**, **Positions** (open count), **Trades** (total executed), and **Volume** (total USDC traded) — all at a glance.
+  </Card>
+</CardGroup>
+
+The hero card uses a gradient visualization — you can feel the momentum at a glance.
+
+## Position cards
+
+Each open position gets a card showing:
+
+- **Market title** and your side (YES/NO)
+- **Shares held** and current market price
+- **P&L** for that position (unrealized)
+- **Time remaining** — countdown to resolution, or "Ended" for resolved markets
+- **Sell button** or **Redeem** button depending on status
+
+<Info>
+  Positions are sorted by **ending soonest** by default. The market about to resolve is always at the top — because that's the one that needs your attention.
+</Info>
+
+## Trade history
+
+Every trade you've ever made, in a clean table:
+
+- Date, market, side, price, shares, total cost
+- Filterable by date range
+- **CSV export** — download your full history for tax prep, analysis, or flexing your P&L on Twitter
+
+## Open orders
+
+Your active limit orders live here. Each entry shows the market, side, price, size, and a cancel button. If a limit order is stale or your thesis changed, kill it here.
+
+<Tabs>
+  <Tab title="Active Positions">
+    Live positions that haven't resolved yet. These are your current bets on the future.
+  </Tab>
+  <Tab title="Resolved">
+    Completed positions — wins and losses. Each shows final outcome and your P&L. Learn from both.
+  </Tab>
+  <Tab title="Open Orders">
+    Limit orders sitting on the book waiting for fills. Monitor and manage from here.
+  </Tab>
+</Tabs>
+
+<Tip>
+  Review your portfolio weekly. Not to stress about P&L, but to ask: "Would I enter this position today at this price?" If the answer is no, it's time to [sell](/trading/selling-positions).
+</Tip>

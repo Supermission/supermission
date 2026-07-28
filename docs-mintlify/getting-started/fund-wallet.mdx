@@ -1,0 +1,58 @@
+---
+title: "Fund Your Wallet"
+description: "Send USDC to your wallet on Base. Auto-bridging handles the rest. No gas fees, no chain headaches."
+---
+
+# Get USDC into your wallet
+
+Supermission runs on USDC. Your wallet lives on Base. When you trade, we automatically bridge USDC to Polygon where Polymarket's orderbook lives. You don't need to think about chains.
+
+## Find your wallet address
+
+Your wallet address is in the **top-right corner** of the terminal. Click it to copy the full address. This is a standard Base wallet address — any USDC sent here will show up in your balance.
+
+<Steps>
+  <Step title="Copy your wallet address">
+    Click your wallet in the top-right of the terminal. Copy the address — it starts with `0x`.
+  </Step>
+  <Step title="Send USDC on Base">
+    From any exchange or wallet, send **USDC on the Base network** to your address.
+
+    Common sources:
+    - **Coinbase** — withdraw USDC, select Base network
+    - **Binance** — withdraw USDC, select Base network
+    - **Another wallet** — send USDC on Base to your address
+    - **Bridge** — use a bridge like [Across](https://across.to) to move USDC from Ethereum, Arbitrum, or Optimism to Base
+  </Step>
+  <Step title="Balance updates automatically">
+    Once the transaction confirms (usually under 10 seconds on Base), your balance appears in the wallet panel. You're ready to trade.
+  </Step>
+</Steps>
+
+<Warning>
+  Send **USDC on Base** only. Sending other tokens or USDC on the wrong network means your funds won't appear. Double-check the network before confirming.
+</Warning>
+
+## Auto-bridging — how it works
+
+When you place a trade, Supermission bridges your USDC from Base to Polygon automatically. Polymarket uses USDC.e (bridged USDC) on Polygon for its orderbook. Here's what happens behind the scenes:
+
+1. You click "Buy YES" on a market
+2. We bridge the exact amount of USDC from Base → Polygon
+3. USDC converts to USDC.e on Polygon
+4. Trade executes against Polymarket's CLOB
+5. Your position shows up in the Portfolio tab
+
+You see step 1 and step 5. Everything in between is invisible.
+
+<Tip>
+  Gas fees are fully sponsored. You pay zero gas for trades, bridging, or any on-chain operations. The only cost is the trade itself.
+</Tip>
+
+## How much should you deposit?
+
+Start small. Prediction markets are volatile near resolution and there's real risk of losing your entire position. Deposit what you'd be comfortable losing while you learn the mechanics.
+
+<Info>
+  Withdrawals are always available. You can send USDC back out to any wallet at any time from the wallet panel.
+</Info>

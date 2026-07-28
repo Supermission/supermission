@@ -1,0 +1,21 @@
+-- Drop AI War Room (supersedes 020_ai_war_room.sql)
+--
+-- The AI War Room (the multi-agent bull/bear/contrarian/quant debate + judge
+-- verdict UI) has been fully removed from the frontend and worker. This
+-- migration drops the War-Room-exclusive storage.
+--
+-- market_ai_analysis was written ONLY by the multi-agent panel in
+-- worker/src/multiAgentPredict.ts (now deleted) and read ONLY by the
+-- /v1/ai/:conditionId/analysis endpoint (now deleted). It is safe to drop.
+DROP TABLE IF EXISTS market_ai_analysis CASCADE;
+
+-- NOTE: ai_accuracy_log is intentionally NOT dropped. Despite living in the
+-- 020_ai_war_room.sql migration, it is a SHARED accuracy-tracking table:
+--   * WRITTEN by the general prediction-scoring cron
+--     (lib/server/jobs/resolution-backfill.ts:runAiAccuracyTracking), which
+--     scores market_catalog signals predictions (favourite_outcome /
+--     ai_confidence) against real Polymarket resolutions.
+--   * READ by the admin AI overview dashboard (app/api/admin/ai/overview)
+--     and the admin_accuracy_* RPCs.
+-- Both are separate systems that must keep working, so the table stays.
+-- Only the War Room's read-only consumer (/v1/ai/accuracy) was removed.

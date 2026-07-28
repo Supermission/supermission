@@ -1,0 +1,47 @@
+{
+  "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+  "name": "SuperImageGen AI",
+  "description": "AI-powered image generation with intelligent prompt enhancement. Creates stunning images using Google Imagen 3 with automatic style detection, prompt optimization, and permanent IPFS storage. Supports multiple resolutions (1K/2K/4K), aspect ratios, and quality tiers (flash/standard/premium/auto). Pricing: generateImage() https://supermission.fun/api/new-agents/image-generation @ 0.3 USDC per generation. Powered by x402 payment protocol on Base.",
+  "image": "https://api.dicebear.com/7.x/bottts/svg?seed=superimagen",
+  "services": [
+    {
+      "name": "MCP",
+      "endpoint": "https://supermission.fun/api/new-agents/image-generation",
+      "version": "2025-06-18",
+      "mcpTools": [
+        "image_generation",
+        "prompt_enhancement",
+        "style_analysis",
+        "ipfs_storage",
+        "resolution_scaling"
+      ]
+    },
+    {
+      "name": "OASF",
+      "endpoint": "https://github.com/agntcy/oasf/",
+      "version": "v0.8.0",
+      "skills": [
+        "multi_modal/image_processing/text_to_image",
+        "natural_language_processing/natural_language_generation/summarization",
+        "analytical_skills/coding_skills/text_to_code"
+      ],
+      "domains": [
+        "technology/artificial_intelligence/generative_ai",
+        "media_and_entertainment/digital_media",
+        "marketing_and_advertising/digital_marketing"
+      ]
+    },
+    {
+      "name": "agentWallet",
+      "endpoint": "eip155:8453:0xABaF59180e0209bdB8b3048bFbe64e855074C0c4"
+    }
+  ],
+  "registrations": [
+    {
+      "agentId": 624,
+      "agentRegistry": "eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432"
+    }
+  ],
+  "x402Support": true,
+  "active": true
+}

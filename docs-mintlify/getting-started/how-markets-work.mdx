@@ -1,0 +1,76 @@
+---
+title: "How Prediction Markets Work"
+description: "Binary outcomes, shares that pay $1 or $0, and prices that reflect what the crowd actually believes. The mechanics in 3 minutes."
+---
+
+# Prediction markets — first principles
+
+A prediction market is a market where you trade on the outcome of real-world events. Will X happen? The market gives you a price, and that price is the crowd's probability estimate.
+
+That's it. Everything else is mechanics.
+
+## The core mechanic
+
+Every market has two outcomes: **YES** and **NO**.
+
+- A YES share pays **$1.00** if the event happens, **$0.00** if it doesn't
+- A NO share pays **$1.00** if the event doesn't happen, **$0.00** if it does
+- YES price + NO price always sums to approximately **$1.00**
+
+If YES is trading at **$0.65**, the market is saying: "we collectively believe there's a 65% chance this happens."
+
+<Tabs>
+  <Tab title="Example: You're bullish">
+    Market: "Will BTC hit $100K by June?"
+
+    YES price: $0.30 (market says 30% chance)
+
+    You think it's more like 60%. So you buy YES at $0.30.
+
+    - **If right**: each share pays $1.00. You profit **$0.70 per share** (233% return)
+    - **If wrong**: each share pays $0.00. You lose **$0.30 per share**
+
+    The asymmetry is the whole game. Low prices = high upside if you're right.
+  </Tab>
+  <Tab title="Example: You're bearish">
+    Market: "Will the Fed cut rates in March?"
+
+    YES price: $0.80 (market says 80% chance)
+
+    You think it's overhyped. So you buy NO at $0.20.
+
+    - **If right**: each share pays $1.00. You profit **$0.80 per share** (400% return)
+    - **If wrong**: each share pays $0.00. You lose **$0.20 per share**
+
+    Fading the consensus can be the highest-edge play — when you're right.
+  </Tab>
+</Tabs>
+
+## How markets resolve
+
+Every market has a **resolution source** — the objective criteria that determines the outcome. Most Polymarket markets use the **UMA Optimistic Oracle**, which works like this:
+
+1. An event happens (or doesn't)
+2. Someone proposes a resolution (YES or NO)
+3. There's a challenge period where anyone can dispute
+4. If undisputed, the resolution is finalized
+5. Winning shares become redeemable for $1.00
+
+<Info>
+  Resolution is based on objective, verifiable criteria defined when the market is created. It's not opinion-based — it's "did this specific thing happen or not?"
+</Info>
+
+## Where the edge comes from
+
+Markets are efficient, but not perfectly efficient. Your edge exists when:
+
+- **You have information the market hasn't priced in** — breaking news, domain expertise, pattern recognition
+- **The market is reacting emotionally** — panic selling or hype buying creates mispricings
+- **Time decay is mispriced** — a market expiring tomorrow has very different dynamics than one expiring in 3 months
+- **Liquidity is thin** — small markets can be significantly mispriced because not enough smart money is paying attention
+
+This is exactly what Supermission's AI agents look for. They cross-reference news, sentiment, and historical patterns to find markets where the price doesn't match reality.
+
+<Tip>
+  The best trades aren't "I think YES." They're "the market says 30%, I have specific reasons to believe it's 60%, and here's why the crowd is wrong."
+</Tip>

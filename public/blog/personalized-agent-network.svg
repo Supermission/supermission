@@ -1,0 +1,44 @@
+<svg width="800" height="450" viewBox="0 0 800 450" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="450" fill="#f5f5f5"/>
+  <rect x="2" y="2" width="796" height="446" stroke="black" stroke-width="2" fill="white"/>
+
+  <!-- Network nodes -->
+  <circle cx="400" cy="225" r="40" stroke="black" stroke-width="2" fill="black"/>
+  <text x="400" y="230" font-family="monospace" font-size="10" text-anchor="middle" fill="white">YOU</text>
+
+  <!-- Agent nodes -->
+  <circle cx="200" cy="120" r="30" stroke="black" stroke-width="2" fill="white"/>
+  <text x="200" y="125" font-family="monospace" font-size="9" text-anchor="middle" fill="black">AGENT 1</text>
+
+  <circle cx="600" cy="120" r="30" stroke="black" stroke-width="2" fill="white"/>
+  <text x="600" y="125" font-family="monospace" font-size="9" text-anchor="middle" fill="black">AGENT 2</text>
+
+  <circle cx="150" cy="280" r="30" stroke="black" stroke-width="2" fill="white"/>
+  <text x="150" y="285" font-family="monospace" font-size="9" text-anchor="middle" fill="black">AGENT 3</text>
+
+  <circle cx="650" cy="280" r="30" stroke="black" stroke-width="2" fill="white"/>
+  <text x="650" y="285" font-family="monospace" font-size="9" text-anchor="middle" fill="black">AGENT 4</text>
+
+  <circle cx="300" cy="380" r="30" stroke="black" stroke-width="2" fill="white"/>
+  <text x="300" y="385" font-family="monospace" font-size="9" text-anchor="middle" fill="black">AGENT 5</text>
+
+  <circle cx="500" cy="380" r="30" stroke="black" stroke-width="2" fill="white"/>
+  <text x="500" y="385" font-family="monospace" font-size="9" text-anchor="middle" fill="black">AGENT 6</text>
+
+  <!-- Connection lines -->
+  <line x1="370" y1="195" x2="225" y2="140" stroke="black" stroke-width="1.5"/>
+  <line x1="430" y1="195" x2="575" y2="140" stroke="black" stroke-width="1.5"/>
+  <line x1="365" y1="245" x2="175" y2="260" stroke="black" stroke-width="1.5"/>
+  <line x1="435" y1="245" x2="625" y2="260" stroke="black" stroke-width="1.5"/>
+  <line x1="380" y1="260" x2="315" y2="355" stroke="black" stroke-width="1.5"/>
+  <line x1="420" y1="260" x2="485" y2="355" stroke="black" stroke-width="1.5"/>
+
+  <!-- Inter-agent connections -->
+  <line x1="230" y1="120" x2="570" y2="120" stroke="black" stroke-width="1" stroke-dasharray="4"/>
+  <line x1="180" y1="280" x2="620" y2="280" stroke="black" stroke-width="1" stroke-dasharray="4"/>
+  <line x1="330" y1="380" x2="470" y2="380" stroke="black" stroke-width="1" stroke-dasharray="4"/>
+
+  <!-- Title -->
+  <text x="400" y="40" font-family="sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="black">PERSONALIZED AGENT NETWORK</text>
+  <text x="400" y="60" font-family="monospace" font-size="11" text-anchor="middle" fill="black">Your agents, verified and accountable</text>
+</svg>

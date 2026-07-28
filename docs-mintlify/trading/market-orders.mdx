@@ -1,0 +1,55 @@
+---
+title: "Market Orders"
+description: "Instant execution at the current best price. Click, confirm, done."
+---
+
+# Buy now, think later (but please think first)
+
+A market order fills immediately at the best available price on Polymarket's orderbook. No waiting, no price-setting — you see a number, you take it.
+
+This is how most trades happen on Supermission.
+
+<Steps>
+  <Step title="Find a market">
+    Browse the market grid or search for a topic. Click any market card to open the detail view.
+  </Step>
+  <Step title="Pick your side">
+    Hit **YES** or **NO**. The button highlights and the order panel appears on the right.
+  </Step>
+  <Step title="Enter your amount">
+    Type how much USDC you want to spend. The panel instantly shows how many shares you'll receive and the effective price per share.
+  </Step>
+  <Step title="Confirm the trade">
+    Click **Confirm Trade**. The order hits Polymarket's CLOB as a FAK (Fill-And-Kill) order — it fills what it can immediately and cancels any remainder.
+  </Step>
+</Steps>
+
+## What is FAK execution?
+
+FAK stands for **Fill-And-Kill**. Your order grabs all available liquidity at the current price, fills as many shares as possible, and kills the rest. No partial orders sitting on the book.
+
+<Info>
+  If liquidity is thin, you might not get your full size filled. The confirmation screen shows expected fill before you commit.
+</Info>
+
+## When to use market orders
+
+- You have conviction and want in **now**
+- The market is liquid (tight spread, deep book)
+- You're trading a fast-moving event where seconds matter
+
+<Warning>
+  On thin markets, market orders can slip. If the spread is wide (YES at 52c, NO at 55c), consider a [limit order](/trading/limit-orders) instead. You'll get a better price and the patience usually pays.
+</Warning>
+
+## The shortcut: Oracle agent
+
+Don't want to click through screens? Tell Oracle:
+
+> "Buy $25 on YES for the Fed rate cut market"
+
+Same FAK execution, zero clicking. Oracle confirms the details before executing.
+
+<Tip>
+  Market orders are your bread and butter. But the best traders use them for entries and [limit orders](/trading/limit-orders) for exits. Something to think about.
+</Tip>

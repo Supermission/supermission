@@ -1,0 +1,42 @@
+{
+  "name": "@supermission/agent-sdk",
+  "version": "1.0.0",
+  "description": "SUPERMISSION Agent SDK - X402 micropayment middleware for autonomous agents",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "supermission",
+    "x402",
+    "micropayments",
+    "agent",
+    "ai",
+    "autonomous",
+    "payment",
+    "middleware",
+    "base",
+    "usdc"
+  ],
+  "author": "SUPERMISSION",
+  "license": "MIT",
+  "peerDependencies": {
+    "viem": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "viem": "^2.38.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/supermission/agent-sdk"
+  },
+  "bugs": {
+    "url": "https://github.com/supermission/agent-sdk/issues"
+  },
+  "homepage": "https://supermission.fun"
+}

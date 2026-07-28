@@ -1,0 +1,52 @@
+# gitleaks config for Supermission
+# Runs on staged changes via .githooks/pre-commit and (recommended) in CI.
+# Extends the default gitleaks ruleset and adds project-specific rules + allowlist.
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "evm-private-key-assignment"
+description = "EVM private key assigned to an env-style var"
+regex = '''(?i)(private_key|priv_key|minter_key|deployer_key|trading_wallet_private_key)\s*[:=]\s*["']?0x[a-f0-9]{64}'''
+tags = ["key", "evm"]
+
+[[rules]]
+id = "supabase-service-role-jwt"
+description = "Supabase service_role JWT"
+regex = '''eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{30,}\.[A-Za-z0-9_-]{20,}'''
+tags = ["jwt", "supabase"]
+
+[[rules]]
+id = "openrouter-key"
+description = "OpenRouter API key"
+regex = '''sk-or-v1-[A-Za-z0-9]{32,}'''
+tags = ["key", "openrouter"]
+
+[[rules]]
+id = "cdp-wallet-secret-pem"
+description = "Coinbase CDP / EC private key PEM block"
+regex = '''-----BEGIN (EC|RSA|PRIVATE) ?(KEY)?-----'''
+tags = ["key", "pem"]
+
+[allowlist]
+description = "Placeholders, examples, and known-public constants"
+# Match allowlist regexes against the whole line so public constants embedded
+# in assignments (e.g. `const PAYMENT_TOKEN = '0x...'`) are recognized.
+regexTarget = "line"
+# Never scan these paths — they are placeholder templates by design.
+paths = [
+  '''\.env\.example$''',
+  '''.*\.env\.example$''',
+  '''package-lock\.json$''',
+  '''.*\.md$''',            # docs; revisit if you ever paste real values into docs
+]
+# Known-public constants/values that pattern-match but are not secrets.
+regexes = [
+  '''0x[a-fA-F0-9]{40}([^a-fA-F0-9]|$)''',                     # EVM contract/wallet addresses (public; 40 hex ≠ 64-hex private key)
+  '''0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff''', # MAX_UINT256
+  '''0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef''', # ERC20 Transfer topic
+  '''your[_-].*''',
+  '''xxx+''',
+  '''<[A-Z_]+>''',
+]

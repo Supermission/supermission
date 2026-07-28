@@ -1,0 +1,47 @@
+{
+  "buildCommand": "npm run build",
+  "framework": "nextjs",
+  "regions": ["bom1"],
+  "crons": [
+    {
+      "path": "/api/cron/roro-strategies",
+      "schedule": "*/5 * * * *"
+    },
+    {
+      "path": "/api/cron/portfolio-snapshot",
+      "schedule": "0 0 * * *"
+    },
+    {
+      "path": "/api/cron/resolution",
+      "schedule": "*/30 * * * *"
+    },
+    {
+      "path": "/api/cron/ai-accuracy",
+      "schedule": "10,40 * * * *"
+    },
+    {
+      "path": "/api/cron/daily-cleanup",
+      "schedule": "0 4 * * *"
+    },
+    {
+      "path": "/api/cron/price-sync",
+      "schedule": "*/5 * * * *"
+    },
+    {
+      "path": "/api/cron/paper-trading-stats",
+      "schedule": "5 4 * * *"
+    }
+  ],
+  "env": {
+    "NEXT_PUBLIC_SITE_URL": "https://supermission.fun",
+    "NEXT_PUBLIC_SITE_NAME": "SUPERMISSION",
+    "NEXT_PUBLIC_USDC_ADDRESS": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    "NEXT_PUBLIC_ERC8004_REGISTRY_ADDRESS": "0x8004A169FB4a3325136EB29fA0ceB6D2e539a432",
+    "NEXT_PUBLIC_REPUTATION_REGISTRY_ADDRESS": "0x8004BAa17C55a88189AE136b182e5fdA19dE9b63",
+    "NEXT_PUBLIC_ERC8004_IDENTITY_REGISTRY": "0x8004A169FB4a3325136EB29fA0ceB6D2e539a432",
+    "NEXT_PUBLIC_ERC8004_REPUTATION_REGISTRY": "0x8004BAa17C55a88189AE136b182e5fdA19dE9b63",
+    "NEXT_PUBLIC_ERC8004_VALIDATION_REGISTRY": "0x8004C269D0A5647E51E121FeB226200ECE932d55",
+    "NEXT_PUBLIC_FOUNDER_NFT_ADDRESS": "0x10082C5073d8470ffBDbA7D034C95fD3E65C9843",
+    "NEXT_PUBLIC_TREASURY_ADDRESS": "0x8ACB67e789722A9D432a93B302d8F0F17DA3C509"
+  }
+}

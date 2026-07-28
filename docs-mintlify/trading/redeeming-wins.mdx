@@ -1,0 +1,59 @@
+---
+title: "Redeeming Winnings"
+description: "Market resolved in your favor? Convert winning shares to USDC."
+---
+
+# Collect your winnings
+
+When a prediction market resolves, the outcome is final. If you held the winning side, each share is now worth exactly **$1.00**. Redeeming converts those shares into USDC in your wallet.
+
+## How redemption works
+
+<Steps>
+  <Step title="Market resolves">
+    Polymarket's oracle determines the outcome. Your position card updates with a resolution badge — green for wins, red for losses.
+  </Step>
+  <Step title="Redeem button appears">
+    On winning positions, a **Redeem Winnings** button replaces the sell button. The card shows exactly how many shares you hold and the USDC value.
+  </Step>
+  <Step title="Click to redeem">
+    One click. Your winning shares are burned on Polymarket's contract and USDC.e is released to your Polygon wallet.
+  </Step>
+  <Step title="Auto-bridge to Base">
+    Supermission automatically bridges your USDC back to Base. No manual chain-switching required. Funds appear in your main wallet balance within a few minutes.
+  </Step>
+</Steps>
+
+## The math
+
+It's straightforward:
+
+| Bought | Price Paid | Shares | If You Win |
+|--------|-----------|--------|------------|
+| YES | $0.35/share | 100 | 100 × $1.00 = **$100** |
+| YES | $0.72/share | 50 | 50 × $1.00 = **$50** |
+| NO | $0.20/share | 200 | 200 × $1.00 = **$200** |
+
+Your profit = redemption value minus what you paid. That's it.
+
+<Info>
+  Losing shares are worth $0.00. They just disappear from your portfolio after resolution. No action needed on your end.
+</Info>
+
+## What if I don't redeem?
+
+<Accordion title="Do winnings expire?">
+  No. Winning shares sit on the Polymarket contract until you redeem them. There's no deadline. But there's also no reason to wait — that's capital sitting idle.
+</Accordion>
+
+<Accordion title="Can I redeem partial shares?">
+  Yes, but why would you? Redemption is free (gas is sponsored). Just redeem everything.
+</Accordion>
+
+<Tip>
+  Smart traders redeem immediately and re-deploy. Compound the wins. The moment a market resolves, that capital should be working on your next trade — not sitting in a resolved contract.
+</Tip>
+
+<Warning>
+  Redemption requires the market to be fully resolved. Some markets have a dispute period. If the outcome is being challenged, the redeem button won't appear until the dispute resolves.
+</Warning>

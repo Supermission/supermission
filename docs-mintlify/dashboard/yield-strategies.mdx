@@ -1,0 +1,81 @@
+---
+title: "Yield Strategies"
+description: "Browse yield opportunities across protocols, get AI-generated strategies, and deposit with one click."
+---
+
+# Yield strategies
+
+The Dashboard's yield section helps you find and execute yield opportunities across DeFi protocols on Base, Ethereum, and Polygon.
+
+## Yield opportunities
+
+The **YieldOpportunities** component displays available Uniswap V3 liquidity pools across supported chains:
+
+| Element | Description |
+|---------|-------------|
+| **Chain filter** | Tabs for Base, Ethereum, Polygon |
+| **Pool listings** | Accordion-style cards for each opportunity |
+| **APY** | Color-coded by tier (higher APY = warmer colors) |
+| **TVL** | Total value locked in the protocol |
+| **Volume** | Recent trading/lending volume |
+
+Expand any pool to see full details and access the deposit interface.
+
+## AI yield strategy
+
+Click the **"AI Strategy"** button to generate a personalized yield strategy:
+
+### Strategy configuration
+
+| Option | Values |
+|--------|--------|
+| **Risk tolerance** | Conservative / Balanced / Aggressive |
+
+The AI analyzes your current portfolio composition and available yield opportunities to recommend an optimal strategy.
+
+### Strategy result
+
+| Element | Description |
+|---------|-------------|
+| **Strategy name** | AI-generated strategy title |
+| **Expected APY** | Projected annual return |
+| **Risk level** | Conservative / Moderate / Aggressive tag |
+| **Estimated return** | 30-day projected return in USD |
+| **Recommendations** | Up to 2 specific actions shown (e.g., "Supply 500 USDC to Morpho Vault") |
+
+Each recommendation links to the **InvestModal** for one-click execution.
+
+## Deposit flow (InvestModal)
+
+<Steps>
+  <Step title="Input">
+    Protocol name with icon, amount input (USDC), APY display, suggested amount (editable).
+  </Step>
+  <Step title="Processing">
+    Multi-step execution:
+    1. Checking USDC balance
+    2. Checking allowance
+    3. Approving USDC (if needed)
+    4. Depositing into protocol
+
+    Transaction hash appears with explorer link.
+  </Step>
+  <Step title="Success">
+    Checkmark icon, success message, transaction hash link, close button. DeFi positions refresh automatically.
+  </Step>
+  <Step title="Error (if applicable)">
+    Error icon, specific error message, retry button.
+  </Step>
+</Steps>
+
+## Supported protocols
+
+| Protocol | Type | Chains | Deposit method |
+|----------|------|--------|---------------|
+| **Morpho** | Curated lending vaults | Base | `useMorphoDeposit()` |
+| **Aave V3** | Open lending pools | Base, Ethereum, Polygon | `useDefiInvest()` |
+| **Compound III** | USDC lending market | Base, Ethereum | `useDefiInvest()` |
+
+<Tip>
+  Use the AI strategy feature to get a starting point, then adjust based on your own risk assessment. The AI considers your current portfolio composition, available APYs, and protocol risk when generating recommendations.
+</Tip>

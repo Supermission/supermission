@@ -1,0 +1,118 @@
+---
+title: "Architecture"
+description: "How Supermission works under the hood — from user click to on-chain execution. The full system architecture."
+---
+
+# System architecture
+
+Supermission is a full-stack trading terminal that sits on top of Polymarket's infrastructure. Understanding the layers helps you understand what's happening when you place a trade, receive a signal, or interact with an AI agent.
+
+## Architecture layers
+
+```
+┌─────────────────────────────────────────────┐
+│            User Interface (Next.js 15)       │
+│  Market Terminal · Portfolio · Signals        │
+│  Oracle Chat · Delphi Chat · Admin           │
+└──────────────────┬──────────────────────────┘
+                   │ API calls
+┌──────────────────▼──────────────────────────┐
+│           Next.js API Routes                 │
+│  Auth gating · Rate limiting · Caching       │
+│  150+ endpoints across markets, trading,     │
+│  AI, dashboard, agents, and admin            │
+└──────────────────┬──────────────────────────┘
+                   │ reads/writes
+┌──────────────────▼──────────────────────────┐
+│         Supabase (PostgreSQL)                │
+│  market_catalog · market_signals             │
+│  alpha_edges · smart_money_moves             │
+│  user sessions · trade records               │
+└──────────────────┬──────────────────────────┘
+                   │ executes
+┌──────────────────▼──────────────────────────┐
+│             Polymarket                       │
+│  CLOB (orderbook) · Data API                 │
+│  UMA Oracle (resolution)                     │
+└─────────────────────────────────────────────┘
+```
+
+## Core systems
+
+<CardGroup cols={2}>
+  <Card title="Frontend" icon="browser">
+    **Next.js 15** with React 19. App Router with React Server Components for performance. Tailwind CSS + Framer Motion for styling and animation. Zustand for local state, React Query for server state.
+  </Card>
+  <Card title="Backend" icon="server">
+    **Next.js API routes** (150+ endpoints). Supabase PostgreSQL with Row-Level Security. Privy for auth token verification. Rate limiting per-IP and per-user.
+  </Card>
+  <Card title="AI Pipeline" icon="brain">
+    **OpenRouter** with **Gemini 2.5 Flash** (cheap/fast default) for chat agents (Oracle, Delphi, Securo, Hyperion) and market analysis. Vercel AI SDK for streaming and tool calling. 4-agent debate system with judge synthesis. Scheduled analysis runs per market tier.
+  </Card>
+  <Card title="Blockchain" icon="link">
+    **Base** (L2) for wallet and settlement. **Polygon** for Polymarket CLOB execution. **Robinhood Chain** — an Arbitrum-based Ethereum L2 optimized for tokenized real-world assets (equities, ETFs). **Privy MPC** for wallet infrastructure. Auto-bridging between chains via Circle CCTP.
+  </Card>
+</CardGroup>
+
+## Data flow: placing a trade
+
+<Steps>
+  <Step title="User confirms trade in UI">
+    Click "Buy YES" on a market. The frontend validates amount, checks balance, and prepares the order parameters.
+  </Step>
+  <Step title="API processes the request">
+    The trade route authenticates via Privy JWT, checks wallet balance on Base, and initiates the bridge if needed.
+  </Step>
+  <Step title="USDC bridges Base → Polygon">
+    Circle CCTP bridges the exact USDC amount from your Base wallet to Polygon. USDC converts to USDC.e (Polymarket's settlement token).
+  </Step>
+  <Step title="Order hits Polymarket CLOB">
+    A FAK (Fill-And-Kill) or GTC (Good-Till-Cancel) order is submitted directly to Polymarket's orderbook. No mempool, no MEV exposure.
+  </Step>
+  <Step title="Position recorded">
+    The trade is recorded in Supabase. Portfolio updates in real-time. The user sees their new position in the Portfolio tab.
+  </Step>
+</Steps>
+
+## Data flow: AI signal generation
+
+<Steps>
+  <Step title="Market data ingested">
+    Polymarket Data API provides real-time prices, volume, and orderbook depth. Market catalog synced to Supabase.
+  </Step>
+  <Step title="4 agents analyze independently">
+    Four agents — Bull (narrative analysis), Bear (microstructure analysis), Contrarian (consensus challenge), and Quant (base-rate anchoring) — each receive market data + external context (news, social, on-chain). Each produces an independent probability estimate with reasoning.
+  </Step>
+  <Step title="Judge synthesizes">
+    A judge agent reviews all 4 analyses, weighs argument quality and evidence strength, and produces a final probability + confidence score.
+  </Step>
+  <Step title="Signal emitted if divergence exists">
+    If the synthesized probability diverges meaningfully from market price, a signal is stored in `market_signals` and pushed to the frontend via Server-Sent Events (SSE).
+  </Step>
+</Steps>
+
+## Market tiering
+
+Not all markets get the same AI treatment. Analysis depth scales with market importance:
+
+| Tier | Criteria | Analysis | Update Frequency |
+|------|----------|----------|------------------|
+| **Tier 1** | Trending OR volume > $50K | Full 4-agent debate | Every 15 minutes |
+| **Tier 2** | Volume > $5K | 2-agent quick analysis (Bull + Bear) | Every 30 minutes |
+| **Tier 3** | Everything else | Single-model sentiment | Every 60 minutes |
+
+## Tech stack summary
+
+| Layer | Technology |
+|-------|------------|
+| **Frontend** | Next.js 15, React 19, TypeScript, Tailwind CSS 4, Framer Motion |
+| **State** | Zustand 5, TanStack React Query 5, Zod |
+| **Web3** | wagmi 2, viem 2, Privy 3, OnchainKit, ethers.js 5 |
+| **AI** | Vercel AI SDK 6, MiniMax M2.7, OpenRouter, OpenAI SDK, Google GenAI (Gemini 2.0 Flash for vision) |
+| **DeFi** | Uniswap V3, Morpho, Circle CCTP, LI.FI, Polymarket CLOB |
+| **Backend** | Supabase PostgreSQL, Pinata (IPFS), Alchemy, QuickNode |
+| **Hosting** | Vercel, PostHog analytics |
+
+<Info>
+  Supermission is deployed on Vercel with Supabase as the primary database. All blockchain interactions happen through verified RPC providers (Alchemy, QuickNode) with fallback routing.
+</Info>

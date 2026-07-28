@@ -1,0 +1,50 @@
+---
+title: "Stacked View"
+description: "Group related sub-markets by event. Compare 'Democrats win Senate' vs 'Democrats win popular vote' in one expandable card."
+---
+
+# Stacked view
+
+Some events have one market. Others have ten. The 2024 election had markets on winner, popular vote, swing states, Senate control, and more — all related, all tradeable separately.
+
+Stacked View groups these sub-markets under a single expandable **EventStackCard** so you can see all the angles at once.
+
+## How to enable
+
+In the category sidebar, toggle the view mode from **Normal** to **Stacked**. The market grid reorganizes instantly. Toggle back to return to the flat grid.
+
+## How it works
+
+<Steps>
+  <Step title="Markets grouped by event_id">
+    Polymarket assigns an `event_id` to related markets. Supermission's worker API pre-groups markets by this ID. The `useGroupedMarkets` hook provides the grouped data to the UI.
+  </Step>
+  <Step title="EventStackCard rendering">
+    Events with 2+ sub-markets render as an **EventStackCard** — a single card showing:
+    - Event title
+    - Number of sub-markets (badge)
+    - Aggregate volume across all sub-markets
+    - Price preview from the highest-volume sub-market
+  </Step>
+  <Step title="Click to expand">
+    Click an event card to expand the accordion. All sub-markets appear as a nested list with individual prices, volumes, countdown timers, and trade buttons. Each sub-market is clickable to open the full detail panel.
+  </Step>
+  <Step title="Single-market events">
+    Events with only one market render as normal MarketCards — no wrapping, no accordion. You won't notice these are any different from the normal grid.
+  </Step>
+</Steps>
+
+## Performance
+
+Stacked View uses the same `@tanstack/react-virtual` virtualization as Normal View. Only visible event cards and their expanded sub-markets are rendered in the DOM. Infinite scroll pagination works identically — more events load as you scroll near the bottom.
+
+## When to use Stacked vs Normal
+
+| View | Best for |
+|------|----------|
+| **Normal** | Scanning broadly, comparing unrelated markets, looking for new opportunities across categories |
+| **Stacked** | Researching a specific event, comparing related outcomes, building correlated positions, spotting mispricings between sub-markets |
+
+<Tip>
+  Correlated markets are where smart traders find mispricings. If "Democrats win Senate" is at 60% but "Democrats win popular vote" is at 45%, something might be off. Stacked View makes these comparisons effortless.
+</Tip>

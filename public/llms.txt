@@ -1,0 +1,69 @@
+# SUPERMISSION
+
+> SUPERMISSION is the AI-powered DeFi terminal on Base, Polygon, and Robinhood Chain. One chat, every trade. Swap tokens, provide liquidity, lend, earn yield, trade prediction markets, and analyze wallets — all from a single conversational interface. No app-hopping. No complexity. You type, AI executes on-chain.
+
+Website: https://supermission.fun
+Full details: https://supermission.fun/llms-full.txt
+
+## What SUPERMISSION Does
+
+SUPERMISSION replaces 10+ DeFi apps with one AI chat terminal. Users describe what they want in plain English, and the AI agent (DELPHI) handles the complexity — resolving tokens, finding best routes, computing optimal ranges, and executing on-chain. Users just click Confirm.
+
+### Trade
+- Swap any token across 40+ chains via LI.FI aggregation
+- Bridge assets cross-chain in one command
+- Provide liquidity on Uniswap V3 with automated range optimization
+- Trade prediction markets powered by Polymarket with AI signals
+
+### Earn
+- Deposit into Morpho MetaMorpho vaults, Aave V3, Compound III
+- AI scans 1,000+ yield pools in real-time to find the best opportunities
+- One-click yield strategies with risk-adjusted recommendations
+
+### Analyze
+- Token research with safety scores, honeypot detection, holder analysis
+- Full wallet intelligence — ERC-20 tokens, NFTs, DeFi positions, risk assessment
+- Smart money tracking via Nansen — see what whales and institutions are buying
+- Prediction market signals and analysis
+
+## Key Features
+
+- **Zero gas fees** — Supermission absorbs gas, users never pay
+- **Email-to-wallet** — Sign up with email, trade in 30 seconds via Privy embedded wallets
+- **On-chain settlement** — Every transaction verifiable on Basescan
+- **Multi-chain** — Supports Ethereum, Base, Polygon, and Robinhood Chain
+- **Gasless execution** — Privy-sponsored transactions for embedded wallets
+
+## Pages
+
+- Homepage: https://supermission.fun
+- DeFi Terminal (DELPHI): https://supermission.fun/chat
+- Prediction Markets: https://supermission.fun/markets
+- Blog: https://supermission.fun/blog
+- How It Works: https://supermission.fun/how-it-works
+
+## Technology
+
+- Built on Base (Ethereum L2, Chain ID 8453), Polygon (Chain ID 137), and Robinhood Chain (Arbitrum-based Ethereum L2 for tokenized real-world assets, Chain ID 4663)
+- Payments in USDC
+- DeFi integrations: LI.FI (40+ chains), Uniswap V3, Aave V3, Compound III, Morpho MetaMorpho
+- Market data: Nansen, CoinGecko, CryptoCompare, Chainlink
+- Prediction markets: Polymarket CLOB
+- Wallet: Privy embedded wallets with email signup
+
+## FAQ
+
+Q: What is SUPERMISSION?
+A: An AI-powered DeFi terminal on Base, Polygon, and Robinhood Chain. One chat interface to swap, lend, LP, earn yield, trade prediction markets, and analyze wallets. No app-hopping required.
+
+Q: How does it work?
+A: You type what you want in plain English (e.g., "swap 100 USDC to WETH on Base"). The AI agent DELPHI handles routing, pricing, and execution. You click Confirm. Done.
+
+Q: What blockchain does it use?
+A: Base (Ethereum L2) and Robinhood Chain (Arbitrum-based Ethereum L2 for tokenized real-world assets). Also supports Ethereum and Polygon for swaps and analysis.
+
+Q: Is it free?
+A: Free to use. Zero gas fees for embedded wallet users. Trading involves USDC for DeFi and prediction market operations.
+
+Q: What DeFi protocols does it support?
+A: LI.FI (swaps across 40+ chains), Uniswap V3 (LP), Aave V3, Compound III, Morpho MetaMorpho (lending/yield), and Polymarket (prediction markets).

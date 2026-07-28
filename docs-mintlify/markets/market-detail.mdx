@@ -1,0 +1,141 @@
+---
+title: "Market Detail Panel"
+description: "Everything you see when you click a market — prices, orderbook, charts, AI signals, whale data, limit orders, and related markets."
+---
+
+# Market detail panel
+
+Click any market card to open the detail panel — a slide-over panel on the right side of the screen (max-width: `xl`). This is where you do your real analysis before committing capital. The panel has a sticky header with navigation, plus everything you need to evaluate and execute a trade.
+
+## Panel header
+
+| Element | Description |
+|---------|-------------|
+| **Back button** | Returns to the previous market or closes the panel |
+| **Bookmark button** | Add/remove from watchlist |
+| **Close button** | Closes the panel entirely |
+
+## Market info section
+
+At the top of the panel:
+
+- **Question** — full market question text (expandable if longer than 3 lines)
+- **Description** — additional context about the market (expandable)
+- **Tags** — all category badges, AI Pick badge, asset tag, timeframe tag, trending/hot indicators
+
+## Trade and analysis
+
+Everything you need to evaluate and execute a trade.
+
+### AI Signals panel
+
+If the AI has a signal for this market, it appears at the top of the Trade tab:
+
+- **Signal type** — Sentiment, Momentum, or Spot Price
+- **AI pick** — which outcome the AI favors (YES or NO) with confidence score
+- **Summary** — brief AI reasoning (from the multi-agent analysis)
+- **Source articles** — links to the news/data sources the AI used (if available)
+
+If no API signals are available, the panel falls back to catalog data: sentiment, favorite outcome, confidence, and summary from the most recent analysis run.
+
+### Market data grid
+
+A compact data grid showing:
+
+| Metric | Description |
+|--------|-------------|
+| **Volume** | Lifetime trading volume in USDC |
+| **24h Volume** | Trading volume in the last 24 hours |
+| **Liquidity** | Current orderbook depth (how much you can trade without moving the price) |
+| **Spread** | Gap between best bid and best ask (tighter = better for traders) |
+| **24h Change** | Price change in the last 24 hours |
+| **Ends in** | Countdown to market resolution |
+
+### Live prices (hero display)
+
+Large, prominent YES and NO prices in cents. These update in real-time via SSE. Animated probability bars show the YES/NO split as horizontal colored bars.
+
+### Order types
+
+Toggle between **Market** and **Limit** at the top of the order section:
+
+<Tabs>
+  <Tab title="Market Order">
+    Same flow as inline trading but in the detail panel:
+    1. Click **YES** or **NO**
+    2. Enter USDC amount (presets or custom)
+    3. See shares, average price, potential return
+    4. Confirm → FAK execution on Polymarket's CLOB
+  </Tab>
+  <Tab title="Limit Order">
+    Set your own price and wait for the market to fill you:
+    1. Select outcome (YES or NO)
+    2. Enter your price in cents (minimum tick: $0.01)
+    3. Enter USDC amount or share count (the other auto-calculates)
+    4. Click **Place Limit Order** → GTC order goes on Polymarket's book
+    5. Order appears in the **Open Orders** section below and in the Portfolio → Orders tab
+
+    The form validates: price must be 0.01-0.99, amount must be positive, and your balance must cover the order.
+  </Tab>
+</Tabs>
+
+### Orderbook
+
+Two visualizations of the current orderbook:
+
+**OrderBook Ladder** — a traditional bid/ask ladder:
+- Left column: bid sizes (emerald/green background fill)
+- Center column: price levels
+- Right column: ask sizes (rose/red background fill)
+- Size background fills proportionally to the largest order at that level
+- Shows top 8 levels by default
+- Hover to see cumulative depth
+
+**OrderBook Depth** — a cumulative depth chart:
+- Bids on the left (emerald gradient), asks on the right (rose gradient)
+- Horizontal bars for each price level showing cumulative size
+- Midpoint price displayed at center
+- Hover tooltip shows size and cumulative total
+
+### Price chart
+
+Interactive price chart powered by TradingView's `lightweight-charts`:
+- **Timeframes**: 6H, 1D, 1W, 1M, ALL (button toggle)
+- **Chart type**: Area series with green-to-emerald gradient fill
+- **Y-axis**: Percentage (0-100%)
+- **Crosshair** and tooltips on hover
+- Responsive to panel width
+- Fetches OHLC data from the API for the selected token
+
+### Open orders panel
+
+If you have active limit orders on this market, they appear here with:
+- Order side (YES/NO), price, size
+- Cancel button for each order
+- Refresh button
+
+### Top holders (Whale Intelligence)
+
+Shows the largest positions in this market:
+- **Whale sentiment bar** — aggregated YES vs NO split among large holders (green/red bar)
+- **Stats**: whale count, total shares held, top-1 concentration percentage
+- **Waterfall list** (top 20 holders): avatar/initials, username or truncated address, position size with proportional bar fill, outcome badge (YES/NO)
+- **Refresh button** for manual update
+
+When whales lean more than 55% in one direction, a "Smart money leans YES/NO" insight surfaces.
+
+### Related markets
+
+If the market belongs to an event with multiple sub-markets, related markets appear as a mini grid at the bottom. Click any to navigate within the detail panel.
+
+### Market comments
+
+Community discussion threads for the market. Shows comments with:
+- Author address (truncated)
+- Relative timestamp
+- Like count
+- Nested reply threads
+
+<Tip>
+  The ideal workflow: scan the Browse grid for AI Pick badges → open the detail panel → review the AI signal and its reasoning → look at whale positions in Top Holders → check the orderbook for liquidity → execute via Market or Limit order.
+</Tip>

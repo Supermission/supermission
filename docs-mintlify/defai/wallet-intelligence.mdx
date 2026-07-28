@@ -1,0 +1,82 @@
+---
+title: "Wallet Intelligence"
+description: "Multi-chain wallet analysis with holdings breakdown, risk scoring, AI behavioral profiling, and security recommendations."
+---
+
+# Wallet intelligence
+
+The **Wallet Intelligence** agent analyzes any wallet address across multiple chains. It provides portfolio composition, risk assessment, behavioral analysis, and actionable recommendations.
+
+## How to use
+
+- `"Analyze this wallet: 0x1234...abcd"`
+- `"What tokens does vitalik.eth hold?"`
+- `"Check my portfolio risk exposure across chains"`
+
+## Result panels
+
+Two levels of detail depending on the analysis:
+
+### WalletResultPanel (compact)
+
+| Element | Description |
+|---------|-------------|
+| **Address** | Full address or ENS name, with chain indicator |
+| **Risk badge** | LOW (green), MED (yellow), HIGH (red) |
+| **Stats grid** | Balance, transaction count, token count, activity level |
+| **Summary** | AI-generated markdown narrative |
+| **Warnings** | Red-highlighted risk factors (max 4 shown) |
+| **Recommendations** | Green-highlighted action items (max 4 shown) |
+
+### WalletIntelligencePanel (detailed)
+
+A large expandable panel with collapsible sections:
+
+<Accordion title="Header">
+  Wallet address, wallet type badge (EOA, Smart Contract, Multisig), activity level indicator. Copy address button with checkmark feedback.
+</Accordion>
+
+<Accordion title="Portfolio Overview">
+  Total portfolio value in USD. Key metrics: number of tokens, chains active, estimated daily volume, portfolio age.
+</Accordion>
+
+<Accordion title="Holdings">
+  Top 8 tokens by USD value. Each entry shows: token icon, symbol, balance, USD value. Expandable chain selector to view holdings per chain. Sorted by value descending.
+</Accordion>
+
+<Accordion title="Portfolio Analysis">
+  Allocation breakdown (pie chart representation), volatility assessment, concentration risk rating. Shows how diversified or concentrated the portfolio is.
+</Accordion>
+
+<Accordion title="AI Profile">
+  Behavioral analysis: wallet type classification (trader, holder, DeFi farmer, NFT collector), activity patterns, DeFi protocol usage, typical transaction sizes, and behavioral trends.
+</Accordion>
+
+<Accordion title="Chains">
+  Per-chain breakdown with: chain name, native balance, token count, total USD value. Each chain expandable to show individual tokens.
+</Accordion>
+
+<Accordion title="Security">
+  Security alerts and risk factors. Prioritized by severity. Includes: approval risks (unlimited token approvals), interaction with flagged contracts, concentration risk, and recommended actions.
+</Accordion>
+
+<Accordion title="Recommendations">
+  AI-generated action items. Max 3 shown by default with "Show all" toggle. May include: rebalance suggestions, approval revocations, DeFi optimization tips.
+</Accordion>
+
+<Accordion title="Warnings">
+  Red-highlighted risk items. Max 3 shown by default. May include: high concentration in a single token, interaction with unverified contracts, stale approvals.
+</Accordion>
+
+## Data sources
+
+| Source | Data provided |
+|--------|--------------|
+| **QuickNode RPC** | On-chain token balances, native balances, and transaction data across Base, Robinhood Chain, Polygon, Arbitrum, and Ethereum |
+| **BaseScan / PolygonScan** | Token discovery from transfer history, contract verification |
+| **CoinGecko** | USD price enrichment for all discovered tokens |
+| **AI analysis** | Behavioral profiling, risk assessment, and portfolio recommendations |
+
+<Info>
+  Wallet Intelligence can analyze any public wallet address — not just your own. Use it to research whale wallets, track smart money, or audit counterparties before interacting with them.
+</Info>

@@ -1,0 +1,54 @@
+---
+title: "Market Comparison"
+description: "Compare up to 4 markets side-by-side with synchronized price charts and key metrics."
+---
+
+# Market comparison
+
+The comparison tool lets you overlay up to 4 markets on a single view to spot divergences, correlations, and relative value.
+
+## How to access
+
+Navigate to `/markets/compare` or use the comparison mode from the trading store. Markets can be added to comparison via the market detail panel or directly from the comparison page.
+
+## Comparison view
+
+The **ComparisonView** component renders:
+
+### Market picker
+
+An autocomplete search input powered by **MarketPicker**:
+- Type to search (debounced) — queries `/api/markets?search=...&limit=10`
+- Results show: market question, current price %, and volume
+- Already-selected markets are excluded from results
+- Click to add to comparison (up to 4 max)
+
+### Side-by-side display
+
+Each selected market shows:
+- Market question
+- Current YES/NO prices
+- Volume, liquidity, and 24h change
+- Resolution date
+- AI signal (if present)
+
+### Synchronized price charts
+
+All selected markets render on overlaid or stacked price charts using TradingView's `lightweight-charts`:
+- Same timeframe for all markets
+- Color-differentiated lines
+- Hover crosshair syncs across charts
+- Timeframe toggle (6H, 1D, 1W, 1M, ALL)
+
+## Use cases
+
+| Scenario | Example |
+|----------|---------|
+| **Correlated outcomes** | "BTC above 100K by June" vs "BTC above 80K by June" — if the 100K market is priced higher than the 80K market, something is wrong |
+| **Same event, different angles** | "Democrats win Senate" vs "Democrats win popular vote" — should the popular vote winner also win the Senate? |
+| **Cross-category correlation** | A crypto market vs a policy market — does regulatory action correlate with price action? |
+| **Arbitrage detection** | Two markets on essentially the same outcome with different prices |
+
+<Tip>
+  Comparison is most powerful in Stacked View. Find an event group, expand it, then compare the sub-markets that seem mispriced relative to each other.
+</Tip>

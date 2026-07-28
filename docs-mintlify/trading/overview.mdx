@@ -1,0 +1,76 @@
+---
+title: "Trading Overview"
+description: "Everything you need to trade prediction markets on Supermission — order types, execution flow, position management, and the tools that support your trading."
+---
+
+# Trading on Supermission
+
+Every trade on Supermission executes on **Polymarket's Central Limit Order Book (CLOB)** — the deepest prediction market liquidity on the planet with $44B+ in lifetime volume. Same prices, same liquidity. Your orders go directly to the orderbook with no mempool exposure (no front-running risk).
+
+## Execution infrastructure
+
+When you confirm a trade, here's what happens:
+
+<Steps>
+  <Step title="Balance check">
+    The system checks your USDC balance and determines if bridging is needed. Since Polymarket's CLOB operates on Polygon, USDC is automatically bridged from Base to Polygon if required.
+  </Step>
+  <Step title="Chain preparation">
+    Your Privy embedded wallet switches to Polygon. Gas funding is handled automatically — you never need to hold MATIC/POL.
+  </Step>
+  <Step title="USDC approval">
+    If needed, a USDC approval transaction is signed. This allows the Polymarket contracts to move USDC on your behalf.
+  </Step>
+  <Step title="Order signing">
+    The system fetches the best bid/ask from the CLOB to set a slippage-protected price (2.5% slippage tolerance). Your MPC wallet signs the order.
+  </Step>
+  <Step title="Order submission">
+    The signed order is submitted to Polymarket's CLOB. For market orders (FAK), it fills immediately. For limit orders (GTC), it sits on the book.
+  </Step>
+  <Step title="Optimistic position update">
+    Your position appears in the Portfolio tab immediately via optimistic updates. The optimistic entry auto-cleans when real position data arrives from Polymarket's API.
+  </Step>
+</Steps>
+
+## Trading features
+
+<CardGroup cols={2}>
+  <Card title="Market Orders" icon="bolt" href="/trading/market-orders">
+    FAK (Fill-And-Kill) execution at the best available price. Grabs all available liquidity, fills what it can, cancels the remainder. Instant entry.
+  </Card>
+  <Card title="Limit Orders" icon="clock" href="/trading/limit-orders">
+    GTC (Good-Till-Cancel) orders that sit on the orderbook at your specified price. Patient capital for better entries.
+  </Card>
+  <Card title="Sell Positions" icon="right-from-bracket" href="/trading/selling-positions">
+    Close trades before resolution via the Portfolio tab or Oracle agent. FAK execution against current liquidity.
+  </Card>
+  <Card title="Redeem Winnings" icon="trophy" href="/trading/redeeming-wins">
+    Convert winning shares to $1 USDC each after market resolution. One click, auto-bridges back to Base.
+  </Card>
+  <Card title="Portfolio" icon="chart-pie" href="/trading/portfolio">
+    Portfolio value hero card with P&L, stats strip (win rate, positions, trades, volume), position cards, open orders, and complete trade history with CSV export.
+  </Card>
+  <Card title="Watchlist" icon="eye" href="/trading/watchlist">
+    Bookmark markets for monitoring. Price alerts trigger when watched markets move 5%+. Sort by date added, volume, ending soon, or price change.
+  </Card>
+  <Card title="Price Alerts" icon="bell" href="/trading/price-alerts">
+    Set directional alerts (above/below threshold) on any market. Distinct audio tones for up and down moves. Recurring alerts available.
+  </Card>
+  <Card title="Orderbook" icon="table" href="/trading/orderbook">
+    Real-time bid/ask ladder and cumulative depth chart. 5-second refresh. See liquidity before you size your order.
+  </Card>
+</CardGroup>
+
+## Where to trade
+
+You can place trades from three places:
+
+| Location | Method |
+|----------|--------|
+| **Market card** (Browse tab) | Click YES/NO → inline amount picker → confirm. Fastest for quick entries. |
+| **Market detail panel** | Click a card to open the side panel → Market or Limit order form → full analysis before execution. Best for informed trading. |
+| **Oracle agent** (Agent tab) | Natural language: "Buy $50 on YES for the Fed market" → Oracle confirms details → execute. Best for mobile and speed. |
+
+<Tip>
+  New to prediction markets? Start with [How Markets Work](/getting-started/how-markets-work) and [Reading Prices](/getting-started/reading-prices) before placing your first trade.
+</Tip>

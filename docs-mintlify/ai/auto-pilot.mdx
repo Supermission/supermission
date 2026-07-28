@@ -1,0 +1,130 @@
+---
+title: "Auto-Pilot"
+description: "Autonomous trade execution with budget controls, risk management, and a full audit trail. Set your rules, the system executes 24/7."
+---
+
+# Your strategy, automated
+
+Auto-Pilot takes your trading rules — budget, risk tolerance, signal preferences — and executes trades autonomously when high-conviction opportunities appear. Every decision is logged. Every skip is explained. You stay in control.
+
+<Warning>
+  Auto-Pilot does NOT mean "trust the machine." It means: I understand the strategy, I've set my rules, and the system executes MY strategy 24/7 without me watching a screen.
+</Warning>
+
+## Setup wizard
+
+<Steps>
+  <Step title="Set your budget">
+    Total budget, maximum per trade, and daily loss limit. Presets available: $50, $100, $250, $500 — or set custom amounts.
+  </Step>
+  <Step title="Configure risk">
+    Risk level (Conservative, Moderate, Aggressive), signal sources (Edge Scanner, Smart Money, or both), and maximum concurrent positions.
+  </Step>
+  <Step title="Review and activate">
+    Review all settings with risk warnings. Confirm to activate. The system starts monitoring immediately.
+  </Step>
+</Steps>
+
+## How it executes
+
+The Auto-Pilot worker runs every 5 minutes:
+
+1. **Check for qualifying signals** — edges from Alpha Scanner and/or smart money moves
+2. **Apply risk filters** — budget, loss limit, position count, confidence threshold
+3. **Size the position** — Kelly criterion capped by max-per-trade setting
+4. **Execute or skip** — trade if all checks pass, log the decision either way
+
+## Risk manager checks
+
+Every potential trade passes through these gates:
+
+| Check | What it does |
+|-------|--------------|
+| **Budget remaining** | Enough capital left for this trade? |
+| **Daily loss limit** | Have daily losses hit the ceiling? |
+| **Position sizing** | Kelly capped by max-per-trade |
+| **Concurrent positions** | At the position limit? |
+| **Correlation check** | Too many bets on the same event/topic? |
+| **Confidence threshold** | Meets user's minimum confidence? |
+| **Edge threshold** | Meets user's minimum edge %? |
+
+## Configuration options
+
+| Setting | Conservative | Moderate | Aggressive |
+|---------|-------------|----------|------------|
+| **Min confidence** | 80 | 70 | 60 |
+| **Min edge** | 25% | 15% | 10% |
+| **Max per trade** | $25 | $50 | $100 |
+| **Max concurrent** | 3 | 5 | 10 |
+| **Signal sources** | Edge Scanner only | Edge Scanner + Smart Money | All sources |
+
+## The audit trail
+
+Every decision — executed and skipped — is logged with full context:
+
+<Tabs>
+  <Tab title="Executed Trade">
+    ```
+    ✅ TRADE EXECUTED
+    Market: "Will BTC reach $80K by April?"
+    Side: YES @ $0.31
+    Amount: $75 (Kelly: 35%, capped at max)
+    Signal: Edge Scanner (27% edge, 82 confidence)
+    Agent agreement: 4/4
+    Reasoning: "BTC momentum + institutional inflows..."
+    ```
+  </Tab>
+  <Tab title="Skipped Trade">
+    ```
+    ⏭️ TRADE SKIPPED
+    Market: "Democrats win popular vote"
+    Reason: "Only 2/4 agents agree (minimum: 3)"
+    Signal: Edge Scanner (18% edge, 58 confidence)
+    Detail: "Contrarian and Quant disagree on polling methodology"
+    ```
+  </Tab>
+  <Tab title="Budget Event">
+    ```
+    🛑 BUDGET DEPLETED
+    Remaining: $12.50 (below minimum trade size)
+    Total deployed: $487.50 across 8 positions
+    Action: Auto-Pilot paused. Add funds or close positions to resume.
+    ```
+  </Tab>
+</Tabs>
+
+## Dashboard
+
+The Auto-Pilot dashboard shows:
+
+<CardGroup cols={4}>
+  <Card title="Total P&L" icon="chart-line">
+    Aggregate profit/loss across all Auto-Pilot trades.
+  </Card>
+  <Card title="Win Rate" icon="bullseye">
+    Percentage of resolved Auto-Pilot trades that were profitable.
+  </Card>
+  <Card title="Trades Today" icon="bolt">
+    Number of trades executed in the current day.
+  </Card>
+  <Card title="Budget Deployed" icon="wallet">
+    How much of your total budget is currently in open positions.
+  </Card>
+</CardGroup>
+
+Plus: recent activity log (last 5 decisions), active positions, settings summary, and the **kill switch** — a large, prominent button to pause everything immediately.
+
+## Learning from skips
+
+The "Skipped" entries in the audit log are as valuable as the executed trades. They show you:
+- Why signals didn't qualify (agent disagreement, low confidence, correlation)
+- How your risk settings filtered opportunities
+- Whether you should adjust thresholds up or down
+
+<Tip>
+  Start conservative. Run Auto-Pilot with a small budget ($50-100) for a week. Review the audit trail daily. Understand why it traded and why it didn't. Then adjust settings based on what you learn.
+</Tip>
+
+<Info>
+  Auto-Pilot logs are exportable as CSV for offline analysis. Track your automated strategy's performance over time and iterate on your configuration.
+</Info>

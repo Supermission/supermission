@@ -1,0 +1,32 @@
+{
+  "name": "SUPERMISSION",
+  "short_name": "SUPERMISSION",
+  "description": "The AI-powered DeFi terminal on Base. Swap, lend, earn, and trade prediction markets via chat.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": [
+    "business",
+    "productivity",
+    "finance"
+  ],
+  "scope": "/",
+  "lang": "en-US",
+  "dir": "ltr"
+}

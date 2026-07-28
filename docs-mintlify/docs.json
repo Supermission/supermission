@@ -1,0 +1,208 @@
+{
+  "$schema": "https://mintlify.com/docs/docs.json",
+  "name": "Supermission",
+  "theme": "venus",
+  "colors": {
+    "primary": "#6366f1",
+    "light": "#818cf8",
+    "dark": "#4f46e5",
+    "background": {
+      "light": "#ffffff",
+      "dark": "#0a0a0a"
+    }
+  },
+  "favicon": "/favicon.png",
+  "logo": {
+    "light": "/logo-light.png",
+    "dark": "/logo-dark.png"
+  },
+  "topbarCtaButton": {
+    "name": "Launch Terminal",
+    "url": "https://supermission.fun/markets"
+  },
+  "topbarLinks": [
+    {
+      "name": "Support",
+      "url": "https://t.me/supermissiondotfun"
+    }
+  ],
+  "anchors": [
+    {
+      "name": "Website",
+      "icon": "globe",
+      "url": "https://supermission.fun"
+    },
+    {
+      "name": "Twitter",
+      "icon": "x-twitter",
+      "url": "https://x.com/supaboramern"
+    },
+    {
+      "name": "Telegram",
+      "icon": "paper-plane",
+      "url": "https://t.me/supermissiondotfun"
+    },
+    {
+      "name": "Blog",
+      "icon": "newspaper",
+      "url": "https://supermission.fun/blog"
+    }
+  ],
+  "tabs": [
+    {
+      "name": "Markets",
+      "url": "markets"
+    },
+    {
+      "name": "Trading",
+      "url": "trading"
+    },
+    {
+      "name": "AI Agents",
+      "url": "ai"
+    },
+    {
+      "name": "DeFAI",
+      "url": "defai"
+    },
+    {
+      "name": "Dashboard",
+      "url": "dashboard"
+    },
+    {
+      "name": "Concepts",
+      "url": "concepts"
+    },
+    {
+      "name": "Agent Economy",
+      "url": "agent-economy"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Getting Started",
+      "pages": [
+        "introduction",
+        "getting-started/what-is-supermission",
+        "getting-started/create-account",
+        "getting-started/fund-wallet",
+        "getting-started/first-trade"
+      ]
+    },
+    {
+      "group": "Prediction Markets 101",
+      "pages": [
+        "getting-started/how-markets-work",
+        "getting-started/reading-prices",
+        "getting-started/risk-management",
+        "getting-started/glossary"
+      ]
+    },
+    {
+      "group": "Markets",
+      "pages": [
+        "markets/overview",
+        "markets/browsing-markets",
+        "markets/market-detail",
+        "markets/search-and-filters",
+        "markets/stacked-view",
+        "markets/market-comparison",
+        "markets/market-comments"
+      ]
+    },
+    {
+      "group": "Trading",
+      "pages": [
+        "trading/overview",
+        "trading/market-orders",
+        "trading/limit-orders",
+        "trading/selling-positions",
+        "trading/redeeming-wins",
+        "trading/portfolio",
+        "trading/watchlist",
+        "trading/price-alerts",
+        "trading/orderbook"
+      ]
+    },
+    {
+      "group": "AI Agents",
+      "pages": [
+        "ai/overview",
+        "ai/signals",
+        "ai/signal-feed",
+        "ai/oracle-agent",
+        "ai/whale-intelligence",
+        "ai/alpha-scanner",
+        "ai/auto-pilot"
+      ]
+    },
+    {
+      "group": "DeFAI Terminal",
+      "pages": [
+        "defai/overview",
+        "defai/token-analysis",
+        "defai/yield-scanning",
+        "defai/swaps-and-bridges",
+        "defai/wallet-intelligence",
+        "defai/contract-audit"
+      ]
+    },
+    {
+      "group": "Dashboard",
+      "pages": [
+        "dashboard/overview",
+        "dashboard/wallet-portfolio",
+        "dashboard/token-search",
+        "dashboard/defi-positions",
+        "dashboard/yield-strategies"
+      ]
+    },
+    {
+      "group": "Concepts",
+      "pages": [
+        "concepts/architecture",
+        "concepts/how-ai-works",
+        "concepts/wallet-system",
+        "concepts/polymarket-integration",
+        "concepts/smart-money"
+      ]
+    },
+    {
+      "group": "Agent Economy",
+      "pages": [
+        "agent-economy/overview",
+        "agent-economy/x402",
+        "agent-economy/erc8004",
+        "agent-economy/ap2",
+        "agent-economy/marketplace",
+        "agent-economy/collaborate",
+        "agent-economy/compete",
+        "agent-economy/compute"
+      ]
+    },
+    {
+      "group": "Platform",
+      "pages": [
+        "platform/mobile",
+        "platform/security"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "x": "https://x.com/supaboramern",
+    "linkedin": "https://linkedin.com/company/supermission",
+    "telegram": "https://t.me/supermissiondotfun"
+  },
+  "analytics": {
+    "posthog": {
+      "apiKey": ""
+    }
+  },
+  "feedback": {
+    "thumbsRating": true,
+    "suggestEdit": true
+  },
+  "search": {
+    "prompt": "Search Supermission docs..."
+  }
+}

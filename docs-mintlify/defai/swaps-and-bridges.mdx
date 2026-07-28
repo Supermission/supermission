@@ -1,0 +1,76 @@
+---
+title: "Swaps & Bridges"
+description: "Execute token swaps and cross-chain bridges through conversation. LI.FI routing across 35+ chains with inline execution panels."
+---
+
+# Swaps and bridges
+
+Ask any DeFAI agent to swap tokens or bridge assets, and it prepares an inline execution panel. Routing is handled by **LI.FI**, which aggregates DEX liquidity across 35+ chains to find the optimal path.
+
+## How to use
+
+- `"Swap 100 USDC to ETH on Base"`
+- `"Bridge 500 USDC from Ethereum to Base"`
+- `"How much ETH can I get for 1000 USDC?"`
+
+## Swap flow
+
+<Steps>
+  <Step title="Agent prepares quote">
+    The agent queries LI.FI for the best route, considering slippage, gas costs, and liquidity depth. The result renders as a **DefiSwapQuotePanel** or **SwapExecuteInline**.
+  </Step>
+  <Step title="Quote panel displays">
+    Depending on the response, you see:
+    - **Full quote**: From token → To token with amounts, price impact, gas estimate, route details
+    - **Token price**: Quick price lookup
+    - **Available tokens**: List of tradeable tokens on the selected chain
+    - **Suggestions**: Clickable suggestion chips for follow-up actions
+  </Step>
+  <Step title="Confirm execution">
+    The **SwapExecuteInline** panel shows:
+    - Token icons and symbols for from/to
+    - Exact amounts
+    - Price impact percentage
+    - Gas estimate
+    - Route path
+
+    Click **Confirm** to execute.
+  </Step>
+  <Step title="Multi-step progress">
+    The execution follows these steps:
+    1. **Check** — verify balance and network
+    2. **Approve** — token approval signature (if needed)
+    3. **Execute** — swap transaction
+    4. **Done** — completion with transaction hash
+
+    Each step shows a checkmark (complete), spinner (in progress), or dimmed (pending). The transaction hash links to the block explorer.
+  </Step>
+  <Step title="Feedback message">
+    On success or failure, the agent automatically sends a feedback message to the chat confirming the outcome. Wallet data is refetched to update balances.
+  </Step>
+</Steps>
+
+## Cross-chain bridges
+
+Cross-chain transfers use the same flow but with Circle CCTP or LI.FI bridge routes:
+
+- **Circle CCTP**: USDC transfers between Base ↔ Ethereum ↔ Polygon ↔ Arbitrum. Native USDC bridging with no wrapped tokens.
+- **LI.FI**: Aggregated bridge routes across 35+ chains for any supported token.
+
+The inline panel shows the source chain, destination chain, and estimated transfer time.
+
+## Supported chains
+
+| Chain | Network |
+|-------|---------|
+| **Base** | Default chain (wallet home) |
+| **Robinhood Chain** | Arbitrum Nitro L2 (chain 4663, USDG stablecoin) |
+| **Polygon** | PoS chain (Polymarket) |
+| **Arbitrum** | L2 |
+| **Ethereum** | Mainnet |
+| **Optimism** | L2 |
+| And 30+ more via LI.FI | |
+
+<Tip>
+  For USDC transfers between major chains, Circle CCTP is the most efficient route — native USDC with no wrapped intermediaries. LI.FI automatically selects the best route, but you can specify "bridge via Circle" if you prefer.
+</Tip>

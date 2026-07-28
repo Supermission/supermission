@@ -1,0 +1,61 @@
+---
+title: "Selling Positions"
+description: "Close trades before resolution. Take profits or cut losses — your call."
+---
+
+# Taking money off the table
+
+You don't have to wait for a market to resolve. If you're up (or want to cut a loser), sell your position back to the orderbook.
+
+## How to sell
+
+<Steps>
+  <Step title="Go to Portfolio">
+    Open your [Portfolio](/trading/portfolio). Your active positions are listed as cards, sorted by ending soonest.
+  </Step>
+  <Step title="Hit Sell">
+    Click the **Sell** button on any position card. The sell panel opens with your current position details — shares held, current price, estimated proceeds.
+  </Step>
+  <Step title="Choose amount">
+    Sell all or sell partial. Enter the number of shares to offload.
+  </Step>
+  <Step title="Confirm">
+    Click **Confirm Sell**. The order executes as FAK (Fill-And-Kill) against current orderbook liquidity.
+  </Step>
+</Steps>
+
+## Liquidity check
+
+Before your sell executes, Supermission checks the orderbook depth. If there isn't enough liquidity to fill your full size at a reasonable price, you'll see a warning.
+
+<Warning>
+  Thin markets mean slippage. If the orderbook can only absorb 50 of your 200 shares at the current price, you'll get partial fills at worse prices. On illiquid markets, consider selling in smaller chunks.
+</Warning>
+
+## Sell via Oracle agent
+
+Skip the UI entirely. Tell Oracle:
+
+> "Sell my position in the Fed rate cut market"
+
+Or go broader:
+
+> "Sell all my losing positions"
+
+Oracle checks your portfolio, confirms what it's about to do, and executes after your approval.
+
+<Tip>
+  "Cut your losers early, let your winners run" is a cliche because it's true. If your thesis was wrong, sell. Don't wait for resolution to confirm what you already know.
+</Tip>
+
+## What happens to the USDC?
+
+Sale proceeds land in your Polygon wallet balance immediately. From there you can:
+
+- Re-deploy into another trade
+- Let it sit for the next opportunity
+- Bridge back to Base and withdraw
+
+<Info>
+  Selling is not the same as [redeeming](/trading/redeeming-wins). Selling closes a position before resolution at market price. Redeeming converts winning shares to $1.00 each after resolution. Know the difference.
+</Info>

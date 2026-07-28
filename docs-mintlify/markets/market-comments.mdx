@@ -1,0 +1,32 @@
+---
+title: "Market Comments"
+description: "Community discussion threads on each market. See what other traders are thinking."
+---
+
+# Market comments
+
+Each market has a comments section in the detail panel. This is where the community discusses the market — sharing analysis, debating outcomes, and flagging new information.
+
+## What you see
+
+Comments are rendered as **threaded discussions**:
+
+| Element | Description |
+|---------|-------------|
+| **Author** | Wallet address (truncated to first 6 and last 4 characters) |
+| **Timestamp** | Relative time ("2 hours ago", "3 days ago") |
+| **Content** | The comment text |
+| **Likes** | Like count for the comment |
+| **Replies** | Nested reply threads, indented under the parent comment |
+
+## How it works
+
+The `useMarketComments` hook fetches comments for the current market's `condition_id`. Comments load when the detail panel opens and display below the orderbook and price chart sections.
+
+## Loading states
+
+While comments load, animated skeleton placeholders with shimmer effects appear. If no comments exist, an empty state message is shown.
+
+<Info>
+  Comments are community-generated and unmoderated. They may contain opinions, speculation, or misinformation. Always verify claims independently — especially before trading based on another trader's analysis.
+</Info>

@@ -1,0 +1,116 @@
+---
+title: "Supermission"
+description: "The AI-powered prediction market terminal. Research, signals, execution — all in one place. Built on Polymarket's $44B+ liquidity."
+---
+
+<img
+  className="block dark:hidden"
+  src="/images/hero-light.png"
+  alt="Supermission Terminal"
+  style={{ borderRadius: '8px' }}
+/>
+<img
+  className="hidden dark:block"
+  src="/images/hero-dark.png"
+  alt="Supermission Terminal"
+  style={{ borderRadius: '8px' }}
+/>
+
+# The prediction market terminal that trades for you
+
+Supermission is what happens when you give AI agents access to 4,500+ prediction markets and tell them to find alpha. Four independent AI agents research every market — debating news, sentiment, on-chain data, and historical patterns. A judge synthesizes. You see the reasoning, not just a number.
+
+We built the terminal we wanted as traders: real-time AI signals, one-click execution, whale tracking, and agents that actually understand market dynamics.
+
+<CardGroup cols={4}>
+  <Card title="Website" icon="globe" href="https://supermission.fun">
+    Launch the terminal
+  </Card>
+  <Card title="Twitter" icon="x-twitter" href="https://x.com/supaboramern">
+    Follow for updates
+  </Card>
+  <Card title="Telegram" icon="paper-plane" href="https://t.me/supermissiondotfun">
+    Join the community
+  </Card>
+  <Card title="Blog" icon="newspaper" href="https://supermission.fun/blog">
+    Read our latest
+  </Card>
+</CardGroup>
+
+## Get started in under 2 minutes
+
+<CardGroup cols={3}>
+  <Card title="Create Account" icon="user-plus" href="/getting-started/create-account">
+    Email signup, smart wallet auto-created. No seed phrases, no gas fees.
+  </Card>
+  <Card title="Fund Wallet" icon="wallet" href="/getting-started/fund-wallet">
+    Send USDC on Base. Auto-bridging handles the rest.
+  </Card>
+  <Card title="Place First Trade" icon="rocket" href="/getting-started/first-trade">
+    Browse markets, pick a side, confirm. You're trading.
+  </Card>
+</CardGroup>
+
+## What makes Supermission different
+
+Most prediction market tools are dashboards. You stare at numbers, maybe get an alert, then manually click through 5 screens to place a trade.
+
+Supermission is a **terminal**. The AI does the research. You make the call. The agent executes.
+
+<Steps>
+  <Step title="AI researches markets 24/7">
+    4 AI agents — Bull, Bear, Contrarian, Quant — independently analyze every market using news, social sentiment, and on-chain data. They debate. A judge synthesizes. You see the reasoning, not just a number.
+  </Step>
+  <Step title="Signals surface the alpha">
+    When the AI disagrees with the market — that's your edge. We show you exactly where our confidence diverges from the crowd, ranked by opportunity size and conviction.
+  </Step>
+  <Step title="One conversation to trade">
+    Tell Oracle "buy $50 on YES for the Fed market" and it's done. No clicking through menus. No switching chains. No managing gas.
+  </Step>
+</Steps>
+
+## The terminal at a glance
+
+The header navigation gives you access to every section of the platform:
+
+| Section | What it does |
+|---------|-------------|
+| **[Markets](/markets/overview)** | Browse 4,500+ prediction markets with real-time prices, AI signals, category filtering, and inline trading. The main terminal view with 5 tabs: Browse, Agent, Signals, Portfolio, Watchlist. |
+| **[DeFAI](/defai/overview)** | Chat-based DeFi terminal. 5 specialized AI agents for token analysis, contract audits, yield scanning, wallet intelligence, and image generation. Execute swaps, deposits, and bridges through conversation. |
+| **[Security](/defai/contract-audit)** | Dedicated smart contract audit interface. Paste a contract address, get vulnerability analysis with severity ratings, code snippets, and AI recommendations. Optional deep audit with Nemesis + Pashov. |
+| **[Dashboard](/dashboard/overview)** | Portfolio analytics hub. Multi-chain wallet overview with token balances, sparkline charts, DeFi position management, yield strategies, and AI-powered wallet analysis. |
+
+## Explore by what you want to do
+
+<CardGroup cols={2}>
+  <Card title="Trade prediction markets" icon="chart-line" href="/markets/overview">
+    Browse markets, place orders, manage positions. The full prediction market terminal with real-time data and AI signals.
+  </Card>
+  <Card title="Get AI signals" icon="brain" href="/ai/overview">
+    Multi-agent predictions, signal feed, whale tracking. Let the AI find mispricings while you decide whether to act.
+  </Card>
+  <Card title="Use DeFi agents" icon="robot" href="/defai/overview">
+    Token due diligence, yield scanning, contract audits, wallet analysis — all through chat. One-click execution for swaps and deposits.
+  </Card>
+  <Card title="Analyze your portfolio" icon="chart-pie" href="/dashboard/overview">
+    Multi-chain wallet view, token analytics, DeFi position tracking, and AI-generated yield strategies.
+  </Card>
+</CardGroup>
+
+## The stack
+
+Built on **Base**, **Polygon**, and **Robinhood Chain** — an Arbitrum-based Ethereum Layer 2 built for tokenized real-world assets. Trades execute on Polymarket's orderbook — the deepest liquidity in prediction markets ($44B+ lifetime volume). Your wallet is a Privy-managed MPC smart account — no seed phrases, no gas management, email login.
+
+| Layer | Technology | Purpose |
+|-------|------------|---------|
+| **Frontend** | Next.js 15, React 19, TypeScript | App Router, React Server Components, Tailwind CSS, Framer Motion |
+| **Wallet** | Privy MPC | Non-custodial smart wallets with email auth, sponsored gas |
+| **Trading** | Polymarket CLOB | Direct orderbook execution, FAK and GTC orders |
+| **AI** | OpenRouter, Vercel AI SDK | 4-agent debate system, streaming responses, tool calling |
+| **Data** | Supabase PostgreSQL | Market catalog, signals, positions, sessions |
+| **Bridging** | Circle CCTP | Automatic USDC bridging between Base and Polygon |
+| **DeFi** | Uniswap V3, Morpho, LI.FI | Swaps, LP management, lending, cross-chain routing |
+
+<Info>
+  Supermission is in beta. You're early. Things move fast. If something breaks, the Oracle agent probably knows about it before we do.
+</Info>

@@ -1,0 +1,100 @@
+---
+title: "AP2 Mandates"
+description: "Verifiable payment credentials for autonomous agent spending. From human intent to settlement — a cryptographic accountability chain."
+---
+
+# AP2: verifiable payment mandates
+
+When an AI agent spends money autonomously, someone needs to answer: who authorized this? AP2 (Agent Payment Protocol v2) creates a cryptographic chain of accountability from human intent to final settlement.
+
+Three mandate types cover the full spectrum — from broad pre-authorization to specific cart review to final payment settlement. Each is EIP-712 signed and independently verifiable.
+
+## The accountability chain
+
+```
+Human Intent ──→ Cart Review ──→ Payment Settlement
+(pre-authorize)   (confirm items)   (settle on-chain)
+```
+
+Every mandate links to its predecessors, creating a tamper-proof audit trail of who authorized what, when, and under what constraints.
+
+## Intent mandate
+
+**"I authorize this agent to spend up to $50 on GPU compute."**
+
+The intent mandate is a human pre-authorization. It sets the boundaries — what the agent can buy, from whom, and how much it can spend — before any transaction happens.
+
+| Field | Description |
+|-------|-------------|
+| `naturalLanguageDescription` | Human-readable intent (e.g., "Buy GPU compute, up to $50") |
+| `merchants` | Optional whitelist of allowed recipients |
+| `skus` | Optional whitelist of allowed items/services |
+| `maxAmount` | Maximum spend authorized |
+| `userCartConfirmationRequired` | Whether the human must review items before purchase |
+| `requiresRefundability` | Whether the merchant must support refunds |
+| `expiry` | When the authorization expires (default: 1 hour) |
+
+Signed by the human via EIP-712. The agent holds this credential as proof of authority.
+
+## Cart mandate
+
+**"I've reviewed the items. Proceed with this purchase."**
+
+The cart mandate is created when a human reviews specific items before the agent completes a purchase. It bridges intent and payment — confirming that the human saw and approved the specific transaction.
+
+| Field | Description |
+|-------|-------------|
+| `items` | Array of specific items: SKU, name, quantity, unit price |
+| `totalAmount` | Exact total for this cart |
+| `merchantAddress` | The specific seller's wallet |
+| `linkedIntentMandateId` | Links back to the authorizing intent |
+| `expiry` | When this cart approval expires |
+
+Requires signatures from both the merchant and the user. This is the "human-present" checkpoint.
+
+## Payment mandate
+
+**"Settlement credential linking intent, cart, and payment."**
+
+The payment mandate is the final settlement-ready credential. It ties the full chain together — intent + cart + payment details — into a single verifiable document.
+
+| Field | Description |
+|-------|-------------|
+| `totalAmount` | Final settlement amount |
+| `merchantAgentId` | The recipient agent |
+| `linkedMandates` | References to intent and cart mandate IDs |
+| `transactionModality` | `human-present` or `human-not-present` |
+| `aiAgentPresent` | Whether an AI agent is executing the payment |
+
+## Verification
+
+Any party can verify a mandate chain by checking:
+
+1. **Signature validity** — EIP-712 signatures match the claimed signers
+2. **Expiry** — mandate hasn't expired
+3. **Amount limits** — payment doesn't exceed intent authorization
+4. **Merchant authorization** — recipient is on the allowed list (if set)
+5. **Chain integrity** — cart links to intent, payment links to both
+
+## Status lifecycle
+
+Every mandate moves through a defined lifecycle:
+
+```
+active → used → expired
+         ↘ revoked
+```
+
+Mandates can be revoked at any time by the issuer. Once used, they cannot be replayed.
+
+## Why mandates matter
+
+As agents handle larger budgets autonomously, the question shifts from "can the agent pay?" to "should the agent pay?" AP2 mandates answer this with cryptographic proof rather than trust.
+
+- **Auditable** — every spend has a verifiable chain back to human authorization
+- **Composable** — wallets, protocols, and regulators can verify mandates independently
+- **Graduated autonomy** — set broad intents for trusted agents, require cart review for new ones
+
+<Note>
+  Full API reference for AP2 mandate endpoints (`/api/agent-economy/mandate/*`) is coming soon.
+</Note>

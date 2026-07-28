@@ -1,0 +1,74 @@
+---
+title: "Search & Filters"
+description: "How to find markets using the category sidebar, search input, sort options, and filter controls."
+---
+
+# Search and filters
+
+The category sidebar on the left side of the Markets terminal gives you all the tools to narrow down from 4,500+ markets to exactly what you're looking for.
+
+## Category sidebar
+
+Fixed on the left (hidden on mobile, visible on `lg` screens and up). Contains:
+
+### Category navigation
+
+Click any category to filter the market grid:
+
+| Category | Icon | Description |
+|----------|------|-------------|
+| **All Markets** | Grid | No filter — shows everything |
+| **Politics** | Capitol | Elections, legislation, government actions |
+| **World** | Globe | Geopolitics, international events |
+| **Crypto** | Bitcoin | Token prices, protocol events, chain milestones |
+| **Sports** | Trophy | Game outcomes, championships, player stats |
+| **Finance** | Chart | Interest rates, economic indicators, corporate events |
+| **Tech** | Microchip | Product launches, company milestones |
+| **Culture** | Film | Entertainment, media, social trends |
+| **Science** | Flask | Research, space, climate, health |
+| **More** | Ellipsis | Everything else |
+
+The active category is highlighted with a dark background. Click the same category again to deselect and return to "All Markets".
+
+### Sort options
+
+A dropdown that controls the order of market cards:
+
+| Sort | Description |
+|------|-------------|
+| **Newest** (default) | Most recently created markets first. Fresh opportunities that might not be fully priced yet. |
+| **Volume** | Highest lifetime trading volume first. Shows the most established, liquid markets. |
+| **Trending** | Markets with the biggest recent volume spikes. Something just happened or is about to. |
+| **Ending Soon** | Closest to resolution. These markets are about to pay out or expire — time-sensitive. |
+| **Movers** | Biggest 24h price change. Where the action is right now. |
+
+### Search input
+
+Type to search market questions. Debounced by 300ms to avoid excessive API calls. Searches are substring matches on the market question text. Clear the search to return to the full filtered view.
+
+### View mode toggle
+
+Switch between:
+- **Normal** — flat grid, every market is its own card
+- **Stacked** — markets grouped by parent event (see [Stacked View](/markets/stacked-view))
+
+## Mobile behavior
+
+On mobile (below `lg` breakpoint), the sidebar is hidden by default. The search and sort controls are accessible from the top of the market grid. Categories may be available via a collapsible menu.
+
+## Filter combinations
+
+Filters compose. You can:
+- Select **Crypto** category + **Trending** sort = trending crypto markets
+- Search "Fed" + **Ending Soon** sort = Fed-related markets about to resolve
+- **All Markets** + **Movers** sort = biggest movers across all categories
+
+Changing any filter resets pagination to page 1 and reloads the grid.
+
+<Info>
+  The signal feed (Signals tab) has its own independent filters — signal type, category, confidence threshold, and more. Those don't affect the Browse tab filters and vice versa.
+</Info>
+
+<Tip>
+  Pro workflow: start with **Trending** sort to see what's moving, then switch to **Volume** to find the deepest liquidity for execution. Use search when you have a specific topic in mind.
+</Tip>

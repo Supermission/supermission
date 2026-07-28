@@ -1,0 +1,75 @@
+---
+title: "Smart Money Tracking"
+description: "How Supermission identifies, tracks, and analyzes profitable prediction market wallets."
+---
+
+# Following the smart money
+
+Smart money tracking identifies the most profitable Polymarket wallets and monitors their trading activity in real-time. When a wallet with a 72% win rate and +$45K PnL buys into a market, that's worth knowing.
+
+## How it works
+
+<Steps>
+  <Step title="Wallet identification">
+    Supermission tracks 100-200 of the most profitable wallets on Polymarket based on historical PnL, win rate, and trading consistency.
+  </Step>
+  <Step title="Continuous monitoring">
+    When a tracked wallet places a trade, Supermission detects it via the Polymarket Data API.
+  </Step>
+  <Step title="AI thesis generation">
+    For each detected trade, an AI agent generates a thesis explaining WHY the wallet likely traded — combining market context, recent news, and the wallet's historical patterns.
+  </Step>
+  <Step title="Signal surfaced">
+    The smart money move appears in the Whale Intelligence panel with wallet stats, trade details, and the AI-generated thesis.
+  </Step>
+</Steps>
+
+## Wallet classification
+
+Each tracked wallet is classified by trading style:
+
+| Style | Pattern | Description |
+|-------|---------|-------------|
+| **Sniper** | Fast in, fast out | Takes quick positions on breaking news, typically sells before resolution |
+| **Accumulator** | Slow buildup | Gradually builds large positions over days/weeks, holds to resolution |
+| **Contrarian** | Fades the crowd | Consistently bets against consensus, profits from market overreactions |
+| **Momentum** | Follows trends | Enters when price is already moving, rides the wave |
+
+## Smart money card anatomy
+
+Each smart money move displays:
+
+1. **Wallet header** — Anonymized identifier, win rate badge, PnL badge, trading style tag
+2. **Trade action** — "Bought YES @ 31¢" or "Sold NO @ 82¢"
+3. **Market question** — The market they traded
+4. **AI thesis** — 3-5 sentence explanation of probable reasoning
+5. **Wallet stats** — Win rate %, total PnL, average trade size
+6. **Time** — When the trade was detected
+7. **Trade along button** — Execute the same trade with one click
+
+## AI thesis example
+
+> This wallet (72% win rate, +$45K PnL) just bought YES at 31¢ on "Will BTC reach $80K by April?" Their thesis is likely momentum-driven: BTC up 12% this week with strong institutional inflows. The wallet has a pattern of entering crypto markets early when momentum signals align. Current market odds (31%) appear to underweight the probability given recent price action.
+
+## What this is NOT
+
+<Warning>
+  Smart money tracking is not "copy trading." Large holders can be wrong, can be hedging other positions, or can have time horizons completely different from yours.
+
+  Use whale data as one input among many — alongside [AI signals](/ai/signals) and the multi-agent analysis behind them. The AI thesis is a hypothesis, not a guarantee.
+</Warning>
+
+## The strongest setup
+
+When both intelligence layers align:
+
+| Layer | Signal |
+|-------|--------|
+| **AI Signal** | Multi-agent system finds meaningful price divergence with high conviction and agent agreement |
+| **Smart Money** | Profitable wallets positioning in the same direction |
+
+This double confirmation is the highest-probability setup Supermission can surface.
+
+<Tip>
+  Pay special attention when a Contrarian-style wallet agrees with the AI's thesis. If even the "fade the crowd" wallet is going with the consensus, the evidence is likely overwhelming.
+</Tip>

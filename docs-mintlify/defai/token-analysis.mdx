@@ -1,0 +1,87 @@
+---
+title: "Token Analysis"
+description: "Comprehensive token due diligence with risk scoring, market data, security analysis, and AI-generated investment verdicts."
+---
+
+# Token due diligence
+
+The **Token Analysis** agent (ID: `token-due-diligence`) performs comprehensive token research. Give it any token symbol or address and it returns a full due diligence report with risk scoring, market data, security analysis, and an AI-generated investment verdict.
+
+## How to use
+
+Select the Token Analysis agent, then ask:
+
+- `"Analyze $ETH: fundamentals, risks, and outlook"`
+- `"Due diligence on $PEPE: is it a solid hold?"`
+- `"Compare $ARB vs $OP: which L2 token is stronger?"`
+- Or paste any token contract address with a chain selection
+
+### Parameter request
+
+If the agent needs more information (e.g., which chain for a contract address), a **ParamRequestPanel** appears with:
+- **Chain selector** — dropdown of popular chains (Base, Ethereum, Polygon, Arbitrum, Optimism, etc.)
+- **Analysis type selector** — specific to Token DD
+- Submit button with validation
+
+## Result panel: TokenDDResultPanel
+
+The result renders as a rich interactive panel inside the chat bubble (max-width: 24rem):
+
+### Header
+
+| Element | Description |
+|---------|-------------|
+| **Token logo** | Fetched from token metadata |
+| **Token name + symbol** | With verified badge if applicable |
+| **Current price** | USD price with 24h change (green/red) |
+| **Social links** | Website and Twitter links (if available) |
+| **Address** | Click to copy, Alt+click to open block explorer |
+
+### Risk gauge
+
+A **speedometer-style gauge** showing the overall risk score:
+- **0-25**: Low risk (green)
+- **25-50**: Moderate risk (yellow)
+- **50-75**: High risk (orange)
+- **75-100**: Critical risk (red)
+
+Below the gauge: a **verdict banner** with the AI's recommendation:
+- **BUY** — green, favorable risk/reward
+- **HOLD** — amber, maintain current position
+- **SELL** — orange, reduce exposure
+- **AVOID** — red, significant risk factors
+
+### Tabbed content
+
+Five tabs of detailed analysis:
+
+<Tabs>
+  <Tab title="Overview">
+    Summary of the token's fundamentals, market position, and key metrics. AI-generated narrative explaining the investment thesis and primary risk factors.
+  </Tab>
+  <Tab title="Market">
+    Market data: price, market cap, 24h volume, circulating supply, fully diluted valuation. Price charts and historical performance metrics.
+  </Tab>
+  <Tab title="Security">
+    Contract security analysis: verified source code status, owner privileges, minting capabilities, proxy patterns, known vulnerabilities. Risk flags highlighted.
+  </Tab>
+  <Tab title="Details">
+    Token metadata: contract address, chain, decimals, total supply, holder count. On-chain metrics: transfer volume, unique holders, concentration risk.
+  </Tab>
+  <Tab title="Chart">
+    Embedded DexScreener chart for the token — full interactive candlestick chart with volume overlay, timeframe selection, and technical indicators.
+  </Tab>
+</Tabs>
+
+## Data sources
+
+The agent aggregates data from four specialized sources:
+- **CoinGecko** — token identity (name, logo, social links, metadata)
+- **1inch** — real-time price data, market cap, fully diluted valuation, 24h volume, percentage changes
+- **GoPlus Security** — smart contract vulnerability scanning, holder concentration analysis, risk flags
+- **CoinDesk** — OHLCV candle data for interactive charting and historical price analysis
+- **AI analysis** — LLM-powered narrative generation, risk scoring, and investment verdict
+
+<Tip>
+  Token Analysis works best with well-known tokens that have significant on-chain activity. For very new or obscure tokens, the data may be limited — always cross-reference with your own research.
+</Tip>

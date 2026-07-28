@@ -1,0 +1,69 @@
+---
+title: "AI Signals"
+description: "Multi-agent predictions with sourced reasoning. Your alpha feed."
+---
+
+# When the AI disagrees with the market
+
+A signal fires when Supermission's AI system calculates a probability that meaningfully diverges from the current market price. That divergence is your potential edge.
+
+Signals aren't tips. They're reasoned analyses with sources, confidence scores, and full transparency into how the AI reached its conclusion.
+
+## Three signal types
+
+<CardGroup cols={3}>
+  <Card title="Sentiment" icon="brain">
+    AI's independent probability estimate based on news, social data, and fundamentals. Fires when AI confidence diverges from market price.
+  </Card>
+  <Card title="Momentum" icon="arrow-trend-up">
+    Price action confirms what sentiment already predicted. The market is moving toward the AI's estimate. Trend-following signal.
+  </Card>
+  <Card title="Spot Price" icon="bitcoin">
+    Crypto-specific. Triggers when a token crosses a threshold relevant to a prediction market (e.g., BTC above $100k triggers related market signals).
+  </Card>
+</CardGroup>
+
+## How signals are generated
+
+This isn't a single model guessing. It's a 4-agent system:
+
+<Steps>
+  <Step title="Independent analysis">
+    Four AI agents — Bull, Bear, Contrarian, and Quant — independently analyze the market. Each has different biases and data priorities. They don't see each other's work.
+  </Step>
+  <Step title="Evidence gathering">
+    Each agent pulls from news feeds, social sentiment, on-chain data, and historical patterns. Every claim is sourced.
+  </Step>
+  <Step title="Debate synthesis">
+    A judge agent reviews all four analyses, weighs the arguments, and produces a final probability estimate with confidence score.
+  </Step>
+  <Step title="Signal emission">
+    If the synthesized probability diverges meaningfully from market price, a signal fires with direction (YES/NO), confidence (0-100), and the full reasoning chain.
+  </Step>
+</Steps>
+
+## Confidence scores
+
+Every signal carries a confidence score from 0 to 100:
+
+| Range | Meaning |
+|-------|---------|
+| 80-100 | Strong conviction. Agents largely agree. Evidence is clear. |
+| 60-79 | Moderate conviction. Some disagreement between agents. |
+| 40-59 | Low conviction. Significant agent disagreement. Proceed with caution. |
+
+## Filtering signals
+
+The signal feed can be filtered by:
+
+- **Category** — Politics, Crypto, Sports, Finance, etc.
+- **Confidence** — Minimum threshold slider
+- **Volume** — Filter out thin markets where execution is harder
+
+<Tip>
+  High confidence + high volume + large divergence from market price = the strongest setups. That's the trifecta. Most traders filter to 70+ confidence and sort by edge size.
+</Tip>
+
+<Warning>
+  Signals are analysis, not financial advice. The AI is good, but markets are adversarial. Always understand the reasoning before trading on a signal — that's why we show the full chain.
+</Warning>

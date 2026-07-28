@@ -1,0 +1,53 @@
+---
+title: "Mobile Experience"
+description: "Full trading terminal in your pocket. Responsive, fast, no compromises."
+---
+
+# Trade from anywhere
+
+Supermission is fully responsive. Not "mobile-friendly" in the way that means "we shrunk the desktop site and hoped for the best." The entire interface adapts — layouts, navigation, interactions — to work properly on a phone.
+
+## What changes on mobile
+
+<CardGroup cols={2}>
+  <Card title="Single Column Layout" icon="mobile">
+    Market cards stack vertically in a single column. No cramped 2-column grids. Each card is full-width and tappable.
+  </Card>
+  <Card title="Bottom Navigation" icon="bars">
+    Main sections — Markets, DeFAI, Security, Dashboard, Blog — are accessible from a bottom nav bar. Thumb-friendly. Always visible.
+  </Card>
+  <Card title="Sidebar Toggle" icon="sidebar">
+    Chat history and agent conversations collapse into a toggleable sidebar. Swipe or tap to open. Full screen for the conversation when open.
+  </Card>
+  <Card title="Responsive Order Panel" icon="rectangle-list">
+    The trade panel slides up from the bottom as a sheet. Enter amount, confirm, done. Designed for one-handed use.
+  </Card>
+</CardGroup>
+
+## What works on mobile
+
+Everything. Specifically:
+
+- **Market browsing and search** — full grid with filters
+- **Market orders and limit orders** — same flow, adapted layout
+- **Portfolio dashboard** — position cards, P&L, trade history
+- **Oracle agent** — chat and trade from your phone
+- **Delphi agent** — DeFi research on the go
+- **AI signals** — signal feed and analysis, scrollable on smaller screens
+- **Watchlist** — bookmark and manage from anywhere
+
+<Info>
+  The Oracle agent is arguably better on mobile than desktop. Quick trades via text are faster than navigating through screens with your thumb. "Buy $20 on YES for the Fed market" — done.
+</Info>
+
+## Performance
+
+The app is built on Next.js with optimized bundles. Market data streams via Server-Sent Events (SSE) for real-time price updates without polling. Pages load fast, even on spotty connections.
+
+<Tip>
+  Add Supermission to your home screen for an app-like experience. On iOS: Safari share button, "Add to Home Screen." On Android: Chrome menu, "Install app." You get full-screen mode without the browser chrome.
+</Tip>
+
+<Warning>
+  Price alerts require the app to be in the foreground or installed as a PWA. Background notifications aren't supported yet — if you need to catch a move, keep the tab open.
+</Warning>

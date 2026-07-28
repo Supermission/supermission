@@ -1,0 +1,97 @@
+---
+title: "Signal Feed"
+description: "The dedicated, filterable feed of all active AI signals. Filter by type, category, confidence. Cursor-based pagination for efficient browsing."
+---
+
+# Signal feed
+
+The **Signals** tab in the Markets terminal shows a dedicated feed of all markets where the AI has found a meaningful divergence from the current price. Unlike the AI Pick badges on market cards (which are just indicators), the signal feed shows full signal data with rich filtering.
+
+## Signal card anatomy
+
+Each **SignalFeedCard** displays:
+
+| Element | Description |
+|---------|-------------|
+| **Type badge** | Signal type with color: **Sentiment** (purple), **Momentum** (amber), **Spot Price** (cyan) |
+| **Top gradient** | Color gradient background matching the signal type |
+| **Market question** | Truncated market question text |
+| **Confidence bar** | 0-100% horizontal bar showing AI confidence level |
+| **Live price** | Current YES/NO price from SSE feed |
+| **AI Pick badge** | Which outcome the AI favors (YES/NO) |
+| **Favorite outcome** | Badge showing the AI's recommended side |
+| **Asset tag** | If crypto-related, shows the asset symbol |
+| **Trade button** | Animated button that opens the market for trading |
+
+### Card animations
+
+- **Dealt layout**: Cards cascade from the top with spring physics (stagger delay per card)
+- **Grid layout**: Cards fade in with scale-up animation
+- **Hover**: Card lifts with shadow enhancement
+
+## Filters
+
+The signal feed has independent filters at the top:
+
+### Signal type filter
+
+| Type | Description |
+|------|-------------|
+| **ALL** | Show all signal types |
+| **SENTIMENT** | AI's independent probability based on news, social data, and fundamentals. Fires when AI confidence diverges from market price. |
+| **MOMENTUM** | Price action has moved in the direction the AI predicted. The market is confirming the AI's thesis. Trend-following signal. |
+| **SPOT_PRICE** | Crypto-specific. A token crosses a threshold relevant to a prediction market (e.g., BTC above $100K triggers related market signals). |
+
+### Category filter
+
+Dropdown with all available market categories. Filters signals to only show markets in the selected category.
+
+### Info modal
+
+A "?" button that opens an explanatory modal describing each signal type in detail.
+
+## Sorting
+
+| Sort | Description |
+|------|-------------|
+| **Confidence** (default) | Highest AI confidence first. The signals the AI is most sure about. |
+| **Volume** | Highest market volume first. Ensures you're looking at liquid markets. |
+| **Ending Soon** | Closest to resolution first. Time-sensitive opportunities. |
+| **Price Change** | Biggest 24h movers first. Where the action is right now. |
+
+## Pagination
+
+The signal feed uses **cursor-based infinite pagination**:
+- Page size: 50 signals per page
+- Cursor format: `{confidence}:{condition_id}` for stable ordering
+- More signals load as you scroll near the bottom
+- Total signal count displayed at the top
+
+## Data pipeline
+
+The signal feed has its own data pipeline:
+
+1. **API**: `GET /api/signals/feed` with query params for all filters
+2. **Server**: Queries `market_signals` table, joins with `market_catalog` for enrichment
+3. **Caching**: 2-minute server-side cache on the feed (skipped for cursor requests), 5-minute cache on total count
+4. **Post-filtering**: Tags (OR match), keyword search, date range, minimum volume, sentiment, trending status are all applied after the initial query
+5. **Hook**: `useSignalFeed` manages the infinite query state, parses results, memoizes for performance
+6. **Enrichment**: Each signal is enriched with live prices from the SSE price pool
+
+## Signal data model
+
+Each signal contains:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `condition_id` | string | Market identifier |
+| `signal_type` | `sentiment` \| `momentum` \| `spot_price` | Type of signal |
+| `signal_value` | object | JSON blob containing the full signal payload — includes sentiment direction, favourite outcome, AI reasoning, and source data |
+| `confidence` | number (0-100) | AI confidence score |
+| `expires_at` | timestamp | When the signal expires |
+
+The feed API enriches each signal with live market data: question, category, live YES/NO prices (from SSE), volume, 24h volume, liquidity, and end date.
+
+<Tip>
+  The most profitable setup: sort by Confidence, filter to 70+, and cross-reference with the signal's reasoning in the detail panel. High confidence + high agent agreement + large edge = the trifecta. Most traders find 2-3 actionable signals per day using this filter.
+</Tip>

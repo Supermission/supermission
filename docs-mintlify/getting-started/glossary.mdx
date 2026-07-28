@@ -1,0 +1,335 @@
+---
+title: "Glossary"
+description: "Every term you'll encounter on Supermission, explained in plain English. No jargon. No assumptions. Start here if you're new to crypto or prediction markets."
+---
+
+# Glossary
+
+New to crypto, DeFi, or prediction markets? This page explains every term you'll see on Supermission in plain language. Bookmark it — you'll probably come back.
+
+---
+
+## Prediction markets
+
+<Accordion title="Prediction Market">
+  A prediction market is like a stock market, but instead of buying shares of a company, you're buying shares of an **outcome**. "Will Bitcoin hit $100K by June?" is a market. You can buy YES or NO. If you're right, each share pays $1. If you're wrong, it pays $0.
+
+  Think of it as betting on the future — except the "odds" are set by real people putting real money behind their beliefs, not by a bookie. This makes prediction markets surprisingly accurate at forecasting events.
+</Accordion>
+
+<Accordion title="YES / NO Shares">
+  Every prediction market has two sides: **YES** (the event happens) and **NO** (it doesn't). These are actual digital tokens you buy and sell.
+
+  - A YES share at **$0.65** means the market thinks there's a **65% chance** the event happens
+  - A NO share at **$0.35** means the market thinks there's a **35% chance** it doesn't happen
+  - YES price + NO price always equals approximately **$1.00**
+
+  If the event happens, YES shares pay $1 each. NO shares pay $0. Vice versa if it doesn't happen.
+</Accordion>
+
+<Accordion title="Resolution">
+  When a prediction market **resolves**, the outcome is determined — did the event happen or not? An oracle (usually the UMA Optimistic Oracle on Polymarket) verifies the real-world outcome. After resolution:
+
+  - **Winning shares** → worth $1.00 each (you can redeem them for USDC)
+  - **Losing shares** → worth $0.00 (they disappear from your portfolio)
+
+  Resolution is based on objective criteria defined when the market was created — not opinions.
+</Accordion>
+
+<Accordion title="Polymarket">
+  **Polymarket** is the largest prediction market platform in the world, with over $44 billion in lifetime trading volume. It's where all Supermission trades actually execute.
+
+  Think of Polymarket as the stock exchange, and Supermission as your Bloomberg Terminal — the powerful interface you use to research and trade on that exchange.
+</Accordion>
+
+<Accordion title="Orderbook / CLOB">
+  **CLOB** stands for Central Limit Order Book. It's the system that matches buyers and sellers.
+
+  When you want to buy YES at $0.65, and someone else wants to sell YES at $0.65, the orderbook matches you. It's the same system used by stock exchanges like the NYSE — just applied to prediction markets.
+
+  Supermission trades on Polymarket's CLOB, which has the deepest prediction market liquidity globally.
+</Accordion>
+
+<Accordion title="Liquidity">
+  **Liquidity** is how much you can buy or sell without moving the price.
+
+  - **High liquidity** = you can trade large amounts and the price barely moves. Your $500 order fills at roughly the displayed price.
+  - **Low liquidity** = even small trades push the price. Your $500 order might fill at a much worse average price (this is called **slippage**).
+
+  Rule of thumb: stick to markets with high volume for better execution.
+</Accordion>
+
+<Accordion title="Spread">
+  The **spread** is the gap between the best buy price and the best sell price.
+
+  If the best price to buy YES is $0.66 and the best price to sell YES is $0.64, the spread is $0.02. Tighter spread = healthier market. Wide spread = you're paying a premium to get in and out.
+</Accordion>
+
+<Accordion title="Volume">
+  **Volume** is the total amount of money that's been traded in a market. It's measured in USDC (a dollar-equivalent cryptocurrency).
+
+  - **Lifetime volume** = total ever traded (e.g., $10M means thousands of traders have been through this market)
+  - **24h volume** = traded in the last day (shows how active the market is *right now*)
+
+  Higher volume generally means better prices and less slippage.
+</Accordion>
+
+---
+
+## Order types
+
+<Accordion title="Market Order (FAK)">
+  A **market order** buys or sells immediately at the best available price. You click a button, and the trade executes right now.
+
+  **FAK** stands for **Fill-And-Kill** — it fills as much as possible at current prices and cancels any leftover amount. You're guaranteed speed but not a specific price.
+
+  Use when: you want in or out NOW and the market is liquid.
+</Accordion>
+
+<Accordion title="Limit Order (GTC)">
+  A **limit order** says "I'll buy/sell at THIS price or better — and I'll wait." Your order sits on the orderbook until someone takes the other side, or you cancel it.
+
+  **GTC** stands for **Good-Till-Cancel** — it stays there indefinitely until filled or cancelled.
+
+  Use when: you want a better price than what's currently available and you're patient.
+</Accordion>
+
+<Accordion title="Slippage">
+  **Slippage** is the difference between the price you expected and the price you actually got.
+
+  If YES is showing $0.65 but you buy a large amount, your order eats through multiple price levels in the orderbook and you might end up paying $0.67 on average. That $0.02 difference is slippage.
+
+  Supermission sets a 2.5% slippage tolerance by default to protect you from excessive slippage.
+</Accordion>
+
+---
+
+## Crypto & blockchain basics
+
+<Accordion title="Blockchain">
+  A **blockchain** is a public, permanent record of transactions that no single person controls. Think of it like a shared Google Sheet that everyone can read but nobody can secretly edit.
+
+  When you make a trade on Supermission, it gets recorded on a blockchain — which means it's transparent, verifiable, and can't be reversed or faked.
+</Accordion>
+
+<Accordion title="Wallet">
+  A **crypto wallet** is like a bank account for cryptocurrency. It has an **address** (like an account number, starts with `0x`) and a **private key** (like a password that proves you own the account).
+
+  On Supermission, you don't need to manage any of this. When you sign up with your email, a **smart wallet** is created for you automatically using Privy's MPC technology. No seed phrases, no private key management.
+</Accordion>
+
+<Accordion title="Smart Wallet">
+  A **smart wallet** is an upgraded crypto wallet that can do things a regular wallet can't — like batching multiple transactions into one click, having gas fees paid by someone else, and recovering your account through email instead of a 24-word phrase.
+
+  Supermission uses smart wallets so you get the security of crypto with the simplicity of a normal app login.
+</Accordion>
+
+<Accordion title="USDC">
+  **USDC** (USD Coin) is a **stablecoin** — a cryptocurrency that's always worth $1.00. It's backed 1:1 by US dollar reserves held by Circle (a regulated financial company).
+
+  All trading on Supermission happens in USDC. When you deposit money, you send USDC. When you win a trade, you receive USDC. It's the dollar of the crypto world.
+</Accordion>
+
+<Accordion title="Gas Fees">
+  **Gas fees** are the cost of processing a transaction on a blockchain — think of it like a processing fee or postage stamp.
+
+  On Supermission, **you never pay gas fees**. All gas is sponsored (paid by Supermission). You only pay for your trades themselves — never for the transaction processing.
+</Accordion>
+
+<Accordion title="Base (Chain)">
+  **Base** is a fast, cheap blockchain built by Coinbase. Your Supermission wallet lives on Base.
+
+  It's an "L2" (Layer 2) — which means it runs on top of Ethereum but is much faster and cheaper. You don't need to know any of this to use Supermission — it's just where your wallet lives behind the scenes.
+</Accordion>
+
+<Accordion title="Polygon">
+  **Polygon** is another blockchain. Polymarket's orderbook runs on Polygon.
+
+  When you trade on Supermission, your USDC automatically **bridges** (transfers) from Base to Polygon to execute the trade, then bridges back when you cash out. This is completely invisible to you.
+</Accordion>
+
+<Accordion title="Bridging">
+  **Bridging** is moving cryptocurrency from one blockchain to another. It's like transferring money between banks.
+
+  Supermission handles all bridging automatically. When you trade, your USDC moves from Base to Polygon. When you redeem winnings, it moves back. You never need to think about it.
+</Accordion>
+
+<Accordion title="Non-Custodial">
+  **Non-custodial** means you control your money — not Supermission, not anyone else.
+
+  Your wallet uses MPC (Multi-Party Computation) technology where the private key is split into pieces. No single entity — not Supermission, not Privy — ever has the complete key. We literally cannot access your funds. This is a security feature, not a limitation.
+</Accordion>
+
+<Accordion title="MPC (Multi-Party Computation)">
+  **MPC** is the technology that makes your wallet both secure AND easy to use.
+
+  Instead of one private key (that you'd have to write down as 24 words and guard with your life), MPC splits the key into multiple pieces held by different parties. To sign a transaction, these pieces work together mathematically — but no single piece is useful alone.
+
+  Result: you login with email, your wallet is secure, and there's no seed phrase to lose.
+</Accordion>
+
+<Accordion title="Seed Phrase / Recovery Phrase">
+  A **seed phrase** is a set of 12 or 24 random words that can recover a crypto wallet. Traditional wallets make you write this down and store it safely — if you lose it, you lose your money forever.
+
+  **Supermission doesn't use seed phrases.** Your wallet is recovered through your email/social login via Privy's MPC system. This is a major UX improvement over traditional crypto wallets.
+</Accordion>
+
+---
+
+## DeFi (Decentralized Finance)
+
+<Accordion title="DeFi">
+  **DeFi** stands for Decentralized Finance. It's a collection of financial services (lending, borrowing, trading, earning interest) that run on blockchains instead of through banks.
+
+  Instead of depositing money at a bank to earn 0.5% interest, you can deposit USDC into a DeFi protocol and earn 5-15% APY. Instead of using a stock broker, you can swap tokens directly on a decentralized exchange.
+
+  Supermission's DeFAI terminal gives you chat-based access to these services.
+</Accordion>
+
+<Accordion title="Token">
+  A **token** is a digital asset on a blockchain. It can represent anything — a currency (like USDC), a governance vote (like UNI), or even a prediction market outcome (like YES/NO shares).
+
+  When people say "crypto tokens," they mean these digital assets. ETH (Ethereum), USDC, AERO — these are all tokens.
+</Accordion>
+
+<Accordion title="Swap">
+  A **swap** is exchanging one token for another. Like exchanging dollars for euros, but with crypto tokens.
+
+  Example: swap 100 USDC for ETH on Base. The exchange happens through a **DEX** (decentralized exchange) like Uniswap, and Supermission handles the routing to get you the best price.
+</Accordion>
+
+<Accordion title="DEX (Decentralized Exchange)">
+  A **DEX** is a trading platform that runs on a blockchain without a central company controlling it. Uniswap is the biggest one.
+
+  Unlike Coinbase or Binance (centralized exchanges), a DEX lets you trade directly from your wallet without creating an account or trusting a company to hold your money.
+</Accordion>
+
+<Accordion title="APY (Annual Percentage Yield)">
+  **APY** is how much you'd earn in a year if you left your money in a protocol.
+
+  If a lending protocol shows 10% APY and you deposit $1,000 USDC, you'd earn roughly $100 over a year (assuming the rate stays constant — it usually doesn't, it fluctuates).
+
+  Higher APY = higher reward, but usually higher risk too.
+</Accordion>
+
+<Accordion title="TVL (Total Value Locked)">
+  **TVL** is the total amount of money deposited in a DeFi protocol.
+
+  A protocol with $100M TVL has $100M worth of crypto deposited by users. Higher TVL generally means:
+  - More trusted by the community
+  - More liquid (easier to deposit and withdraw)
+  - Less likely to have a catastrophic failure (though not impossible)
+</Accordion>
+
+<Accordion title="Yield / Yield Farming">
+  **Yield** is the return you earn by depositing your crypto into a DeFi protocol. **Yield farming** is the practice of actively moving your money between protocols to maximize returns.
+
+  Sources of yield include: lending interest (someone borrows your USDC and pays you interest), trading fees (you provide liquidity to a DEX and earn a share of trading fees), and protocol rewards (tokens given as incentives to attract deposits).
+</Accordion>
+
+<Accordion title="Liquidity Pool / LP">
+  A **liquidity pool** is a pot of two tokens locked in a smart contract that enables trading on a DEX.
+
+  When you provide liquidity (become an **LP** — Liquidity Provider), you deposit both tokens into the pool. Traders swap against your pool, and you earn a share of the trading fees. The tradeoff is **impermanent loss** — if token prices change significantly, you might have been better off just holding.
+</Accordion>
+
+<Accordion title="Impermanent Loss (IL)">
+  **Impermanent loss** happens when you provide liquidity to a pool and the token prices change relative to each other.
+
+  If you deposit equal values of USDC and ETH, and ETH price doubles, the pool automatically rebalances — giving you less ETH and more USDC than you started with. You still have profit from fees, but less than if you'd just held the tokens.
+
+  Stablecoin-only pools (e.g., USDC/USDT) have near-zero impermanent loss because both tokens stay around $1.
+</Accordion>
+
+<Accordion title="Smart Contract">
+  A **smart contract** is a program that runs on a blockchain. It automatically executes actions when conditions are met — like a vending machine that gives you a soda when you insert coins.
+
+  All DeFi protocols are smart contracts. When you deposit USDC into a lending protocol, a smart contract handles the deposit, tracks interest, and lets you withdraw. No human is involved in the process.
+</Accordion>
+
+<Accordion title="Lending Protocol">
+  A **lending protocol** is a DeFi app where you can deposit crypto to earn interest, or borrow crypto by putting up collateral.
+
+  Popular ones on Supermission: **Aave V3**, **Compound III**, **Morpho**. You deposit USDC, the protocol lends it to borrowers, and you earn interest (APY).
+</Accordion>
+
+---
+
+## Supermission-specific terms
+
+<Accordion title="Signal">
+  A **signal** on Supermission is an alert that the AI's probability estimate for a market diverges meaningfully from the current market price.
+
+  If the market says 40% and the AI says 65%, that 25% gap is the signal. The bigger the gap, the stronger the potential opportunity. Every signal comes with the full reasoning chain — not just a number.
+</Accordion>
+
+<Accordion title="Oracle Agent">
+  **Oracle** is Supermission's chat-based trading assistant. You type what you want in natural language — "buy $50 on YES for the Fed market" — and Oracle searches, confirms, and executes the trade.
+
+  Think of it as a junior analyst who also has a brokerage account.
+</Accordion>
+
+<Accordion title="Delphi Agent">
+  **Delphi** is Supermission's DeFi research assistant. It handles everything outside of prediction markets — token analysis, yield scanning, wallet intelligence, swaps, and bridges.
+
+  If Oracle is your prediction market trader, Delphi is your DeFi analyst.
+</Accordion>
+
+<Accordion title="Edge">
+  **Edge** is the difference between the AI's probability estimate and the market price. If the AI says 70% and the market says 50%, the edge is 20%.
+
+  Edge is your potential advantage. The bigger the edge, the bigger the potential profit — but also the bigger the chance the AI is wrong and the market is right.
+</Accordion>
+
+<Accordion title="Conviction">
+  **Conviction** measures how much the 4 AI agents agree with each other.
+
+  - **High conviction** (70%+) = agents largely agree. The evidence points one direction.
+  - **Moderate conviction** (40-70%) = some agreement, some debate.
+  - **Low conviction** (below 40%) = agents disagree significantly. Market is genuinely uncertain.
+
+  Higher conviction signals are generally more reliable, but not always — sometimes the Contrarian is right and everyone else is wrong.
+</Accordion>
+
+<Accordion title="Whale">
+  A **whale** is someone with a very large position in a market. On Supermission, the Whale Intelligence feature tracks the top 20 holders in each market.
+
+  When whales lean heavily (55%+) in one direction, it's worth paying attention — they often have more resources for research. But they can also be wrong, be hedging, or have different time horizons than you.
+</Accordion>
+
+<Accordion title="Alpha">
+  **Alpha** is trader slang for returns above the market average. If you consistently make better predictions than the market consensus, you're "generating alpha."
+
+  Supermission's AI system looks for alpha by finding markets where its probability estimate diverges from the crowd. That divergence is your potential edge.
+</Accordion>
+
+<Accordion title="Expected Value (EV)">
+  **Expected Value** is the average amount you'd win (or lose) per trade if you made the same trade thousands of times.
+
+  Example: If the AI says 70% chance of YES and the market price is $0.45:
+  - 70% of the time you win $0.55 (payout $1 minus cost $0.45)
+  - 30% of the time you lose $0.45
+  - EV = (0.70 × $0.55) - (0.30 × $0.45) = **+$0.25 per trade**
+
+  Positive EV trades are profitable over time, even though individual trades can lose.
+</Accordion>
+
+<Accordion title="Kelly Criterion">
+  The **Kelly Criterion** is a formula that tells you what fraction of your capital to bet on a given opportunity.
+
+  It balances risk and reward mathematically: bet more when you have a bigger edge, bet less when the edge is small. Supermission's Alpha Scanner calculates Kelly sizing for each edge it finds.
+
+  In practice, most traders use "half-Kelly" or "quarter-Kelly" — betting less than the formula suggests — because being wrong about your edge is the real risk.
+</Accordion>
+
+<Accordion title="PWA (Progressive Web App)">
+  A **PWA** is a website that you can install on your phone like a regular app.
+
+  On iOS: open Supermission in Safari → tap the share button → "Add to Home Screen." On Android: Chrome menu → "Install app." You get full-screen mode without browser chrome, and the app feels native.
+</Accordion>
+
+<Accordion title="SSE (Server-Sent Events)">
+  **SSE** is the technology Supermission uses to push real-time price updates to your browser without you refreshing the page.
+
+  Every market card updates its price live because the server continuously sends new prices to your browser. This is why you see prices change in real-time as you browse.
+</Accordion>

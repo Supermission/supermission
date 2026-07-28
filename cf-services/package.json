@@ -1,0 +1,28 @@
+{
+  "name": "supermission-cf-services",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cloudflare services for Supermission - webhooks, payments, and negotiation",
+  "scripts": {
+    "dev:webhooks": "cd webhooks && wrangler dev",
+    "dev:payments": "cd payments && wrangler dev",
+    "dev:negotiation": "cd negotiation && wrangler dev",
+    "deploy:webhooks": "cd webhooks && wrangler deploy",
+    "deploy:payments": "cd payments && wrangler deploy",
+    "deploy:negotiation": "cd negotiation && wrangler deploy",
+    "deploy:all": "npm run deploy:webhooks && npm run deploy:payments && npm run deploy:negotiation",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --ext .ts"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241230.0",
+    "typescript": "^5.7.2",
+    "wrangler": "^3.99.0"
+  },
+  "workspaces": [
+    "shared",
+    "webhooks",
+    "payments",
+    "negotiation"
+  ]
+}

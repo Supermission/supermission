@@ -1,0 +1,40 @@
+# Cloudflare Worker configuration for payment workflows
+name = "supermission-payments"
+main = "src/index.ts"
+compatibility_date = "2024-12-30"
+
+# Workflows for durable payment execution
+[[workflows]]
+name = "payment-workflow"
+binding = "PAYMENT_WORKFLOW"
+class_name = "PaymentWorkflow"
+
+# Queue binding for webhook triggering
+[[queues.producers]]
+queue = "webhook-delivery"
+binding = "WEBHOOK_QUEUE"
+
+# Environment variables (set via wrangler secret)
+# SUPABASE_URL - Supabase project URL
+# SUPABASE_SERVICE_KEY - Supabase service role key
+# INTERNAL_SECRET - Secret for internal API authentication
+# BASE_RPC_URL - Base RPC endpoint
+# CDP_API_KEY_ID - CDP API key ID
+# CDP_API_KEY_SECRET - CDP API key secret
+
+[vars]
+ENVIRONMENT = "production"
+
+# Development overrides
+[env.dev]
+name = "supermission-payments-dev"
+
+[env.dev.vars]
+ENVIRONMENT = "development"
+
+# Staging overrides
+[env.staging]
+name = "supermission-payments-staging"
+
+[env.staging.vars]
+ENVIRONMENT = "staging"

@@ -1,0 +1,83 @@
+---
+title: "Price Alerts"
+description: "Set directional alerts on any market. Get notified with distinct sounds when prices cross your threshold. Manage alerts with full CRUD controls."
+---
+
+# Price alerts
+
+Price alerts notify you in real-time when a market's price crosses a threshold you've set. They work independently from watchlist alerts — you can set specific directional thresholds on any market.
+
+## Setting an alert
+
+The **AlertManager** component appears in the market detail panel:
+
+<Steps>
+  <Step title="Open a market">
+    Click any market card to open the detail panel.
+  </Step>
+  <Step title="Configure alert">
+    In the alert section, set:
+    - **Direction**: Above or Below
+    - **Threshold**: Percentage (0-100%) — the price level that triggers the alert
+    - **Recurring**: Toggle on if you want the alert to re-trigger after firing (otherwise it fires once and deactivates)
+  </Step>
+  <Step title="Create alert">
+    Submit the form. The alert is stored in the `price_alerts` table in Supabase, linked to your wallet address, the market's `condition_id`, `token_id`, and outcome.
+  </Step>
+</Steps>
+
+## Managing alerts
+
+| Action | How |
+|--------|-----|
+| **View all alerts** | Your alerts appear in the alert manager panel and the notification center |
+| **Toggle on/off** | Switch an alert between active and inactive without deleting it |
+| **Delete** | Permanently remove an alert |
+| **Recurring alerts** | When enabled, the alert resets after firing and will trigger again on the next crossing |
+
+## Notification delivery
+
+When an alert triggers:
+
+1. A **notification** is created in the `alert_notifications` table
+2. The **NotificationCenter** bell icon (top-right of the Markets page) updates with an unread count badge
+3. A **WatchlistAlertOverlay** toast slides in from the bottom-right corner
+4. Distinct **audio tones** play — ascending for price up, descending for price down
+
+### Notification center
+
+Click the bell icon to see all notifications:
+- List of alert notifications with timestamps
+- "Mark all as read" button
+- Click any notification to mark as read and jump to the market
+- Unread count badge (red) on the bell icon
+
+### Toast alerts
+
+The `WatchlistAlertOverlay` component shows toast-style notifications:
+- Market name, direction of movement, new price
+- Auto-dismiss after 5 seconds if not interacted with
+- Click to open the market detail panel
+
+## Data model
+
+Each alert stores:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `user_address` | string | Your wallet address |
+| `condition_id` | string | Market identifier |
+| `token_id` | string | Specific outcome token |
+| `outcome` | string | YES or NO |
+| `direction` | `above` \| `below` | Trigger direction |
+| `threshold` | number | Price threshold (0-100) |
+| `is_active` | boolean | Whether the alert is currently active |
+| `is_recurring` | boolean | Re-trigger after firing |
+
+<Warning>
+  Alerts require the Supermission tab to be open (or the PWA installed). Push notifications to your phone's lock screen are not yet supported. If you need to catch a move, keep the tab open.
+</Warning>
+
+<Tip>
+  Combine alerts with limit orders. Set an alert at your target entry price, and a limit order slightly better than the alert threshold. The alert tells you the market is in your zone; the limit order fills you at your desired price.
+</Tip>

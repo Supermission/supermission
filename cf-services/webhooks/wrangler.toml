@@ -1,0 +1,48 @@
+# Cloudflare Worker configuration for webhook delivery queue
+name = "supermission-webhooks"
+main = "src/index.ts"
+compatibility_date = "2024-12-30"
+
+# Queues for webhook delivery
+[[queues.producers]]
+queue = "webhook-delivery"
+binding = "WEBHOOK_QUEUE"
+
+[[queues.consumers]]
+queue = "webhook-delivery"
+max_batch_size = 10
+max_batch_timeout = 5
+max_retries = 5
+dead_letter_queue = "webhook-dlq"
+
+# Dead letter queue for failed deliveries
+[[queues.producers]]
+queue = "webhook-dlq"
+binding = "WEBHOOK_DLQ"
+
+[[queues.consumers]]
+queue = "webhook-dlq"
+max_batch_size = 10
+max_batch_timeout = 30
+
+# Environment variables (set via wrangler secret)
+# SUPABASE_URL - Supabase project URL
+# SUPABASE_SERVICE_KEY - Supabase service role key
+# INTERNAL_SECRET - Secret for internal API authentication
+
+[vars]
+ENVIRONMENT = "production"
+
+# Development overrides
+[env.dev]
+name = "supermission-webhooks-dev"
+
+[env.dev.vars]
+ENVIRONMENT = "development"
+
+# Staging overrides
+[env.staging]
+name = "supermission-webhooks-staging"
+
+[env.staging.vars]
+ENVIRONMENT = "staging"

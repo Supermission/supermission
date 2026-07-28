@@ -1,0 +1,37 @@
+---
+title: "Dashboard"
+description: "Portfolio analytics hub. Multi-chain wallet overview, token balances, sparkline charts, DeFi position management, yield strategies, and AI-powered wallet analysis."
+---
+
+# Dashboard
+
+The Dashboard (`/dashboard`) is your portfolio analytics hub. It shows your complete financial picture across multiple chains and protocols — wallet balances, token holdings, DeFi positions, yield opportunities, and AI-powered analysis.
+
+## Layout
+
+The Dashboard has a fixed header with a "Back to Supermission" link and wallet connect button. The main content area renders based on the active tab.
+
+### Tabs
+
+Currently two tabs are active:
+
+| Tab | Content |
+|-----|---------|
+| **Overview** | Portfolio summary with wallet balances, token holdings (with sparklines), DeFi positions, and AI wallet analysis |
+| **Tokens** | Token search and analysis tool with price data, market metrics, and premium AI-powered due diligence |
+
+The DeFi and Agent tabs were previously available but are currently disabled.
+
+## Authentication
+
+The Dashboard requires Privy authentication. If not connected, you'll see a "Connect wallet" prompt. While Privy initializes, a loading skeleton with animated pulse is shown.
+
+## Error handling
+
+Each dashboard section is wrapped in an **ErrorBoundary**. If any component crashes:
+- An AlertTriangle icon appears
+- The feature name + "Error" title
+- The specific error message
+- A **Retry** button that resets the boundary state
+
+This means one failing component doesn't take down the entire dashboard.

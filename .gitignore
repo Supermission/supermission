@@ -1,0 +1,161 @@
+# ===================================
+# CRITICAL SECURITY - DO NOT COMMIT
+# ===================================
+
+# Deploy scripts with credentials
+scripts/deploy-worker.sh
+
+# Environment files with API keys and private keys
+.env
+.env.local
+.env*.local
+.env.development.local
+.env.test.local
+.env.production.local
+contracts/.env
+contracts/.env.local
+
+# Wallet files (CONTAINS PRIVATE KEYS!)
+wallet-info.json
+**/wallet-info.json
+*.key
+*.pem
+*private*
+**/*private*
+
+# ===================================
+# Build Outputs & Dependencies
+# ===================================
+
+# Node modules
+node_modules/
+**/node_modules/
+
+# Next.js
+.next/
+/.next/
+out/
+/out/
+dist/
+build/
+/build/
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# ===================================
+# Foundry / Smart Contracts
+# ===================================
+
+contracts/cache/
+contracts/out/
+contracts/broadcast/*.json
+contracts/broadcast/**/*.json
+
+# ===================================
+# IDE & OS Files
+# ===================================
+
+# IDEs
+.vscode/
+.idea/
+.cursor/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+.AppleDouble
+.LSOverride
+
+# ===================================
+# Logs
+# ===================================
+
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# ===================================
+# Testing & Coverage
+# ===================================
+
+coverage/
+/coverage
+.nyc_output/
+
+# ===================================
+# Temporary Files
+# ===================================
+
+*.tmp
+*.temp
+.cache/
+.pnp
+.pnp.js
+.pnp.*
+
+# ===================================
+# Production & Deployment
+# ===================================
+
+.vercel
+.vercel/
+.netlify/
+
+# ===================================
+# Project-specific ignores
+# ===================================
+
+# Analysis scripts and reports (private data)
+*.csv
+*.py
+*reconciliation*.json
+*RECONCILIATION*.json
+*REMEDIATION*.json
+*REMEDIATION*.csv
+query-usdc-*.js
+usdc-*.json
+USDC-PAYMENT-ANALYSIS.md
+EXECUTIVE_SUMMARY.md
+README_ANALYSIS.md
+wallets_*.json
+wallets_*.csv
+
+# Deleted documentation (no longer needed)
+AGENT_INTEGRATION.md
+DEMO_SCRIPT.md
+DEVELOPER.md
+
+# Test files
+test-openrouter.js
+test-output.json
+
+# Agent package-lock files
+agents/*/package-lock.json
+
+# Worker data
+worker/data/*
+
+# Keep deployment docs but ignore sensitive data
+/MON_DROP/
+
+# Ignore local help doc
+polymarket-help.md
+
+# Git worktrees
+.worktrees/
+
+fundraise-docs/
+
+# Local-only test/preflight scripts (never commit)
+scripts/preflight/
+
+# Local-only Claude Code / MCP config (do not publish)
+.mcp.json
+.claude/

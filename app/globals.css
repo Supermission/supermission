@@ -1,0 +1,3093 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: hsl(0, 0%, 100%);
+  --color-foreground: hsl(0, 0%, 0%);
+  --color-primary: hsl(0, 0%, 0%);
+  --color-secondary: hsl(0, 0%, 0%);
+  --color-accent: hsl(0, 0%, 0%);
+  --color-success: hsl(0, 0%, 0%);
+  --color-error: hsl(0, 0%, 0%);
+  --color-warning: hsl(0, 0%, 0%);
+
+  --font-sans: var(--font-bricolage), var(--font-inter), "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), "IBM Plex Mono", "SF Mono", "Courier New", monospace;
+  --font-display: var(--font-montserrat), "Montserrat", sans-serif;
+
+  --spacing-unit: 4px;
+  --border-width: 1px;
+  --border-color: #e7e9eb;
+  --transition-duration: 300ms;
+}
+
+/* Base body styles */
+html,
+body {
+  font-family: var(--font-sans);
+  color: var(--color-foreground);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  max-width: 100vw;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Kill the white overscroll/rubber-band flash in dark mode. Scopes set
+   `color-scheme: dark` inline on <html>; match that and paint the root canvas
+   near-black (matches the dark canvas). */
+html[style*="color-scheme: dark"],
+html[style*="color-scheme:dark"] {
+  background-color: #0a0a0a;
+}
+
+/* Navbar: a gradient tint that fades top→bottom so the bar blends into the
+   section (matches the hero in dark). FLAT at the top of the page; it only
+   gains the rounded bottom + shadow once scrolled (data-scrolled="true", set by
+   the Header on scroll). --nav-scrim is the canvas RGB per scope. */
+:root { --nav-scrim: 255, 255, 255; }
+/* Match each scope's SECTION bg (its .bg-white remap), not the darker page
+   canvas, so the fixed navbar blends with the hero/sections it overlays. */
+.dark.site-theme-scope { --nav-scrim: 20, 20, 20; }
+.dark.markets-theme-scope { --nav-scrim: 18, 18, 18; }
+.dark.dashboard-theme-scope,
+.dark.defai-theme-scope,
+.dark.perps-theme-scope,
+.dark.security-theme-scope { --nav-scrim: 10, 10, 10; }
+.site-navbar {
+  background: linear-gradient(
+    to bottom,
+    rgba(var(--nav-scrim), 1) 0%,
+    rgba(var(--nav-scrim), 0.82) 55%,
+    rgba(var(--nav-scrim), 0.5) 100%
+  );
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  transition: box-shadow 0.25s ease, border-radius 0.25s ease;
+}
+.site-navbar[data-scrolled="true"] {
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+.dark.site-theme-scope .site-navbar[data-scrolled="true"],
+.dark.markets-theme-scope .site-navbar[data-scrolled="true"],
+.dark.dashboard-theme-scope .site-navbar[data-scrolled="true"],
+.dark.defai-theme-scope .site-navbar[data-scrolled="true"],
+.dark.perps-theme-scope .site-navbar[data-scrolled="true"],
+.dark.security-theme-scope .site-navbar[data-scrolled="true"] {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* Dark-mode primary-button hover: the dark gradient buttons flip to a solid
+   white pill with dark text on hover (site/marketing pages). Matches the
+   requested look across landing, /mission, blog, how-it-works, etc. */
+.dark.site-theme-scope a[class*="from-[#1a1a1a]"]:hover,
+.dark.site-theme-scope button[class*="from-[#1a1a1a]"]:hover,
+.dark.site-theme-scope a[class*="border-[#1a1a1a]"]:hover,
+.dark.site-theme-scope button[class*="border-[#1a1a1a]"]:hover {
+  background-image: none !important;
+  background-color: #ffffff !important;
+  color: #1a1a1a !important;
+  border-color: #ffffff !important;
+}
+.dark.site-theme-scope a[class*="from-[#1a1a1a]"]:hover *,
+.dark.site-theme-scope button[class*="from-[#1a1a1a]"]:hover *,
+.dark.site-theme-scope a[class*="border-[#1a1a1a]"]:hover *,
+.dark.site-theme-scope button[class*="border-[#1a1a1a]"]:hover * {
+  color: #1a1a1a !important;
+}
+
+/* Hero hands video — the hero stays theme-aware (light hero in light mode, dark
+   in dark), so we swap the clip by theme: the light clip has a white background
+   that blends into the light hero, the dark clip a #141414 background. Only one
+   is shown. Room is reserved below the CTAs in BOTH themes so the hands read at
+   the bottom without covering the buttons. */
+[data-hero-hands-light] { display: block; }
+[data-hero-hands-dark] { display: none; }
+.dark.site-theme-scope [data-hero-hands-light] { display: none; }
+.dark.site-theme-scope [data-hero-hands-dark] { display: block; }
+[data-hero] { padding-bottom: clamp(160px, 24vw, 380px); }
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  position: relative;
+  width: 100%;
+}
+
+/* Monospace for code and inputs */
+code,
+pre,
+input,
+textarea,
+select {
+  font-family: var(--font-mono);
+}
+
+/* Remove focus outline, replace with ring */
+*:focus {
+  outline: none;
+}
+
+/* Hide scrollbar utility class */
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Chat input container */
+.chat-input-container textarea {
+  border-radius: 12px !important;
+  transition: all 0.2s ease;
+}
+
+.chat-input-container textarea:focus {
+  border-width: 2px;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Send button - rounded exception */
+.send-button {
+  border-radius: 10px !important;
+}
+
+button[type="submit"][title="Send message"] {
+  border-radius: 50% !important;
+}
+
+/* Selection */
+::selection {
+  background: var(--color-foreground);
+  color: var(--color-background);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn var(--transition-duration) ease;
+}
+
+.animate-slide-in {
+  animation: slideIn var(--transition-duration) ease;
+}
+
+@keyframes coin-spin {
+  0% { transform: rotateY(0deg); }
+  50% { transform: rotateY(180deg); }
+  100% { transform: rotateY(360deg); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-shimmer {
+  animation: shimmer 1.5s infinite linear;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.05) 25%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.05) 75%);
+  background-size: 200% 100%;
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-scroll {
+  animation: scroll 30s linear infinite;
+}
+
+@media (min-width: 1280px) {
+  .animate-scroll {
+    animation: scroll 55s linear infinite;
+  }
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* Shared Sonner toast polish: reserve space for the dismiss button and pin it
+   to the top-right so it reads consistently across markets, perps, and chat. */
+[data-sonner-toast].toast-center {
+  padding-right: 44px;
+}
+
+[data-sonner-toast].toast-center [data-close-button] {
+  left: auto;
+  right: 0;
+  transform: translate(35%, -35%);
+}
+
+[data-sonner-toast].toast-center [data-close-button]:focus-visible {
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.16);
+}
+
+/* Concentric arcs for hero */
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float-slow {
+  animation: float-slow 4s ease-in-out infinite;
+}
+
+.animate-float-slow-delay {
+  animation: float-slow 4s ease-in-out infinite;
+  animation-delay: -2s;
+}
+
+/* Markdown tables in chat messages — proper bordered cells */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin: 12px 0;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.prose thead {
+  background: #f8fafc;
+}
+
+.prose th {
+  padding: 8px 12px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 11px;
+  color: #3a3a3a;
+  border: 1px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+.prose td {
+  padding: 8px 12px;
+  color: #48484b;
+  border: 1px solid #e5e7eb;
+}
+
+.prose tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.prose tbody tr:hover {
+  background: #fafafa;
+}
+
+/* Dark-mode overrides for prose tables — apply inside any scoped `.dark` wrapper
+   (markets, security, defai, perps theme scopes). */
+.dark .prose table { border-color: #2a2a2a; }
+.dark .prose thead { background: #252525; }
+.dark .prose th {
+  color: #e0e0e0;
+  border-color: #3a3a3a;
+}
+.dark .prose td {
+  color: #cfcfcf;
+  border-color: #2a2a2a;
+}
+.dark .prose tbody tr:hover { background: #2a2a2a; }
+
+/* Agent chat light-mode guard.
+   Tailwind v4 can still emit `dark:` utilities for system dark mode. These
+   resets are scoped to the agent chat root and only when the owning product
+   theme scope is light, so wallet/connect UI keeps its existing behavior. */
+:where(
+  .markets-theme-scope:not(.dark),
+  .defai-theme-scope:not(.dark),
+  .perps-theme-scope:not(.dark),
+  .security-theme-scope:not(.dark),
+  .dashboard-theme-scope:not(.dark),
+  .roro-theme-scope:not(.dark)
+) [data-agent-chat-scope] .chat-message-ai {
+  background-color: #ffffff !important;
+  color: #3a3a3a !important;
+  border-color: #e5e7eb !important;
+}
+
+:where(
+  .markets-theme-scope:not(.dark),
+  .defai-theme-scope:not(.dark),
+  .perps-theme-scope:not(.dark),
+  .security-theme-scope:not(.dark),
+  .dashboard-theme-scope:not(.dark),
+  .roro-theme-scope:not(.dark)
+) [data-agent-chat-scope] .chat-message-ai .prose {
+  --tw-prose-body: #3a3a3a;
+  --tw-prose-headings: #111111;
+  --tw-prose-lead: #48484b;
+  --tw-prose-links: #111111;
+  --tw-prose-bold: #000000;
+  --tw-prose-counters: #6b7280;
+  --tw-prose-bullets: #d1d5db;
+  --tw-prose-hr: #e5e7eb;
+  --tw-prose-quotes: #111111;
+  --tw-prose-quote-borders: #e5e7eb;
+  --tw-prose-captions: #6b7280;
+  --tw-prose-code: #111111;
+  --tw-prose-pre-code: #e5e7eb;
+  --tw-prose-pre-bg: #1f2937;
+  --tw-prose-th-borders: #e5e7eb;
+  --tw-prose-td-borders: #f0f0f0;
+  color: #000000 !important;
+}
+
+:where(
+  .markets-theme-scope:not(.dark),
+  .defai-theme-scope:not(.dark),
+  .perps-theme-scope:not(.dark),
+  .security-theme-scope:not(.dark),
+  .dashboard-theme-scope:not(.dark),
+  .roro-theme-scope:not(.dark)
+) [data-agent-chat-scope] .chat-message-ai :is(thead) {
+  background-color: #f8fafc !important;
+}
+
+:where(
+  .markets-theme-scope:not(.dark),
+  .defai-theme-scope:not(.dark),
+  .perps-theme-scope:not(.dark),
+  .security-theme-scope:not(.dark),
+  .dashboard-theme-scope:not(.dark),
+  .roro-theme-scope:not(.dark)
+) [data-agent-chat-scope] .chat-message-ai :is(th) {
+  color: #3a3a3a !important;
+  border-color: #e5e7eb !important;
+}
+
+:where(
+  .markets-theme-scope:not(.dark),
+  .defai-theme-scope:not(.dark),
+  .perps-theme-scope:not(.dark),
+  .security-theme-scope:not(.dark),
+  .dashboard-theme-scope:not(.dark),
+  .roro-theme-scope:not(.dark)
+) [data-agent-chat-scope] .chat-message-ai :is(td) {
+  color: #48484b !important;
+  border-color: #e5e7eb !important;
+}
+
+:where(
+  .markets-theme-scope:not(.dark),
+  .defai-theme-scope:not(.dark),
+  .perps-theme-scope:not(.dark),
+  .security-theme-scope:not(.dark),
+  .dashboard-theme-scope:not(.dark),
+  .roro-theme-scope:not(.dark)
+) [data-agent-chat-scope] img[alt="Supermission"] {
+  filter: none !important;
+}
+
+:where(
+  .markets-theme-scope:not(.dark),
+  .defai-theme-scope:not(.dark),
+  .perps-theme-scope:not(.dark),
+  .security-theme-scope:not(.dark),
+  .dashboard-theme-scope:not(.dark),
+  .roro-theme-scope:not(.dark)
+) [data-agent-chat-scope] [data-chat-delete-button] {
+  background-color: transparent !important;
+  border-color: #e5e7eb !important;
+  color: #6b7280 !important;
+}
+
+:where(
+  .markets-theme-scope:not(.dark),
+  .defai-theme-scope:not(.dark),
+  .perps-theme-scope:not(.dark),
+  .security-theme-scope:not(.dark),
+  .dashboard-theme-scope:not(.dark),
+  .roro-theme-scope:not(.dark)
+) [data-agent-chat-scope] [data-chat-delete-button][title="Delete chats"]:hover {
+  background-color: #f7f7f7 !important;
+  color: #3a3a3a !important;
+}
+
+:where(
+  .markets-theme-scope:not(.dark),
+  .defai-theme-scope:not(.dark),
+  .perps-theme-scope:not(.dark),
+  .security-theme-scope:not(.dark),
+  .dashboard-theme-scope:not(.dark),
+  .roro-theme-scope:not(.dark)
+) [data-agent-chat-scope] [data-chat-delete-button]:not([title="Delete chats"]):hover {
+  background-color: #ef4444 !important;
+  border-color: #ef4444 !important;
+  color: #ffffff !important;
+}
+
+/* ================================================================
+   Chat sidebar + ConfirmModal dark-mode fixes (scoped to the four
+   agent routes: /markets, /perps, /defai, /security).
+
+   Fixes:
+   1. ConfirmModal title + cancel button used text-[#3a3a3a], which
+      stayed dark-on-dark — remap to light text.
+   2. Bulk-select highlight (bg-red-50 + border-red-400) glowed too
+      hot on black — soften to a muted, intentional red wash.
+   3. Per-row trash button hover (hover:bg-red-500 hover:text-white)
+      was neon-bright — drop to a calmer red.
+
+   Scoped via :where() so non-agent routes are untouched, and only
+   activates inside .dark — light mode is preserved byte-for-byte.
+   ================================================================ */
+:where(
+  .dark.markets-theme-scope,
+  .dark.defai-theme-scope,
+  .dark.perps-theme-scope,
+  .dark.security-theme-scope
+) [data-agent-chat-scope] .text-\[\#3a3a3a\] { color: #dedede; }
+
+/* ConfirmModal is portaled to body via fixed positioning but lives in the
+   chat-sidebar subtree — both its title and cancel button use text-[#3a3a3a].
+   The rule above covers them via [data-agent-chat-scope] descendance. */
+
+:where(
+  .dark.markets-theme-scope,
+  .dark.defai-theme-scope,
+  .dark.perps-theme-scope,
+  .dark.security-theme-scope
+) [data-agent-chat-scope] .border-red-400 { border-color: rgba(248, 113, 113, 0.35); }
+
+:where(
+  .dark.markets-theme-scope,
+  .dark.defai-theme-scope,
+  .dark.perps-theme-scope,
+  .dark.security-theme-scope
+) [data-agent-chat-scope] .bg-red-50 { background-color: rgba(248, 113, 113, 0.10); }
+
+:where(
+  .dark.markets-theme-scope,
+  .dark.defai-theme-scope,
+  .dark.perps-theme-scope,
+  .dark.security-theme-scope
+) [data-agent-chat-scope] [data-chat-delete-button]:not([title="Delete chats"]):hover {
+  background-color: rgba(220, 38, 38, 0.85) !important;
+  border-color: rgba(248, 113, 113, 0.5) !important;
+  color: #ffffff !important;
+}
+
+/* Agent chat send/stop button dark-mode polish across Oracle/Delphi/Hyperion/Securo. */
+:where(
+  .dark.markets-theme-scope,
+  .dark.defai-theme-scope,
+  .dark.perps-theme-scope,
+  .dark.security-theme-scope
+) [data-agent-chat-scope] button[title="Send message"],
+:where(
+  .dark.markets-theme-scope,
+  .dark.defai-theme-scope,
+  .dark.perps-theme-scope,
+  .dark.security-theme-scope
+) [data-agent-chat-scope] button[title="Stop generating"] {
+  background-color: #ffffff !important;
+  color: #111111 !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    0 6px 18px rgba(0, 0, 0, 0.32) !important;
+}
+
+@media (hover: hover) {
+  :where(
+    .dark.markets-theme-scope,
+    .dark.defai-theme-scope,
+  .dark.perps-theme-scope,
+  .dark.security-theme-scope
+  ) [data-agent-chat-scope] button[title="Send message"]:hover {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+  }
+}
+
+:where(
+  .dark.markets-theme-scope,
+  .dark.defai-theme-scope,
+  .dark.perps-theme-scope,
+  .dark.security-theme-scope
+) [data-agent-chat-scope] button[title="Send message"]:disabled {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: rgba(255, 255, 255, 0.35) !important;
+  box-shadow: none !important;
+}
+
+/* Mobile-optimized tables for agent responses */
+@media (max-width: 640px) {
+  .prose table {
+    font-size: 10px;
+    margin: 8px 0;
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .prose th {
+    padding: 4px 6px;
+    font-size: 9px;
+  }
+
+  .prose td {
+    padding: 4px 6px;
+    font-size: 10px;
+  }
+}
+
+/* CDP AuthButton modal */
+.Modal-module__overlay___-RqGQ {
+  z-index: 9999 !important;
+}
+
+@media (max-width: 399px) {
+  .Modal-module__overlay___-RqGQ {
+    padding: 0.75rem 1rem !important;
+  }
+}
+
+/* Safe area support */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: min(0px, env(safe-area-inset-left));
+    padding-right: min(0px, env(safe-area-inset-right));
+  }
+}
+
+/* Mobile touch optimizations */
+@media (max-width: 767px) {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  * {
+    max-width: 100%;
+  }
+
+  div[role="dialog"],
+  div[role="dialog"] * {
+    max-width: none;
+  }
+
+  img,
+  pre,
+  code {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .container {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  .animate-scroll {
+    animation: scroll 3s linear infinite;
+  }
+
+  .explorer-dropdown-menu {
+    max-width: none !important;
+    width: 190px !important;
+    right: 0 !important;
+    left: auto !important;
+  }
+}
+
+/* Pulsating green border on message bubble during trade execution */
+@keyframes trade-pulse {
+  0%, 100% {
+    border-color: rgba(16, 185, 129, 0.5);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.15), inset 0 0 0 0 rgba(16, 185, 129, 0.02);
+  }
+  50% {
+    border-color: rgba(16, 185, 129, 1);
+    box-shadow: 0 0 12px 3px rgba(16, 185, 129, 0.18), inset 0 0 8px 0 rgba(16, 185, 129, 0.04);
+  }
+}
+
+.chat-message-ai.trade-executing {
+  animation: trade-pulse 1.8s ease-in-out infinite;
+  border-color: rgba(16, 185, 129, 0.5);
+  transition: border-color 0.3s ease;
+}
+
+/* Slide-down reveal for trade result dropdown */
+@keyframes trade-result-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(-3px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.trade-result-enter {
+  animation: trade-result-reveal 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: top left;
+}
+
+/* Honor user's motion preference — disable animations/transitions/scroll-behavior
+   for users who have requested reduced motion at the OS level. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+/* ================================================================
+   Site theme scope (marketing pages: /how-it-works, /blog, /faq,
+   /terms, /privacy). Applies only inside <SiteThemeScope> when
+   siteDarkMode is on. Every selector is prefixed with
+   `.dark.site-theme-scope` so the rules can never leak to arenas
+   or any other route. Default is light (no overrides).
+   ================================================================ */
+
+/* Canvas + base text */
+.dark.site-theme-scope { background-color: #0a0a0a; color: #dedede; }
+
+/* Surfaces */
+.dark.site-theme-scope .bg-white { background-color: #141414; }
+/* Navbar — subtly elevated above the #0a0a0a canvas with a hairline border
+   at the bottom, matching the Vercel / Linear dark-mode pattern. Creates
+   visible depth without the "two mismatched blacks" seam. */
+.dark.site-theme-scope .bg-white\/95 {
+  background-color: rgba(18, 18, 18, 0.85);
+  border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03), 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+.dark.site-theme-scope .bg-white\/90 {
+  background-color: rgba(18, 18, 18, 0.85);
+}
+.dark.site-theme-scope .bg-\[\#fafafa\] { background-color: #121212; }
+.dark.site-theme-scope .bg-\[\#fafbfc\] { background-color: #141414; }
+.dark.site-theme-scope .bg-\[\#f7f7f7\] { background-color: #1a1a1a; }
+.dark.site-theme-scope .bg-\[\#f5f3f0\] { background-color: rgba(255, 255, 255, 0.05); }
+.dark.site-theme-scope .bg-\[\#f0f0f0\] { background-color: rgba(255, 255, 255, 0.05); }
+.dark.site-theme-scope .bg-\[\#f5f5f5\] { background-color: rgba(255, 255, 255, 0.05); }
+.dark.site-theme-scope .bg-\[\#fafaf8\] { background-color: rgba(255, 255, 255, 0.04); }
+.dark.site-theme-scope .hover\:bg-\[\#f5f3f0\]:hover { background-color: rgba(255, 255, 255, 0.06); }
+.dark.site-theme-scope .hover\:bg-\[\#f5f5f5\]:hover { background-color: rgba(255, 255, 255, 0.06); }
+.dark.site-theme-scope .hover\:bg-\[\#fafaf8\]:hover { background-color: rgba(255, 255, 255, 0.05); }
+.dark.site-theme-scope .hover\:bg-\[\#f7f7f7\]:hover { background-color: rgba(255, 255, 255, 0.06); }
+.dark.site-theme-scope .hover\:bg-\[\#fafbfc\]:hover { background-color: rgba(255, 255, 255, 0.04); }
+
+/* Text — hex → light. Tuned to match UCL/IPL arena contrast for uniformity:
+   primary text #ededed, subtext ~0.86-0.9 white, hex-specific grays use the
+   same #e3e3e3 / #dcdcdc / #b8b8b8 ladder the arenas use. */
+.dark.site-theme-scope .text-\[\#1a1a1a\] { color: #dedede; }
+.dark.site-theme-scope .text-\[\#121212\] { color: #dedede; }
+.dark.site-theme-scope .text-\[\#111\] { color: #dedede; }
+.dark.site-theme-scope .text-\[\#3a3a3a\] { color: rgba(255, 255, 255, 0.9); }
+.dark.site-theme-scope .text-\[\#3a3a3a\]\/50 { color: rgba(255, 255, 255, 0.6); }
+.dark.site-theme-scope .text-\[\#3a3a3a\]\/60 { color: rgba(255, 255, 255, 0.72); }
+.dark.site-theme-scope .text-\[\#3a3a3a\]\/70 { color: rgba(255, 255, 255, 0.82); }
+.dark.site-theme-scope .text-\[\#3a3a3a\]\/80 { color: rgba(255, 255, 255, 0.88); }
+.dark.site-theme-scope .text-\[\#48484b\] { color: rgba(255, 255, 255, 0.88); }
+.dark.site-theme-scope .text-\[\#48484b\]\/60 { color: rgba(255, 255, 255, 0.72); }
+.dark.site-theme-scope .text-\[\#4a4540\] { color: rgba(255, 255, 255, 0.86); }
+.dark.site-theme-scope .text-\[\#6b7280\] { color: #b5b5b5; }
+.dark.site-theme-scope .text-\[\#9ca3af\] { color: #a8a8a8; }
+.dark.site-theme-scope .text-\[\#a1a1aa\] { color: rgba(255, 255, 255, 0.82); }
+.dark.site-theme-scope .text-\[\#999\] { color: rgba(255, 255, 255, 0.78); }
+.dark.site-theme-scope .text-\[\#888\] { color: #a0a0a0; }
+.dark.site-theme-scope .text-\[\#666\] { color: #b8b8b8; }
+.dark.site-theme-scope .text-\[\#555\] { color: #b4b4b4; }
+.dark.site-theme-scope .text-\[\#c8c8c8\] { color: rgba(255, 255, 255, 0.72); }
+.dark.site-theme-scope .text-\[\#d1d5db\] { color: rgba(255, 255, 255, 0.72); }
+.dark.site-theme-scope .text-\[\#e5e7eb\] { color: rgba(255, 255, 255, 0.22); }
+.dark.site-theme-scope .text-\[\#f0efed\] { color: rgba(255, 255, 255, 0.3); }
+.dark.site-theme-scope .text-\[\#f1f3f4\] { color: #dedede; }
+.dark.site-theme-scope .text-\[\#f2f2f2\] { color: #dedede; }
+.dark.site-theme-scope .text-black { color: #dedede; }
+.dark.site-theme-scope .text-black\/90 { color: rgba(255, 255, 255, 0.95); }
+.dark.site-theme-scope .text-black\/80 { color: rgba(255, 255, 255, 0.9); }
+.dark.site-theme-scope .text-black\/70 { color: rgba(255, 255, 255, 0.82); }
+.dark.site-theme-scope .text-black\/60 { color: rgba(255, 255, 255, 0.74); }
+.dark.site-theme-scope .text-black\/50 { color: rgba(255, 255, 255, 0.66); }
+.dark.site-theme-scope .text-black\/40 { color: rgba(255, 255, 255, 0.56); }
+.dark.site-theme-scope .text-black\/30 { color: rgba(255, 255, 255, 0.46); }
+.dark.site-theme-scope .text-black\/20 { color: rgba(255, 255, 255, 0.36); }
+
+/* Hover text */
+.dark.site-theme-scope .hover\:text-\[\#1a1a1a\]:hover { color: #dedede; }
+.dark.site-theme-scope .hover\:text-\[\#3a3a3a\]:hover { color: rgba(255, 255, 255, 0.9); }
+.dark.site-theme-scope .hover\:text-black:hover { color: #dedede; }
+
+/* Borders */
+.dark.site-theme-scope .border-\[\#e5e7eb\] { border-color: rgba(255, 255, 255, 0.08); }
+.dark.site-theme-scope .border-\[\#e7e9eb\] { border-color: rgba(255, 255, 255, 0.08); }
+.dark.site-theme-scope .border-\[\#e8e4df\] { border-color: rgba(255, 255, 255, 0.1); }
+.dark.site-theme-scope .border-\[\#f0efed\] { border-color: rgba(255, 255, 255, 0.06); }
+.dark.site-theme-scope .border-\[\#f3f4f6\] { border-color: rgba(255, 255, 255, 0.06); }
+.dark.site-theme-scope .border-b-\[\#e5e7eb\] { border-bottom-color: rgba(255, 255, 255, 0.08); }
+
+/* Divides */
+.dark.site-theme-scope .divide-\[\#e5e7eb\] > :not([hidden]) ~ :not([hidden]) { border-color: rgba(255, 255, 255, 0.08); }
+.dark.site-theme-scope .divide-\[\#f0efed\] > :not([hidden]) ~ :not([hidden]) { border-color: rgba(255, 255, 255, 0.06); }
+
+/* Underline decoration */
+.dark.site-theme-scope .decoration-\[\#c8c8c8\] { text-decoration-color: rgba(255, 255, 255, 0.3); }
+.dark.site-theme-scope .hover\:decoration-\[\#1a1a1a\]:hover { text-decoration-color: #ffffff; }
+
+/* Gradient button (FAQ "Ask the Oracle") — brighten so it reads on dark bg */
+.dark.site-theme-scope .from-\[\#1a1a1a\] {
+  --tw-gradient-from: #2a2a2a var(--tw-gradient-from-position);
+  --tw-gradient-to: rgba(42, 42, 42, 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+.dark.site-theme-scope .to-\[\#3b3b3b\] {
+  --tw-gradient-to: #4a4a4a var(--tw-gradient-to-position);
+}
+
+/* Shadow softening — hero cards etc use dark-ish shadows that vanish on #0a0a0a */
+.dark.site-theme-scope .shadow-\[0_6px_24px_rgba\(0\,0\,0\,0\.08\)\] {
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
+}
+.dark.site-theme-scope .shadow-\[0_4px_12px_rgba\(0\,0\,0\,0\.06\)\] {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+}
+
+/* ---- Site dark-scope additions: nav, logos, animations, CTA ---- */
+
+/* Active nav link — add subtle glow so highlighted pill reads clearly on black */
+.dark.site-theme-scope [data-site-nav-active="true"] {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04), 0 4px 16px rgba(255, 255, 255, 0.04);
+}
+
+/* Supermission logo (new.png) — image is black-on-transparent, so we invert
+   it to white inside the dark site scope. Apply via data attribute so it
+   doesn't affect any other use. */
+.dark.site-theme-scope [data-site-logo="true"] {
+  filter: brightness(0) invert(1);
+}
+
+/* How-It-Works hero badge icon (flow-badge-icon.svg) — same treatment */
+.dark.site-theme-scope [data-site-badge-icon="true"] {
+  filter: brightness(0) invert(1);
+}
+
+/* Intent → Execution animated ball — flip bg-[#1a1a1a] to white inside
+   the animation wrapper */
+.dark.site-theme-scope [data-site-flow-ball="true"] {
+  background-color: #ffffff !important;
+}
+.dark.site-theme-scope [data-site-flow-dash="true"] {
+  border-color: rgba(255, 255, 255, 0.45) !important;
+}
+
+/* "Under the Hood" step numbers were `text-[#e5e7eb]` → visible too faintly
+   after our global inversion. Force a subtly-bright tone inside these cards. */
+.dark.site-theme-scope [data-site-step-num] {
+  color: rgba(255, 255, 255, 0.22);
+}
+
+/* Step-connector arrow (→) between cards */
+.dark.site-theme-scope [data-site-step-arrow] {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* Meet Our Agents video cards — add visible hover lift in dark mode */
+.dark.site-theme-scope [data-site-agent-card] {
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+}
+.dark.site-theme-scope [data-site-agent-card]:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+/* CTA Section: the inner dark card is designed to look the same in both
+   modes (dark gradient). Its BUTTONS use text-[#3a3a3a] on a white button
+   which our `text-[#3a3a3a]` inversion would turn white → invisible. Opt
+   these buttons out of the inversion via a data attribute. */
+.dark.site-theme-scope [data-site-preserve-dark-text] { color: #3a3a3a !important; }
+.dark.site-theme-scope [data-landing-final-primary-cta] {
+  color: #ffffff !important;
+  background-image: linear-gradient(to bottom, #2a2a2a, #141414) !important;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+.dark.site-theme-scope [data-landing-final-primary-cta]:hover {
+  opacity: 1 !important;
+  background-image: linear-gradient(to bottom, #343434, #191919) !important;
+  border-color: rgba(255, 255, 255, 0.36);
+  transform: translateY(-1px);
+}
+
+/* CTA outer section is `bg-white`; we already invert that. The inner card
+   has its own gradient — preserved. */
+
+/* Wallet pill inside site dark scope — the pill uses the `isArenaDark`
+   branch styling already present in unified-connect. We'll update the
+   component to detect siteDarkMode too. No CSS needed here, but keep a
+   fallback: if some variant leaks through, soften the black pill so it
+   reads on a black canvas. */
+.dark.site-theme-scope .from-\[\#1a1a1a\].to-\[\#3b3b3b\] {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12), 0 4px 14px rgba(0, 0, 0, 0.5);
+}
+
+/* Wallet dropdown Send/Receive views — fix light backgrounds in dark mode */
+.dark.site-theme-scope [data-wallet-dropdown] {
+  background-color: #141414 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+.dark.site-theme-scope [data-wallet-dropdown] .bg-\[\#f9fafb\],
+.dark.site-theme-scope [data-wallet-dropdown] .bg-\[\#fafbfc\] {
+  background-color: rgba(255, 255, 255, 0.06) !important;
+}
+.dark.site-theme-scope [data-wallet-dropdown] .border-\[\#e7e9eb\],
+.dark.site-theme-scope [data-wallet-dropdown] .border-\[\#f1f3f4\] {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+.dark.site-theme-scope [data-wallet-dropdown] input,
+.dark.site-theme-scope [data-wallet-dropdown] select {
+  background-color: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #dedede !important;
+}
+.dark.site-theme-scope [data-wallet-dropdown] input::placeholder {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+.dark.site-theme-scope [data-wallet-dropdown] input:focus,
+.dark.site-theme-scope [data-wallet-dropdown] select:focus {
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+/* Receive view: network badges */
+.dark.site-theme-scope [data-wallet-dropdown] .bg-blue-50\/50,
+.dark.site-theme-scope [data-wallet-dropdown] .bg-purple-50\/50,
+.dark.site-theme-scope [data-wallet-dropdown] .bg-gray-50\/50,
+.dark.site-theme-scope [data-wallet-dropdown] .bg-sky-50\/50 {
+  background-color: rgba(255, 255, 255, 0.06) !important;
+}
+.dark.site-theme-scope [data-wallet-dropdown] .border-blue-100,
+.dark.site-theme-scope [data-wallet-dropdown] .border-purple-100,
+.dark.site-theme-scope [data-wallet-dropdown] .border-gray-200,
+.dark.site-theme-scope [data-wallet-dropdown] .border-sky-100 {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+.dark.site-theme-scope [data-wallet-dropdown] .text-blue-700,
+.dark.site-theme-scope [data-wallet-dropdown] .text-purple-700,
+.dark.site-theme-scope [data-wallet-dropdown] .text-gray-700,
+.dark.site-theme-scope [data-wallet-dropdown] .text-sky-700 {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+/* QR code container */
+.dark.site-theme-scope [data-wallet-dropdown] .bg-white.p-4 {
+  background-color: #ffffff !important;
+}
+
+/* Footer social-icon opacity variants used inline in footer.tsx */
+.dark.site-theme-scope .text-\[\#3a3a3a\]\/50 { color: rgba(255, 255, 255, 0.5); }
+.dark.site-theme-scope .text-\[\#3a3a3a\]\/80 { color: rgba(255, 255, 255, 0.86); }
+
+/* Meet Our Agents — badge pill, dot, and tag bar */
+.dark.site-theme-scope [data-site-agent-badge] {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.dark.site-theme-scope [data-site-agent-dot] {
+  background-color: #ffffff !important;
+}
+.dark.site-theme-scope [data-site-agent-bar] {
+  background-color: rgba(255, 255, 255, 0.88) !important;
+}
+
+/* Header dropdowns (Leagues / Agents) use inline style={{background: '#ffffff'}}.
+   Inline style beats regular CSS, so we override with !important via a data
+   attribute that the component sets. */
+.dark.site-theme-scope [data-site-dropdown-panel] {
+  background-color: #141414 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Dropdown row item — inline style sets transparent/#f5f3f0 for active and
+   toggles #fafaf8 on hover via JS onMouseEnter. Override both. */
+.dark.site-theme-scope [data-site-dropdown-row][data-active="true"] {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+.dark.site-theme-scope [data-site-dropdown-row]:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+.dark.site-theme-scope [data-site-dropdown-row][data-active="true"]:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Same site-header dropdown appears on the agent pages (defai/markets/perps/
+   security), which render the shared Header but under their own scope. Those
+   scopes lighten the row label text but never remapped the inline-white panel —
+   leaving light labels on a white box. Flip the panel dark here too. */
+.dark.defai-theme-scope [data-site-dropdown-panel],
+.dark.markets-theme-scope [data-site-dropdown-panel],
+.dark.perps-theme-scope [data-site-dropdown-panel],
+.dark.security-theme-scope [data-site-dropdown-panel] {
+  background-color: #141414 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+}
+.dark.defai-theme-scope [data-site-dropdown-row][data-active="true"],
+.dark.markets-theme-scope [data-site-dropdown-row][data-active="true"],
+.dark.perps-theme-scope [data-site-dropdown-row][data-active="true"],
+.dark.security-theme-scope [data-site-dropdown-row][data-active="true"] {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+.dark.defai-theme-scope [data-site-dropdown-row]:hover,
+.dark.markets-theme-scope [data-site-dropdown-row]:hover,
+.dark.perps-theme-scope [data-site-dropdown-row]:hover,
+.dark.security-theme-scope [data-site-dropdown-row]:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* ---- Landing page additions (/) — tokens unique to landing components
+   that aren't used elsewhere in the site scope. Scoped to
+   `.dark.site-theme-scope` so they only fire on wrapped routes. */
+
+/* Light surfaces */
+.dark.site-theme-scope .bg-\[\#f1f3f4\] { background-color: rgba(255, 255, 255, 0.05); }
+.dark.site-theme-scope .bg-\[\#f0f0ee\] { background-color: rgba(255, 255, 255, 0.05); }
+.dark.site-theme-scope .bg-\[\#ebebeb\] { background-color: rgba(255, 255, 255, 0.06); }
+.dark.site-theme-scope .bg-\[\#ececec\] { background-color: rgba(255, 255, 255, 0.06); }
+.dark.site-theme-scope .bg-\[\#e9e9e9\] { background-color: rgba(255, 255, 255, 0.07); }
+.dark.site-theme-scope .bg-\[\#e8e8e8\] { background-color: rgba(255, 255, 255, 0.07); }
+.dark.site-theme-scope .bg-\[\#dadada\] { background-color: rgba(255, 255, 255, 0.08); }
+
+/* Light borders */
+.dark.site-theme-scope .border-\[\#f0f0f0\] { border-color: rgba(255, 255, 255, 0.08); }
+.dark.site-theme-scope .border-\[\#f1f3f4\] { border-color: rgba(255, 255, 255, 0.08); }
+.dark.site-theme-scope .border-\[\#ebebeb\] { border-color: rgba(255, 255, 255, 0.1); }
+.dark.site-theme-scope .border-\[\#eceef0\] { border-color: rgba(255, 255, 255, 0.1); }
+.dark.site-theme-scope .border-\[\#e7e9eb\] { border-color: rgba(255, 255, 255, 0.1); }
+.dark.site-theme-scope .border-\[\#d1d5db\] { border-color: rgba(255, 255, 255, 0.14); }
+.dark.site-theme-scope .border-\[\#c8c8c8\] { border-color: rgba(255, 255, 255, 0.16); }
+
+/* Muted text */
+.dark.site-theme-scope .text-\[\#737373\] { color: rgba(255, 255, 255, 0.55); }
+.dark.site-theme-scope .text-\[\#a0a0a0\] { color: rgba(255, 255, 255, 0.6); }
+.dark.site-theme-scope .text-\[\#b0b5bc\] { color: rgba(255, 255, 255, 0.65); }
+
+/* Hero gradient tail — soften so the headline accent doesn't blow out */
+.dark.site-theme-scope .to-\[\#d2d6df\] {
+  --tw-gradient-to: rgba(255, 255, 255, 0.12) var(--tw-gradient-to-position);
+}
+
+/* "Your Onchain AI Crew" Research/Trade/Secure pillar cards — same story,
+   card bg collides with section bg in dark mode. Subtle white border +
+   slightly lifted surface. Hover state (group-hover:bg-[#1a1a1a]) keeps
+   its own styling via the data attribute override. */
+.dark.site-theme-scope [data-landing-pillar-card] {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background-color: rgba(255, 255, 255, 0.075) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.48);
+}
+.dark.site-theme-scope .group:hover [data-landing-pillar-card] {
+  border-color: rgba(255, 255, 255, 0.18);
+  background-color: #1a1a1a !important;
+}
+/* Inline stat pills inside the card — bg-[#f0f0f0] already maps, but make
+   it a touch lighter so the pill reads on the 0.03 surface. */
+.dark.site-theme-scope [data-landing-pillar-card] .bg-\[\#f0f0f0\] {
+  background-color: rgba(255, 255, 255, 0.11) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.dark.site-theme-scope [data-landing-pillar-stat-icon] {
+  filter: brightness(0) invert(1);
+  opacity: 0.78;
+}
+
+/* Hero CTA buttons - in dark mode, primary button is transparent with white
+   border, fills white on hover. Secondary gets subtle outline + hover lift. */
+.dark.site-theme-scope [data-landing-primary-cta] {
+  background: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  color: #ffffff;
+  box-shadow: none;
+}
+.dark.site-theme-scope [data-landing-primary-cta]:hover {
+  opacity: 1 !important;
+  background: #ffffff !important;
+  color: #0a0a0a !important;
+  border-color: #ffffff;
+  filter: none;
+  transform: none;
+  box-shadow: none;
+}
+.dark.site-theme-scope [data-landing-secondary-cta] {
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  background-color: rgba(255, 255, 255, 0.03);
+}
+.dark.site-theme-scope [data-landing-secondary-cta]:hover {
+  border-color: rgba(255, 255, 255, 0.34) !important;
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  transform: translateY(-1px);
+}
+
+/* Intent to Execution diagram - brighten the rounded boundaries and nested
+   cards so the shapes remain readable against the dark landing canvas. */
+.dark.site-theme-scope [data-landing-flow-card] {
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  background-color: #101010 !important;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04), 0 16px 38px rgba(0, 0, 0, 0.58) !important;
+}
+.dark.site-theme-scope [data-landing-flow-card] > .bg-\[\#fafafa\],
+.dark.site-theme-scope [data-landing-flow-card] .absolute.bg-\[\#fafafa\] {
+  background-color: #111111 !important;
+}
+.dark.site-theme-scope [data-landing-flow-mini-card] {
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  background-color: rgba(255, 255, 255, 0.06) !important;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03), 0 8px 22px rgba(0, 0, 0, 0.4) !important;
+}
+.dark.site-theme-scope [data-landing-flow-mini-card] .bg-\[\#f5f5f5\] {
+  background-color: rgba(255, 255, 255, 0.09) !important;
+}
+
+/* Economy grid lines need to be intentionally visible in dark mode. */
+.dark.site-theme-scope [data-landing-economy-line] {
+  background-color: rgba(255, 255, 255, 0.42) !important;
+  box-shadow: 0 0 0 0.5px rgba(255, 255, 255, 0.12);
+}
+
+/* Waitlist — corner squares (bg-[#d9d9d9]) and avatar rings. The social-
+   proof avatars use `border-white` which stays literal white even in dark
+   mode (a bright ring on a black canvas — fine). Only the corner squares
+   need a tone down. */
+.dark.site-theme-scope .bg-\[\#d9d9d9\] { background-color: rgba(255, 255, 255, 0.14); }
+/* Side rail lines on the waitlist page use bg-[#e7e9eb] (the border-token
+   variant is mapped, the bg-token variant wasn't). Tone down to soft grey. */
+.dark.site-theme-scope .bg-\[\#e7e9eb\] { background-color: rgba(255, 255, 255, 0.08); }
+
+/* "Trusted By Users / Backed By Results" testimonial cards — bg-white
+   inverts to #141414 and blends into the section. Subtle white border. */
+.dark.site-theme-scope [data-landing-testimonial-card] {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.dark.site-theme-scope [data-landing-quote-mark] {
+  filter: brightness(0) invert(1);
+  opacity: 0.9;
+}
+.dark.site-theme-scope [data-landing-testimonial-nav] {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+.dark.site-theme-scope [data-landing-testimonial-nav]:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+.dark.site-theme-scope [data-landing-testimonial-nav][data-active="true"] {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  color: #0a0a0a !important;
+}
+.dark.site-theme-scope [data-landing-testimonial-nav][data-active="true"]:hover {
+  background-color: #ffffff !important;
+  color: #0a0a0a !important;
+}
+
+/* Badge icons that are black in light mode should become white on the dark
+   landing canvas. */
+.dark.site-theme-scope [data-landing-marketplace-icon] {
+  color: #ffffff;
+}
+
+/* "Trade Markets With Measurable Edge" — all four cards. The dark variants
+   (#0f0f0f) and the light variants (bg-white → #141414) all collapse onto
+   the #0a0a0a page bg in dark mode. Give each a subtle white border. The
+   light cards carry an inline `border: 1px solid rgba(0,0,0,0.06)` which
+   requires !important to override. */
+.dark.site-theme-scope [data-landing-trade-card] {
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* "Your Intelligence Team" agent cards — card bg inverts to the same tone as
+   the section bg (#141414 vs #0a0a0a), so cards vanish. Give them a subtle
+   white border + slightly lifted surface in dark mode only. */
+.dark.site-theme-scope [data-landing-agent-card] {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  background-color: rgba(255, 255, 255, 0.03) !important;
+}
+.dark.site-theme-scope [data-landing-agent-card]:hover {
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+}
+/* Image header inside the card — match the slightly-lifted surface */
+.dark.site-theme-scope [data-landing-agent-card] .bg-\[\#f5f5f5\] {
+  background-color: rgba(255, 255, 255, 0.04) !important;
+}
+
+/* Welcome modal (markets scope, portaled) — logo is black-on-transparent
+   PNG so we invert to white in dark mode, and highlight pills need forced
+   white text since text-[#4b5563] isn't part of the auto-inversion set. */
+.dark.markets-theme-scope [data-welcome-modal-logo] img {
+  filter: brightness(0) invert(1);
+}
+.dark.markets-theme-scope [data-welcome-modal-highlight] {
+  color: #ffffff !important;
+}
+
+/* Portaled from SignalFeed, so scope from the root dark class rather than the
+   markets wrapper. */
+.dark [data-signal-info-popover] {
+  background-color: #151515 !important;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.72), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+}
+.dark [data-signal-info-title],
+.dark [data-signal-info-name] {
+  color: #ffffff !important;
+}
+.dark [data-signal-info-desc] {
+  color: rgba(255, 255, 255, 0.74) !important;
+}
+.dark [data-signal-info-close] {
+  color: rgba(255, 255, 255, 0.62) !important;
+}
+.dark [data-signal-info-close]:hover {
+  color: #ffffff !important;
+}
+
+/* ================================================================
+   Markets dark-mode overrides (scoped to `.dark.markets-theme-scope`)
+
+   Covers all color classes found in:
+     MarketTerminal, SignalFeed, PortfolioView, MarketDetailPanel,
+     MarketGrid, CategorySidebar, WatchlistView, StackedMarketGrid
+
+   Zero component files changed. Scope guarantee: every selector is
+   prefixed with `.dark.markets-theme-scope` so these rules can never
+   activate outside /markets (the only route that mounts
+   <MarketsThemeScope>).
+   ================================================================ */
+
+/* --- Page canvas --- */
+.dark.markets-theme-scope { background-color: #121212; color: #dedede; }
+
+/* --- Backgrounds: whites → dark cards --- */
+.dark.markets-theme-scope .bg-white              { background-color: #141414; }
+.dark.markets-theme-scope .bg-white\/95          { background-color: rgba(10, 10, 10, 0.95); }
+.dark.markets-theme-scope .bg-\[\#fafbfc\]       { background-color: #161616; }
+.dark.markets-theme-scope .bg-\[\#fafafa\]       { background-color: #121212; }
+.dark.markets-theme-scope .bg-\[\#f8f9fb\]       { background-color: #161616; }
+.dark.markets-theme-scope .bg-\[\#f8f9fa\]       { background-color: #1a1a1a; }
+.dark.markets-theme-scope .bg-\[\#f8fafc\]       { background-color: #1a1a1a; }
+.dark.markets-theme-scope .bg-\[\#f8faf8\]       { background-color: rgba(52, 211, 153, 0.06); }
+.dark.markets-theme-scope .bg-\[\#faf8f8\]       { background-color: rgba(248, 113, 113, 0.06); }
+.dark.markets-theme-scope .bg-\[\#f7f7f7\]       { background-color: #1e1e1e; }
+.dark.markets-theme-scope .bg-\[\#f5f5f5\]       { background-color: #1a1a1a; }
+.dark.markets-theme-scope .bg-\[\#f5f6f7\]       { background-color: #1a1a1a; }
+.dark.markets-theme-scope .bg-\[\#f4f5f7\]       { background-color: #1a1a1a; }
+.dark.markets-theme-scope .bg-\[\#f1f3f4\]       { background-color: rgba(255, 255, 255, 0.05); }
+.dark.markets-theme-scope .bg-\[\#f1f5f9\]       { background-color: #1e1e1e; }
+.dark.markets-theme-scope .bg-\[\#f0f0f0\]       { background-color: rgba(255, 255, 255, 0.06); }
+.dark.markets-theme-scope .bg-\[\#e5e7eb\]       { background-color: rgba(255, 255, 255, 0.07); }
+
+/* Overlay / modal backdrop */
+.dark.markets-theme-scope .bg-black\/20          { background-color: rgba(0, 0, 0, 0.6); }
+.dark.markets-theme-scope .bg-black\/30          { background-color: rgba(0, 0, 0, 0.65); }
+.dark.markets-theme-scope .bg-black\/\[0\.04\]   { background-color: rgba(255, 255, 255, 0.04); }
+.dark.markets-theme-scope .bg-black\/\[0\.05\]   { background-color: rgba(255, 255, 255, 0.05); }
+
+/* Active/selected state — dark pill in light, lighter pill in dark */
+.dark.markets-theme-scope .bg-\[\#1a1a1a\]       { background-color: rgba(255, 255, 255, 0.14); }
+.dark.markets-theme-scope .bg-\[\#3a3a3a\]       { background-color: rgba(255, 255, 255, 0.16); }
+
+/* Hover backgrounds */
+.dark.markets-theme-scope .hover\:bg-\[\#f7f7f7\]:hover      { background-color: rgba(255, 255, 255, 0.05); }
+.dark.markets-theme-scope .hover\:bg-\[\#e9ebee\]:hover      { background-color: rgba(255, 255, 255, 0.09); }
+.dark.markets-theme-scope .hover\:bg-\[\#f0f0f0\]:hover      { background-color: rgba(255, 255, 255, 0.06); }
+.dark.markets-theme-scope .hover\:bg-\[\#f9f9f9\]:hover      { background-color: rgba(255, 255, 255, 0.05); }
+.dark.markets-theme-scope .hover\:bg-\[\#fafafa\]:hover      { background-color: rgba(255, 255, 255, 0.04); }
+.dark.markets-theme-scope .hover\:text-\[\#1a1a1a\]:hover    { color: #ffffff; }
+.dark.markets-theme-scope .hover\:bg-\[\#f8fafc\]:hover      { background-color: rgba(255, 255, 255, 0.05); }
+.dark.markets-theme-scope .hover\:bg-\[\#f8fafc\]\/50:hover  { background-color: rgba(255, 255, 255, 0.03); }
+.dark.markets-theme-scope .hover\:bg-black\/5:hover          { background-color: rgba(255, 255, 255, 0.05); }
+.dark.markets-theme-scope .hover\:bg-\[\#333\]:hover         { background-color: rgba(255, 255, 255, 0.18); }
+.dark.markets-theme-scope .hover\:bg-rose-50:hover           { background-color: rgba(248, 113, 113, 0.12); }
+
+/* Skeleton loaders */
+.dark.markets-theme-scope .bg-emerald-100\/60    { background-color: rgba(52, 211, 153, 0.15); }
+.dark.markets-theme-scope .bg-rose-100\/60       { background-color: rgba(248, 113, 113, 0.15); }
+
+/* Semantic accent backgrounds */
+.dark.markets-theme-scope .bg-emerald-50         { background-color: rgba(52, 211, 153, 0.12); }
+.dark.markets-theme-scope .bg-emerald-50\/60     { background-color: rgba(52, 211, 153, 0.10); }
+.dark.markets-theme-scope .bg-emerald-50\/70     { background-color: rgba(52, 211, 153, 0.10); }
+.dark.markets-theme-scope .bg-emerald-100        { background-color: rgba(52, 211, 153, 0.18); }
+.dark.markets-theme-scope .bg-rose-50            { background-color: rgba(248, 113, 113, 0.12); }
+.dark.markets-theme-scope .bg-rose-50\/60        { background-color: rgba(248, 113, 113, 0.10); }
+.dark.markets-theme-scope .bg-rose-50\/70        { background-color: rgba(248, 113, 113, 0.10); }
+.dark.markets-theme-scope .bg-rose-100           { background-color: rgba(248, 113, 113, 0.18); }
+.dark.markets-theme-scope .bg-amber-50           { background-color: rgba(251, 191, 36, 0.12); }
+.dark.markets-theme-scope .bg-amber-50\/60       { background-color: rgba(251, 191, 36, 0.10); }
+.dark.markets-theme-scope .bg-purple-100         { background-color: rgba(168, 85, 247, 0.14); }
+.dark.markets-theme-scope .bg-orange-50          { background-color: rgba(251, 146, 60, 0.14); }
+.dark.markets-theme-scope .bg-blue-500\/10       { background-color: rgba(96, 165, 250, 0.14); }
+
+/* WatchlistView agent promo gradient */
+.dark.markets-theme-scope .from-\[\#f8f9fb\]      { --tw-gradient-from: #1a1a1a var(--tw-gradient-from-position); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(26,26,26,0)); }
+.dark.markets-theme-scope .from-blue-50          { --tw-gradient-from: rgba(96, 165, 250, 0.08); }
+.dark.markets-theme-scope .via-white             { --tw-gradient-via: #141414; }
+.dark.markets-theme-scope .to-indigo-50\/30      { --tw-gradient-to: rgba(99, 102, 241, 0.06); }
+
+/* --- Primary text --- */
+.dark.markets-theme-scope .text-black            { color: #dedede; }
+.dark.markets-theme-scope .text-\[\#111\]        { color: #dedede; }
+.dark.markets-theme-scope .text-\[\#1a1a1a\]     { color: #dedede; }
+
+/* --- Muted / grey text --- */
+.dark.markets-theme-scope .text-\[\#9ca3af\]     { color: #8a8a8a; }
+.dark.markets-theme-scope .text-\[\#6b7280\]     { color: #a0a0a0; }
+.dark.markets-theme-scope .text-\[\#b5b5b5\]     { color: #707070; }
+.dark.markets-theme-scope .text-\[\#b0b4ba\]     { color: #808080; }
+.dark.markets-theme-scope .text-\[\#a3a3a3\]     { color: #666666; }
+.dark.markets-theme-scope .text-\[\#666\]        { color: #b0b0b0; }
+.dark.markets-theme-scope .text-\[\#888\]        { color: #c0c0c0; }
+.dark.markets-theme-scope .text-\[\#c5c7cb\]     { color: rgba(255, 255, 255, 0.28); }
+.dark.markets-theme-scope .text-\[\#d1d5db\]     { color: rgba(255, 255, 255, 0.18); }
+.dark.markets-theme-scope .text-\[\#374151\]     { color: #c0c0c0; }
+.dark.markets-theme-scope .text-\[\#f0f0f0\]     { color: rgba(255, 255, 255, 0.55); }
+
+/* Opacity-based text (black/* → white/*) */
+.dark.markets-theme-scope .text-black\/15        { color: rgba(255, 255, 255, 0.18); }
+.dark.markets-theme-scope .text-black\/20        { color: rgba(255, 255, 255, 0.22); }
+.dark.markets-theme-scope .text-black\/25        { color: rgba(255, 255, 255, 0.28); }
+.dark.markets-theme-scope .text-black\/30        { color: rgba(255, 255, 255, 0.38); }
+.dark.markets-theme-scope .text-black\/35        { color: rgba(255, 255, 255, 0.44); }
+.dark.markets-theme-scope .text-black\/40        { color: rgba(255, 255, 255, 0.52); }
+.dark.markets-theme-scope .text-black\/45        { color: rgba(255, 255, 255, 0.58); }
+.dark.markets-theme-scope .text-black\/55        { color: rgba(255, 255, 255, 0.70); }
+.dark.markets-theme-scope .text-black\/65        { color: rgba(255, 255, 255, 0.80); }
+.dark.markets-theme-scope .text-black\/75        { color: rgba(255, 255, 255, 0.88); }
+.dark.markets-theme-scope .text-black\/80        { color: rgba(255, 255, 255, 0.90); }
+
+/* Hover text */
+.dark.markets-theme-scope .hover\:text-black:hover        { color: #dedede; }
+.dark.markets-theme-scope .hover\:text-\[\#6b7280\]:hover { color: #b0b0b0; }
+.dark.markets-theme-scope .hover\:text-\[\#666\]:hover    { color: #c0c0c0; }
+.dark.markets-theme-scope .hover\:text-black\/30:hover    { color: rgba(255, 255, 255, 0.38); }
+.dark.markets-theme-scope .hover\:text-black\/40:hover    { color: rgba(255, 255, 255, 0.52); }
+.dark.markets-theme-scope .hover\:text-black\/65:hover    { color: rgba(255, 255, 255, 0.80); }
+
+/* Group-hover text / bg */
+.dark.markets-theme-scope .group:hover .group-hover\:text-black        { color: #dedede; }
+.dark.markets-theme-scope .group:hover .group-hover\:text-\[\#9ca3af\] { color: #8a8a8a; }
+.dark.markets-theme-scope .group:hover .group-hover\:bg-black\/10      { background-color: rgba(255, 255, 255, 0.08); }
+.dark.markets-theme-scope .group:hover .group-hover\:bg-\[\#9ca3af\]   { background-color: rgba(255, 255, 255, 0.15); }
+
+/* Max / subtle black-tint button surfaces (trade box) */
+.dark.markets-theme-scope .bg-black\/\[0\.06\]        { background-color: rgba(255, 255, 255, 0.06); }
+.dark.markets-theme-scope .hover\:bg-black\/10:hover  { background-color: rgba(255, 255, 255, 0.10); }
+
+/* Semantic accent text */
+.dark.markets-theme-scope .text-emerald-600      { color: #34d399; }
+.dark.markets-theme-scope .text-emerald-700      { color: #34d399; }
+.dark.markets-theme-scope .text-emerald-500      { color: #6ee7b7; }
+.dark.markets-theme-scope .text-emerald-400      { color: #6ee7b7; }
+.dark.markets-theme-scope .text-emerald-500\/50  { color: rgba(110, 231, 183, 0.5); }
+.dark.markets-theme-scope .text-emerald-500\/70  { color: rgba(110, 231, 183, 0.7); }
+.dark.markets-theme-scope .text-rose-500         { color: #f87171; }
+.dark.markets-theme-scope .text-rose-600         { color: #f87171; }
+.dark.markets-theme-scope .text-rose-400         { color: #fca5a5; }
+.dark.markets-theme-scope .text-rose-400\/50     { color: rgba(252, 165, 165, 0.5); }
+.dark.markets-theme-scope .text-rose-400\/70     { color: rgba(252, 165, 165, 0.7); }
+.dark.markets-theme-scope .text-amber-600        { color: #fbbf24; }
+.dark.markets-theme-scope .text-amber-700        { color: #fbbf24; }
+.dark.markets-theme-scope .text-amber-500        { color: #fcd34d; }
+.dark.markets-theme-scope .text-amber-400        { color: #fde68a; }
+.dark.markets-theme-scope .text-orange-600       { color: #fb923c; }
+.dark.markets-theme-scope .text-orange-600\/80   { color: rgba(251, 146, 60, 0.8); }
+.dark.markets-theme-scope .text-red-500          { color: #f87171; }
+.dark.markets-theme-scope .text-red-400          { color: #fca5a5; }
+.dark.markets-theme-scope .text-blue-600\/50     { color: rgba(96, 165, 250, 0.5); }
+.dark.markets-theme-scope .text-blue-600\/60     { color: rgba(96, 165, 250, 0.6); }
+
+/* Portfolio amber warning */
+.dark.markets-theme-scope .text-\[\#d97706\]     { color: #fbbf24; }
+.dark.markets-theme-scope .text-\[\#92400e\]     { color: #fcd34d; }
+
+/* Hover on semantic accent text */
+.dark.markets-theme-scope .hover\:text-rose-500:hover    { color: #f87171; }
+.dark.markets-theme-scope .hover\:text-rose-600:hover    { color: #f87171; }
+.dark.markets-theme-scope .hover\:text-emerald-600:hover { color: #34d399; }
+.dark.markets-theme-scope .hover\:text-black:hover       { color: #ffffff; }
+
+/* --- Borders --- */
+.dark.markets-theme-scope .border-\[\#e5e7eb\]     { border-color: rgba(255, 255, 255, 0.08); }
+.dark.markets-theme-scope .border-\[\#f1f3f4\]     { border-color: rgba(255, 255, 255, 0.05); }
+.dark.markets-theme-scope .border-\[\#f1f5f9\]     { border-color: rgba(255, 255, 255, 0.05); }
+.dark.markets-theme-scope .border-\[\#f0f0f0\]     { border-color: rgba(255, 255, 255, 0.06); }
+.dark.markets-theme-scope .border-\[\#f5f5f5\]     { border-color: rgba(255, 255, 255, 0.05); }
+.dark.markets-theme-scope .border-\[\#d1d5db\]     { border-color: rgba(255, 255, 255, 0.10); }
+.dark.markets-theme-scope .border-black\/\[0\.06\] { border-color: rgba(255, 255, 255, 0.06); }
+.dark.markets-theme-scope .border-black\/\[0\.1\]  { border-color: rgba(255, 255, 255, 0.10); }
+.dark.markets-theme-scope .border-black\/10        { border-color: rgba(255, 255, 255, 0.10); }
+.dark.markets-theme-scope .border-black\/\[0\.2\]  { border-color: rgba(255, 255, 255, 0.14); }
+.dark.markets-theme-scope .border-black\/\[0\.15\] { border-color: rgba(255, 255, 255, 0.12); }
+.dark.markets-theme-scope .border-black\/40        { border-color: rgba(255, 255, 255, 0.20); }
+
+/* Selected / active borders */
+.dark.markets-theme-scope .border-\[\#1a1a1a\]     { border-color: rgba(255, 255, 255, 0.40); }
+.dark.markets-theme-scope .border-\[\#3a3a3a\]     { border-color: rgba(255, 255, 255, 0.25); }
+
+/* Spinner top-border — keep visible on dark */
+.dark.markets-theme-scope .border-t-\[\#3a3a3a\]   { border-top-color: rgba(255, 255, 255, 0.8); }
+
+/* Semantic accent borders */
+.dark.markets-theme-scope .border-emerald-200      { border-color: rgba(52, 211, 153, 0.30); }
+.dark.markets-theme-scope .border-emerald-600      { border-color: #34d399; }
+.dark.markets-theme-scope .border-emerald-50       { border-color: rgba(52, 211, 153, 0.18); }
+.dark.markets-theme-scope .border-rose-50          { border-color: rgba(248, 113, 113, 0.18); }
+.dark.markets-theme-scope .border-rose-200         { border-color: rgba(248, 113, 113, 0.30); }
+.dark.markets-theme-scope .border-rose-500         { border-color: #f87171; }
+.dark.markets-theme-scope .border-amber-200        { border-color: rgba(251, 191, 36, 0.30); }
+.dark.markets-theme-scope .border-amber-200\/40    { border-color: rgba(251, 191, 36, 0.25); }
+.dark.markets-theme-scope .border-amber-500        { border-color: #fbbf24; }
+
+/* Hover borders */
+.dark.markets-theme-scope .hover\:border-black\/\[0\.2\]:hover  { border-color: rgba(255, 255, 255, 0.14); }
+.dark.markets-theme-scope .hover\:border-black\/\[0\.1\]:hover  { border-color: rgba(255, 255, 255, 0.10); }
+.dark.markets-theme-scope .hover\:border-black\/15:hover        { border-color: rgba(255, 255, 255, 0.12); }
+.dark.markets-theme-scope .hover\:border-black\/40:hover        { border-color: rgba(255, 255, 255, 0.20); }
+.dark.markets-theme-scope .hover\:border-\[\#d1d5db\]:hover     { border-color: rgba(255, 255, 255, 0.12); }
+.dark.markets-theme-scope .hover\:border-emerald-200:hover      { border-color: rgba(52, 211, 153, 0.35); }
+.dark.markets-theme-scope .hover\:border-rose-200:hover         { border-color: rgba(248, 113, 113, 0.35); }
+.dark.markets-theme-scope .hover\:border-amber-200:hover        { border-color: rgba(251, 191, 36, 0.30); }
+.dark.markets-theme-scope .hover\:border-black\/\[0\.15\]:hover { border-color: rgba(255, 255, 255, 0.12); }
+.dark.markets-theme-scope .hover\:border-black\/20:hover        { border-color: rgba(255, 255, 255, 0.14); }
+
+/* Focus borders */
+.dark.markets-theme-scope .focus\:border-\[\#1a1a1a\]:focus     { border-color: rgba(255, 255, 255, 0.40); }
+.dark.markets-theme-scope .focus\:border-\[\#3a3a3a\]:focus     { border-color: rgba(255, 255, 255, 0.30); }
+.dark.markets-theme-scope .focus-within\:border-black\/\[0\.2\]:focus-within { border-color: rgba(255, 255, 255, 0.20); }
+
+/* Focus ring */
+.dark.markets-theme-scope .focus\:ring-\[\#1a1a1a\]\/10:focus  { --tw-ring-color: rgba(255, 255, 255, 0.10); }
+
+/* --- Shadows --- */
+.dark.markets-theme-scope .shadow-\[-8px_0_30px_rgba\(0\,0\,0\,0\.06\)\] {
+  box-shadow: -8px 0 40px rgba(0, 0, 0, 0.6);
+}
+.dark.markets-theme-scope .shadow-\[0_1px_3px_rgba\(0\,0\,0\,0\.04\)\] {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+.dark.markets-theme-scope .shadow-\[0_0_4px_rgba\(0\,0\,0\,0\.04\)\] {
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+}
+.dark.markets-theme-scope .shadow-\[0_8px_24px_rgba\(0\,0\,0\,0\.04\)\] {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+.dark.markets-theme-scope .shadow-\[0_2px_8px_rgba\(0\,0\,0\,0\.04\)\] {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+}
+.dark.markets-theme-scope .shadow-\[0_12px_40px_rgba\(0\,0\,0\,0\.12\)\,0_2px_6px_rgba\(0\,0\,0\,0\.06\)\] {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+.dark.markets-theme-scope .shadow-\[0_8px_30px_rgba\(0\,0\,0\,0\.10\)\,0_1px_3px_rgba\(0\,0\,0\,0\.06\)\] {
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55), 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+/* Hover shadows */
+.dark.markets-theme-scope .hover\:shadow-\[0_4px_16px_rgba\(0\,0\,0\,0\.07\)\]:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.55);
+}
+.dark.markets-theme-scope .hover\:shadow-\[0_2px_8px_rgba\(0\,0\,0\,0\.06\)\]:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Outcome button shadows (MarketDetailPanel) */
+.dark.markets-theme-scope .shadow-\[0_2px_6px_rgba\(16\,185\,129\,0\.1\)\,inset_0_1px_0_rgba\(255\,255\,255\,0\.8\)\] {
+  box-shadow: 0 2px 10px rgba(52, 211, 153, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.dark.markets-theme-scope .shadow-\[0_2px_6px_rgba\(244\,63\,94\,0\.1\)\,inset_0_1px_0_rgba\(255\,255\,255\,0\.8\)\] {
+  box-shadow: 0 2px 10px rgba(248, 113, 113, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.dark.markets-theme-scope .hover\:shadow-\[0_4px_16px_rgba\(16\,185\,129\,0\.2\)\,inset_0_1px_0_rgba\(255\,255\,255\,0\.8\)\]:hover {
+  box-shadow: 0 4px 16px rgba(52, 211, 153, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.dark.markets-theme-scope .hover\:shadow-\[0_4px_16px_rgba\(244\,63\,94\,0\.2\)\,inset_0_1px_0_rgba\(255\,255\,255\,0\.8\)\]:hover {
+  box-shadow: 0 4px 16px rgba(248, 113, 113, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* PortfolioView redeem / sell button shadows */
+.dark.markets-theme-scope .shadow-\[0_6px_18px_rgba\(16\,185\,129\,0\.22\)\] {
+  box-shadow: 0 6px 18px rgba(52, 211, 153, 0.28);
+}
+.dark.markets-theme-scope .shadow-\[0_6px_18px_rgba\(16\,185\,129\,0\.18\)\] {
+  box-shadow: 0 6px 18px rgba(52, 211, 153, 0.24);
+}
+.dark.markets-theme-scope .shadow-\[0_6px_18px_rgba\(245\,158\,11\,0\.22\)\] {
+  box-shadow: 0 6px 18px rgba(251, 191, 36, 0.22);
+}
+.dark.markets-theme-scope .shadow-\[0_6px_18px_rgba\(0\,0\,0\,0\.14\)\] {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.55);
+}
+
+/* --- Inputs / Forms --- */
+.dark.markets-theme-scope input,
+.dark.markets-theme-scope textarea,
+.dark.markets-theme-scope select {
+  color: #dedede;
+  caret-color: #ededed;
+}
+.dark.markets-theme-scope input::placeholder,
+.dark.markets-theme-scope textarea::placeholder {
+  color: rgba(255, 255, 255, 0.25);
+}
+.dark.markets-theme-scope .placeholder\:text-\[\#9ca3af\]::placeholder { color: rgba(255, 255, 255, 0.25); }
+.dark.markets-theme-scope .placeholder\:text-\[\#c5c7cb\]::placeholder { color: rgba(255, 255, 255, 0.25); }
+.dark.markets-theme-scope .placeholder\:text-black\/20::placeholder    { color: rgba(255, 255, 255, 0.20); }
+
+/* Chat input wrapper - solid/opaque in dark mode */
+.dark.markets-theme-scope .agent-chat-input-wrapper,
+.dark .agent-chat-input-wrapper {
+  background: #1a1a1a !important;
+  border-color: rgba(255,255,255,0.12) !important;
+}
+.dark.markets-theme-scope .agent-chat-input-wrapper:hover,
+.dark .agent-chat-input-wrapper:hover {
+  border-color: rgba(255,255,255,0.2) !important;
+}
+
+/* Range slider thumb (SignalFeed confidence filter) */
+.dark.markets-theme-scope .\[\&\:\:-webkit-slider-thumb\]\:bg-\[\#1a1a1a\]::-webkit-slider-thumb {
+  background-color: #ededed;
+}
+
+/* ── MarketCard: YES/NO gradient buttons ──────────────────────────────
+   Tailwind `from-*` / `to-*` classes set CSS gradient vars, not bg
+   directly, so the bg-emerald-50 override above doesn't affect them.
+   Override the gradient stops so the buttons read as subtle tinted
+   surfaces on dark instead of light-green / light-rose pastels.      */
+.dark.markets-theme-scope .from-emerald-50 {
+  --tw-gradient-from: rgba(52, 211, 153, 0.14) var(--tw-gradient-from-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(52, 211, 153, 0));
+}
+.dark.markets-theme-scope .to-emerald-100\/60 {
+  --tw-gradient-to: rgba(52, 211, 153, 0.10) var(--tw-gradient-to-position);
+}
+.dark.markets-theme-scope .from-rose-50 {
+  --tw-gradient-from: rgba(248, 113, 113, 0.14) var(--tw-gradient-from-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(248, 113, 113, 0));
+}
+.dark.markets-theme-scope .to-rose-100\/60 {
+  --tw-gradient-to: rgba(248, 113, 113, 0.10) var(--tw-gradient-to-position);
+}
+
+/* MarketCard outcome button inset shadows */
+.dark.markets-theme-scope .shadow-\[0_1px_3px_rgba\(16\,185\,129\,0\.12\)\,inset_0_1px_0_rgba\(255\,255\,255\,0\.7\)\] {
+  box-shadow: 0 1px 3px rgba(52, 211, 153, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.dark.markets-theme-scope .hover\:shadow-\[0_3px_12px_rgba\(16\,185\,129\,0\.2\)\,inset_0_1px_0_rgba\(255\,255\,255\,0\.7\)\]:hover {
+  box-shadow: 0 3px 12px rgba(52, 211, 153, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.dark.markets-theme-scope .shadow-\[0_1px_3px_rgba\(244\,63\,94\,0\.12\)\,inset_0_1px_0_rgba\(255\,255\,255\,0\.7\)\] {
+  box-shadow: 0 1px 3px rgba(248, 113, 113, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.dark.markets-theme-scope .hover\:shadow-\[0_3px_12px_rgba\(244\,63\,94\,0\.2\)\,inset_0_1px_0_rgba\(255\,255\,255\,0\.7\)\]:hover {
+  box-shadow: 0 3px 12px rgba(248, 113, 113, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* ── SignalFeedCard ────────────────────────────────────────────────────
+   Sentiment pill colours + top-gradient tints per sentiment type.     */
+/* Sentiment pill backgrounds */
+.dark.markets-theme-scope .bg-purple-100  { background-color: rgba(168, 85, 247, 0.14); }
+.dark.markets-theme-scope .bg-amber-100   { background-color: rgba(251, 191, 36, 0.14); }
+.dark.markets-theme-scope .bg-cyan-100    { background-color: rgba(34, 211, 238, 0.14); }
+
+/* Sentiment pill text */
+.dark.markets-theme-scope .text-purple-700 { color: #c084fc; }
+.dark.markets-theme-scope .text-amber-700  { color: #fbbf24; }
+.dark.markets-theme-scope .text-cyan-700   { color: #22d3ee; }
+
+/* Sentiment pill borders */
+.dark.markets-theme-scope .border-purple-200 { border-color: rgba(168, 85, 247, 0.30); }
+.dark.markets-theme-scope .border-amber-200  { border-color: rgba(251, 191, 36, 0.30); }
+.dark.markets-theme-scope .border-cyan-200   { border-color: rgba(34, 211, 238, 0.30); }
+
+/* Top card gradient tints */
+.dark.markets-theme-scope .from-purple-50\/80 {
+  --tw-gradient-from: rgba(168, 85, 247, 0.08) var(--tw-gradient-from-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(168, 85, 247, 0));
+}
+.dark.markets-theme-scope .from-amber-50\/80 {
+  --tw-gradient-from: rgba(251, 191, 36, 0.08) var(--tw-gradient-from-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(251, 191, 36, 0));
+}
+.dark.markets-theme-scope .from-cyan-50\/80 {
+  --tw-gradient-from: rgba(34, 211, 238, 0.08) var(--tw-gradient-from-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(34, 211, 238, 0));
+}
+
+/* AI analysis bubble */
+.dark.markets-theme-scope .bg-\[\#f7f7f8\]  { background-color: rgba(255, 255, 255, 0.05); }
+
+/* Muted text colours used in SignalFeedCard */
+.dark.markets-theme-scope .text-\[\#8b8f96\] { color: #7a7a7a; }
+.dark.markets-theme-scope .text-\[\#a1a1aa\] { color: #888888; }
+.dark.markets-theme-scope .text-\[\#c0c0c0\] { color: #606060; }
+
+/* AI analysis bubble arrow (border-r colour matches bubble bg) */
+.dark.markets-theme-scope .border-r-\[\#f7f7f8\] { border-right-color: rgba(255, 255, 255, 0.05); }
+
+/* ── PredictionMarketChat (Agent tab) ─────────────────────────────────
+   The chat shell and input box use their own set of colour tokens not
+   shared with the rest of the markets components.                     */
+
+/* Chat shell backgrounds */
+.dark.markets-theme-scope .bg-\[\#f5f3f0\]         { background-color: rgba(255, 255, 255, 0.05); }
+.dark.markets-theme-scope .hover\:bg-\[\#ece8e3\]:hover { background-color: rgba(255, 255, 255, 0.08); }
+
+/* Input box container gradient + border */
+.dark.markets-theme-scope .from-\[\#f8f8f8\] {
+  --tw-gradient-from: #1e1e1e var(--tw-gradient-from-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(30, 30, 30, 0));
+}
+.dark.markets-theme-scope .to-\[\#f0f0f0\] {
+  --tw-gradient-to: #181818 var(--tw-gradient-to-position);
+}
+.dark.markets-theme-scope .border-\[\#e0e0e0\]            { border-color: rgba(255, 255, 255, 0.10); }
+.dark.markets-theme-scope .border-\[\#e8e4df\]            { border-color: rgba(255, 255, 255, 0.08); }
+.dark.markets-theme-scope .hover\:border-\[\#c5c5c5\]:hover { border-color: rgba(255, 255, 255, 0.18); }
+.dark.markets-theme-scope .hover\:shadow-md:hover         { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5); }
+
+/* Textarea text + placeholder */
+.dark.markets-theme-scope .text-gray-900                  { color: #dedede; }
+.dark.markets-theme-scope .placeholder\:text-gray-400::placeholder { color: rgba(255, 255, 255, 0.30); }
+
+/* Send / stop button disabled states */
+.dark.markets-theme-scope .disabled\:bg-gray-200:disabled { background-color: rgba(255, 255, 255, 0.08); }
+.dark.markets-theme-scope .disabled\:text-gray-400:disabled { color: rgba(255, 255, 255, 0.28); }
+
+/* "Jump to latest" floating button */
+.dark.markets-theme-scope .text-gray-600   { color: #a0a0a0; }
+.dark.markets-theme-scope .hover\:border-\[\#c5c5c5\]:hover { border-color: rgba(255, 255, 255, 0.18); }
+
+/* Suggestion chip pills */
+.dark.markets-theme-scope .hover\:bg-\[\#ece8e3\]:hover   { background-color: rgba(255, 255, 255, 0.08); }
+
+/* ── Browse card Yes/No button hover fill ─────────────────────────────
+   Tailwind v4 uses var(--tw-gradient-via-stops, ...) in --tw-gradient-stops.
+   The safest override is to hard-code the stops directly so the gradient
+   is always a solid fill regardless of the position/via variables.
+   Specificity 0,3,0 (two classes + :hover) beats the static 0,2,0 overrides. */
+.dark.markets-theme-scope .hover\:from-emerald-500:hover {
+  --tw-gradient-from: #10b981;
+  --tw-gradient-stops: #10b981, #059669;
+}
+.dark.markets-theme-scope .hover\:to-emerald-600:hover   { --tw-gradient-to: #059669; }
+.dark.markets-theme-scope .hover\:from-rose-500:hover {
+  --tw-gradient-from: #f43f5e;
+  --tw-gradient-stops: #f43f5e, #e11d48;
+}
+.dark.markets-theme-scope .hover\:to-rose-600:hover      { --tw-gradient-to: #e11d48; }
+.dark.markets-theme-scope .hover\:text-white:hover       { color: #ffffff; }
+.dark.markets-theme-scope [data-market-outcome-button]:hover {
+  color: #ffffff !important;
+}
+.dark.markets-theme-scope [data-market-outcome-button]:hover [data-market-outcome-price] {
+  color: rgba(255, 255, 255, 0.92) !important;
+  opacity: 1 !important;
+}
+.dark.markets-theme-scope [data-market-card-tag] {
+  color: rgba(255, 255, 255, 0.72) !important;
+  background-color: rgba(255, 255, 255, 0.075) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.dark.markets-theme-scope [data-market-card]:hover [data-market-card-tag] {
+  color: rgba(255, 255, 255, 0.92) !important;
+  background-color: rgba(255, 255, 255, 0.11) !important;
+  border-color: rgba(255, 255, 255, 0.14);
+}
+.dark.markets-theme-scope [data-market-detail-title] {
+  color: #ffffff !important;
+}
+.dark.markets-theme-scope [data-market-detail-description] {
+  color: rgba(255, 255, 255, 0.78) !important;
+}
+.dark.markets-theme-scope [data-market-detail-section-label] {
+  color: rgba(255, 255, 255, 0.78) !important;
+}
+.dark.markets-theme-scope [data-market-detail-stat-label] {
+  color: rgba(255, 255, 255, 0.62) !important;
+}
+.dark.markets-theme-scope [data-market-detail-stat-value] {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+.dark.markets-theme-scope [data-market-signal-subtext] {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+.dark.markets-theme-scope [data-market-signal-subtext] .bg-\[\#9ca3af\] {
+  background-color: rgba(255, 255, 255, 0.58) !important;
+}
+.dark.markets-theme-scope [data-limit-order-form] {
+  background: linear-gradient(180deg, #121212 0%, #0f0f0f 100%) !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 14px 36px rgba(0, 0, 0, 0.55) !important;
+}
+.dark.markets-theme-scope [data-limit-outcome-tabs] {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+.dark.markets-theme-scope [data-limit-outcome-tabs] button {
+  background-color: transparent !important;
+  color: rgba(255, 255, 255, 0.5) !important;
+  border-bottom-color: transparent !important;
+}
+.dark.markets-theme-scope [data-limit-outcome-tabs] button[data-active="true"][data-outcome-tone="yes"] {
+  background-color: rgba(16, 185, 129, 0.12) !important;
+  border-bottom-color: #10b981 !important;
+  color: #34d399 !important;
+}
+.dark.markets-theme-scope [data-limit-outcome-tabs] button[data-active="true"][data-outcome-tone="no"] {
+  background-color: rgba(244, 63, 94, 0.12) !important;
+  border-bottom-color: #f43f5e !important;
+  color: #fb7185 !important;
+}
+.dark.markets-theme-scope [data-limit-side-toggle],
+.dark.markets-theme-scope [data-limit-order-cost] {
+  background-color: rgba(255, 255, 255, 0.055) !important;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+.dark.markets-theme-scope [data-limit-side-toggle] button {
+  background-color: transparent !important;
+  color: rgba(255, 255, 255, 0.48) !important;
+}
+.dark.markets-theme-scope [data-limit-side-toggle] button[data-active="true"][data-side="buy"] {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+  color: #34d399 !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.dark.markets-theme-scope [data-limit-side-toggle] button[data-active="true"][data-side="sell"] {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+  color: #fb7185 !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.dark.markets-theme-scope [data-limit-field-label] {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+.dark.markets-theme-scope [data-limit-helper-text],
+.dark.markets-theme-scope [data-limit-input-suffix] {
+  color: rgba(255, 255, 255, 0.58) !important;
+}
+.dark.markets-theme-scope [data-limit-order-form] input {
+  background-color: rgba(255, 255, 255, 0.07) !important;
+  color: rgba(255, 255, 255, 0.92) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+.dark.markets-theme-scope [data-limit-order-form] input::placeholder {
+  color: rgba(255, 255, 255, 0.28) !important;
+}
+.dark.markets-theme-scope [data-limit-cost-value] {
+  color: #ffffff !important;
+}
+.dark.markets-theme-scope [data-limit-submit]:disabled {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  color: rgba(255, 255, 255, 0.38) !important;
+}
+.dark.markets-theme-scope [data-limit-submit]:not(:disabled) {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+.dark.markets-theme-scope [data-market-price-history-tabs] {
+  background-color: rgba(255, 255, 255, 0.06) !important;
+}
+.dark.markets-theme-scope [data-market-price-history-tabs] button {
+  color: rgba(255, 255, 255, 0.58) !important;
+}
+.dark.markets-theme-scope [data-market-price-history-tabs] button:hover {
+  color: rgba(255, 255, 255, 0.88) !important;
+}
+.dark.markets-theme-scope [data-market-price-history-tabs] button[data-active="true"] {
+  background-color: rgba(255, 255, 255, 0.14) !important;
+  color: #ffffff !important;
+}
+.dark.markets-theme-scope [data-price-chart-surface] {
+  background-color: #111111 !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+}
+.dark.markets-theme-scope [data-price-chart-loading] {
+  background-color: rgba(17, 17, 17, 0.92) !important;
+}
+.dark.markets-theme-scope [data-price-chart-loading] span {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+.dark.markets-theme-scope [data-watchlist-remove-button] {
+  color: rgba(255, 255, 255, 0.58) !important;
+}
+.dark.markets-theme-scope [data-watchlist-card]:hover [data-watchlist-remove-button] {
+  color: rgba(255, 255, 255, 0.82) !important;
+}
+.dark.markets-theme-scope [data-watchlist-remove-button]:hover {
+  color: #fca5a5 !important;
+  background-color: rgba(248, 113, 113, 0.14) !important;
+}
+
+/* ── Countdown badge text colour (#48484b is unreadable on dark bg) ── */
+.dark.markets-theme-scope .text-\[\#48484b\] { color: #b0b0b0; }
+
+/* ── Signals CategoryCard active indicator — hidden in dark mode ───── */
+.dark.markets-theme-scope .bg-white\/30 { background-color: transparent; }
+
+/* Signals category tiles: subtle white edge in dark mode (very slight). */
+.dark.markets-theme-scope [data-signal-category-card] {
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 3px 10px rgba(0, 0, 0, 0.22) !important;
+}
+
+.dark.markets-theme-scope [data-signal-category-card][data-active="true"] {
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 8px 22px rgba(0, 0, 0, 0.36) !important;
+}
+
+@media (hover: hover) {
+  .dark.markets-theme-scope [data-signal-category-card]:hover {
+    border-color: rgba(255, 255, 255, 0.11);
+  }
+}
+
+/* ── Refresh / hover-bg-white buttons ──────────────────────────────── */
+.dark.markets-theme-scope .hover\:bg-white:hover { background-color: rgba(255, 255, 255, 0.07); }
+
+/* ── Trade history / EventStackCard row dividers ───────────────────── */
+.dark.markets-theme-scope .border-\[\#f8f9fa\]           { border-color: rgba(255, 255, 255, 0.06); }
+/* Row hover — must not flash white */
+.dark.markets-theme-scope .hover\:bg-\[\#fafbfc\]:hover  { background-color: rgba(255, 255, 255, 0.05); }
+/* Alternating row tint */
+.dark.markets-theme-scope .bg-\[\#fafbfc\]\/50           { background-color: rgba(255, 255, 255, 0.02); }
+
+/* ── PortfolioView trade history dividers ────────────────────────── */
+.portfolio-trade-header-border { border-bottom: 1px solid #e8e8e8; }
+.portfolio-trade-rows > * + *  { border-top: 1px solid #efefef; }
+.portfolio-trade-row           { border-bottom: 1px solid #efefef; }
+.dark.markets-theme-scope .portfolio-trade-header-border { border-bottom-color: rgba(255,255,255,0.08); }
+.dark.markets-theme-scope .portfolio-trade-rows > * + *  { border-top-color: rgba(255,255,255,0.06); }
+.dark.markets-theme-scope .portfolio-trade-row           { border-bottom-color: rgba(255,255,255,0.06); }
+
+/* Portfolio Export CSV button */
+.dark.markets-theme-scope .portfolio-export-csv-btn {
+  border-color: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.5);
+}
+.dark.markets-theme-scope .portfolio-export-csv-btn:hover {
+  color: #fff;
+  border-color: rgba(255,255,255,0.4);
+  box-shadow: 0 0 16px rgba(255,255,255,0.2);
+}
+
+/* Portfolio trade row hover glow */
+.dark.markets-theme-scope .portfolio-trade-row-hover:hover {
+  background: transparent !important;
+  text-shadow: 0 0 12px rgba(255,255,255,0.4);
+}
+
+/* ── PortfolioView position card elements ───────────────────────── */
+.dark.markets-theme-scope .portfolio-card-divider { background-color: rgba(255,255,255,0.06); }
+.dark.markets-theme-scope .portfolio-stat-box     { background-color: #222; }
+.dark.markets-theme-scope .portfolio-stat-label   { color: #888; }
+.dark.markets-theme-scope .portfolio-stat-value   { color: #dedede; }
+.dark.markets-theme-scope .portfolio-footer-text  { color: #888; }
+.dark.markets-theme-scope .portfolio-footer-value { color: #dedede; }
+.portfolio-timer-num  { color: #1a1a1a; }
+.portfolio-timer-unit { color: rgba(26, 26, 26, 0.45); }
+.dark.markets-theme-scope .portfolio-timer-num  { color: #dedede; }
+.dark.markets-theme-scope .portfolio-timer-unit { color: rgba(255, 255, 255, 0.58); }
+
+/* ── WatchlistView elements ───────────────────────────────────────── */
+.dark.markets-theme-scope .watchlist-category-tag { background-color: rgba(255,255,255,0.10); color: rgba(255,255,255,0.70); }
+.dark.markets-theme-scope .watchlist-view-btn     { background-color: rgba(255,255,255,0.10); color: rgba(255,255,255,0.80); }
+.dark.markets-theme-scope .watchlist-view-btn:hover { background-color: rgba(255,255,255,0.15); color: #fff; border-color: rgba(255,255,255,0.20); }
+
+/* ── MarketDetailPanel back button ────────────────────────────────── */
+.dark.markets-theme-scope .detail-panel-back-btn       { color: #dedede; }
+.dark.markets-theme-scope .detail-panel-back-btn:hover { color: #fff; }
+.dark.markets-theme-scope .detail-panel-back-icon      { border-color: rgba(255,255,255,0.20); background-color: rgba(255,255,255,0.08); }
+.dark.markets-theme-scope .detail-panel-back-btn:hover .detail-panel-back-icon { border-color: rgba(255,255,255,0.35); background-color: rgba(255,255,255,0.14); }
+
+/* ── TradeHistoryView row dividers ───────────────────────────────── */
+.trade-history-thead-row { border-bottom: 1px solid #e8e8e8; }
+.trade-history-body-row  { border-bottom: 1px solid #f0f0f0; }
+.trade-history-mobile-rows > * + * { border-top: 1px solid #e8e8e8; }
+.dark.markets-theme-scope .trade-history-thead-row { border-bottom-color: rgba(255,255,255,0.08); }
+.dark.markets-theme-scope .trade-history-body-row  { border-bottom-color: rgba(255,255,255,0.05); }
+.dark.markets-theme-scope .trade-history-mobile-rows > * + * { border-top-color: rgba(255,255,255,0.07); }
+
+/* Export CSV button */
+.trade-history-export-btn {
+  border-color: #e5e7eb;
+  color: #9ca3af;
+}
+.trade-history-export-btn:hover:not(:disabled) {
+  color: #111;
+  border-color: #9ca3af;
+  box-shadow: 0 0 12px rgba(0,0,0,0.12);
+}
+.dark.markets-theme-scope .trade-history-export-btn {
+  border-color: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.5);
+}
+.dark.markets-theme-scope .trade-history-export-btn:hover:not(:disabled) {
+  color: #fff;
+  border-color: rgba(255,255,255,0.35);
+  box-shadow: 0 0 18px rgba(255,255,255,0.2);
+}
+
+/* ── OrderBookLadder row dividers (Price History spread tab) ─────── */
+.dark.markets-theme-scope .divide-\[\#f8fafc\] > :not([hidden]) ~ :not([hidden]) { border-color: rgba(255, 255, 255, 0.05); }
+/* OrderBook text on dark bg */
+.dark.markets-theme-scope .text-black\/70  { color: rgba(255, 255, 255, 0.75); }
+.dark.markets-theme-scope .text-black\/10  { color: rgba(255, 255, 255, 0.10); }
+
+/* ── SignalPanel (data-signal-panel) ── */
+.dark.markets-theme-scope [data-signal-panel]                         { border-color: rgba(255,255,255,0.08); }
+.dark.markets-theme-scope [data-signal-panel] .border-\[\#e5e7eb\]    { border-color: rgba(255,255,255,0.08) !important; }
+.dark.markets-theme-scope [data-signal-panel] .divide-\[\#e5e7eb\] > :not([hidden]) ~ :not([hidden]) { border-color: rgba(255,255,255,0.08) !important; }
+.dark.markets-theme-scope [data-signal-panel] .hover\:bg-\[\#f7f7f7\]:hover { background-color: rgba(255,255,255,0.05); }
+.dark.markets-theme-scope [data-signal-panel] .text-black\/30         { color: rgba(255,255,255,0.30); }
+.dark.markets-theme-scope [data-signal-panel] .text-black\/20         { color: rgba(255,255,255,0.20); }
+.dark.markets-theme-scope [data-signal-panel] .text-black\/50         { color: rgba(255,255,255,0.50); }
+.dark.markets-theme-scope [data-signal-panel] .text-black\/15         { color: rgba(255,255,255,0.15); }
+.dark.markets-theme-scope [data-signal-panel] .group:hover .group-hover\:text-black { color: #ffffff; }
+.dark.markets-theme-scope [data-signal-panel] .group:hover .group-hover\:text-black\/40 { color: rgba(255,255,255,0.40); }
+.dark.markets-theme-scope [data-signal-panel] .text-\[\#6b7280\]      { color: rgba(255,255,255,0.55); }
+.dark.markets-theme-scope [data-signal-panel] .text-black             { color: #dedede; }
+
+/* ================================================================
+   DeFAI / Perps / Security dark-mode overrides
+   Scoped to .dark.defai-theme-scope / .dark.perps-theme-scope /
+   .dark.security-theme-scope respectively.
+
+   All three chat UIs (DelphiChat, PerpsHyperionChat, SecuroChat) and
+   the AgentChat hub share the same colour tokens, so the rules are
+   listed once per scope below. Zero component files changed.
+   ================================================================ */
+
+/* ── Shared mixin (written out per scope for strict CSS scoping) ─── */
+
+/* ── DeFAI scope ─────────────────────────────────────────────────── */
+.dark.defai-theme-scope { background-color: #0a0a0a; color: #dedede; }
+
+/* Page canvas + sidebar */
+.dark.defai-theme-scope .bg-white          { background-color: #141414; }
+.dark.defai-theme-scope .bg-white\/95 {
+  background-color: rgba(18, 18, 18, 0.85);
+  border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03), 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+
+/* Navbar / header — shared Header component uses bg-white/95 */
+.dark.defai-theme-scope .border-\[\#e5e7eb\]    { border-color: rgba(255, 255, 255, 0.08); }
+.dark.defai-theme-scope .border-\[\#e7e9eb\]    { border-color: rgba(255, 255, 255, 0.08); }
+.dark.defai-theme-scope .border-\[\#e0e0e0\]    { border-color: rgba(255, 255, 255, 0.10); }
+.dark.defai-theme-scope .border-\[\#e8e4df\]    { border-color: rgba(255, 255, 255, 0.08); }
+.dark.defai-theme-scope .border-\[\#d1d5db\]    { border-color: rgba(255, 255, 255, 0.10); }
+.dark.defai-theme-scope .border-gray-200        { border-color: rgba(255, 255, 255, 0.12); }
+
+/* Text */
+.dark.defai-theme-scope .text-\[\#1a1a1a\]      { color: #dedede; }
+.dark.defai-theme-scope .text-\[\#111\]          { color: #dedede; }
+.dark.defai-theme-scope .text-black             { color: #dedede; }
+.dark.defai-theme-scope .text-gray-900          { color: #dedede; }
+.dark.defai-theme-scope .text-\[\#9ca3af\]      { color: #8a8a8a; }
+.dark.defai-theme-scope .text-\[\#6b7280\]      { color: #a0a0a0; }
+.dark.defai-theme-scope .text-gray-600          { color: #a0a0a0; }
+.dark.defai-theme-scope .text-gray-400          { color: rgba(255, 255, 255, 0.30); }
+.dark.defai-theme-scope .text-black\/30         { color: rgba(255, 255, 255, 0.38); }
+.dark.defai-theme-scope .text-black\/40         { color: rgba(255, 255, 255, 0.50); }
+.dark.defai-theme-scope .text-black\/60         { color: rgba(255, 255, 255, 0.72); }
+
+/* Hover text */
+.dark.defai-theme-scope .hover\:text-\[\#1a1a1a\]:hover  { color: #ffffff; }
+.dark.defai-theme-scope .hover\:text-black:hover          { color: #ffffff; }
+.dark.defai-theme-scope .hover\:text-gray-600:hover       { color: #c0c0c0; }
+.dark.defai-theme-scope .hover\:text-black\/60:hover      { color: rgba(255, 255, 255, 0.75); }
+
+/* Backgrounds: suggestion chips + input bar */
+.dark.defai-theme-scope .bg-\[\#f5f3f0\]        { background-color: rgba(255, 255, 255, 0.05); }
+.dark.defai-theme-scope .bg-\[\#f8fafc\]        { background-color: #1a1a1a; }
+.dark.defai-theme-scope .bg-\[\#f8f8f8\]        { background-color: #1e1e1e; }
+.dark.defai-theme-scope .bg-\[\#f0f0f0\]        { background-color: #181818; }
+.dark.defai-theme-scope .bg-\[\#e5e7eb\]        { background-color: rgba(255, 255, 255, 0.07); }
+
+/* Agent nav bar (bg-white active pill overrides bg-[#3a3a3a] which is fine as-is) */
+.dark.defai-theme-scope .bg-black\/5            { background-color: rgba(255, 255, 255, 0.05); }
+.dark.defai-theme-scope .bg-black\/\[0\.04\]    { background-color: rgba(255, 255, 255, 0.04); }
+.dark.defai-theme-scope .bg-black\/\[0\.06\]    { background-color: rgba(255, 255, 255, 0.06); }
+.dark.defai-theme-scope .bg-black\/\[0\.07\]    { background-color: rgba(255, 255, 255, 0.07); }
+.dark.defai-theme-scope .bg-black\/\[0\.08\]    { background-color: rgba(255, 255, 255, 0.08); }
+
+/* Hover backgrounds */
+.dark.defai-theme-scope .hover\:bg-\[\#ece8e3\]:hover     { background-color: rgba(255, 255, 255, 0.08); }
+.dark.defai-theme-scope .hover\:bg-\[\#f7f7f7\]:hover     { background-color: rgba(255, 255, 255, 0.05); }
+.dark.defai-theme-scope .hover\:bg-black\/\[0\.03\]:hover { background-color: rgba(255, 255, 255, 0.03); }
+.dark.defai-theme-scope .hover\:bg-gray-800:hover         { background-color: rgba(255, 255, 255, 0.12); }
+
+/* Input bar gradient */
+.dark.defai-theme-scope .from-\[\#f8f8f8\] { --tw-gradient-from: #1e1e1e var(--tw-gradient-from-position); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(30,30,30,0)); }
+.dark.defai-theme-scope .to-\[\#f0f0f0\]   { --tw-gradient-to: #181818 var(--tw-gradient-to-position); }
+
+.dark.defai-theme-scope .hover\:border-\[\#c5c5c5\]:hover { border-color: rgba(255, 255, 255, 0.18); }
+.dark.defai-theme-scope .hover\:border-gray-400:hover     { border-color: rgba(255, 255, 255, 0.20); }
+.dark.defai-theme-scope .hover\:border-\[\#d1d5db\]:hover { border-color: rgba(255, 255, 255, 0.12); }
+
+/* Inputs */
+.dark.defai-theme-scope input, .dark.defai-theme-scope textarea { color: #dedede; caret-color: #ededed; }
+.dark.defai-theme-scope input::placeholder, .dark.defai-theme-scope textarea::placeholder { color: rgba(255, 255, 255, 0.25); }
+.dark.defai-theme-scope .placeholder\:text-gray-400::placeholder { color: rgba(255, 255, 255, 0.25); }
+
+/* Disabled states */
+.dark.defai-theme-scope .disabled\:bg-gray-200:disabled   { background-color: rgba(255, 255, 255, 0.08); }
+.dark.defai-theme-scope .disabled\:text-gray-400:disabled { color: rgba(255, 255, 255, 0.28); }
+
+/* Borders in agent selector / message bubbles */
+.dark.defai-theme-scope .border-black\/\[0\.06\]  { border-color: rgba(255, 255, 255, 0.06); }
+.dark.defai-theme-scope .border-black\/10          { border-color: rgba(255, 255, 255, 0.10); }
+
+/* Agent avatar (#1a1a1a bg stays dark — fine as is; message bubble overrides) */
+.dark.defai-theme-scope .bg-\[\#1a1a1a\]           { background-color: rgba(255, 255, 255, 0.14); }
+
+/* Skeleton loading bars */
+.dark.defai-theme-scope .bg-\[\#f5f5f5\]           { background-color: #1a1a1a; }
+.dark.defai-theme-scope .bg-emerald-100\/60         { background-color: rgba(52, 211, 153, 0.15); }
+.dark.defai-theme-scope .bg-rose-100\/60            { background-color: rgba(248, 113, 113, 0.15); }
+
+/* Error / cancel states */
+.dark.defai-theme-scope .bg-red-100                 { background-color: rgba(239, 68, 68, 0.12); }
+.dark.defai-theme-scope .hover\:bg-red-200:hover    { background-color: rgba(239, 68, 68, 0.18); }
+.dark.defai-theme-scope .border-red-300             { border-color: rgba(239, 68, 68, 0.35); }
+.dark.defai-theme-scope .bg-red-50                  { background-color: rgba(239, 68, 68, 0.08); }
+.dark.defai-theme-scope .text-red-700               { color: #f87171; }
+
+/* Shadows */
+.dark.defai-theme-scope .shadow-md  { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5); }
+.dark.defai-theme-scope .shadow-sm  { box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); }
+.dark.defai-theme-scope .hover\:shadow-lg:hover { box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6); }
+.dark.defai-theme-scope .hover\:shadow-md:hover { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5); }
+.dark.defai-theme-scope .hover\:shadow-\[0px_4px_12px_0px_rgba\(0\,0\,0\,0\.08\)\]:hover { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.55); }
+
+/* ── Perps scope ─────────────────────────────────────────────────── */
+.dark.perps-theme-scope { background-color: #0a0a0a; color: #dedede; }
+
+.dark.perps-theme-scope .bg-white          { background-color: #141414; }
+.dark.perps-theme-scope .bg-white\/95 {
+  background-color: rgba(18, 18, 18, 0.85);
+  border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03), 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+.dark.perps-theme-scope .border-\[\#e5e7eb\]    { border-color: rgba(255, 255, 255, 0.08); }
+.dark.perps-theme-scope .border-\[\#f0f0f0\]    { border-color: rgba(255, 255, 255, 0.045); }
+.dark.perps-theme-scope .border-\[\#e0e0e0\]    { border-color: rgba(255, 255, 255, 0.10); }
+.dark.perps-theme-scope .border-\[\#e8e4df\]    { border-color: rgba(255, 255, 255, 0.08); }
+.dark.perps-theme-scope .border-\[\#d1d5db\]    { border-color: rgba(255, 255, 255, 0.10); }
+.dark.perps-theme-scope .text-\[\#1a1a1a\]      { color: #dedede; }
+.dark.perps-theme-scope .text-\[\#111\]          { color: #dedede; }
+.dark.perps-theme-scope .text-black             { color: #dedede; }
+.dark.perps-theme-scope .text-gray-900          { color: #dedede; }
+.dark.perps-theme-scope .text-\[\#9ca3af\]      { color: #8a8a8a; }
+.dark.perps-theme-scope .text-\[\#6b7280\]      { color: #a0a0a0; }
+.dark.perps-theme-scope .text-gray-600          { color: #a0a0a0; }
+.dark.perps-theme-scope .text-gray-400          { color: rgba(255, 255, 255, 0.30); }
+.dark.perps-theme-scope .text-black\/30         { color: rgba(255, 255, 255, 0.38); }
+.dark.perps-theme-scope .text-black\/40         { color: rgba(255, 255, 255, 0.50); }
+.dark.perps-theme-scope .text-black\/60         { color: rgba(255, 255, 255, 0.72); }
+.dark.perps-theme-scope .hover\:text-black:hover { color: #dedede; }
+.dark.perps-theme-scope .hover\:text-\[\#1a1a1a\]:hover { color: #dedede; }
+.dark.perps-theme-scope .hover\:text-gray-600:hover     { color: #c0c0c0; }
+.dark.perps-theme-scope .bg-\[\#f5f3f0\]        { background-color: rgba(255, 255, 255, 0.05); }
+.dark.perps-theme-scope .bg-\[\#f8fafc\]        { background-color: #1a1a1a; }
+.dark.perps-theme-scope .bg-\[\#f8f8f8\]        { background-color: #1e1e1e; }
+.dark.perps-theme-scope .bg-\[\#f0f0f0\]        { background-color: #181818; }
+.dark.perps-theme-scope .bg-\[\#e5e7eb\]        { background-color: rgba(255, 255, 255, 0.07); }
+.dark.perps-theme-scope .bg-black\/\[0\.04\]    { background-color: rgba(255, 255, 255, 0.04); }
+.dark.perps-theme-scope .bg-black\/\[0\.05\]    { background-color: rgba(255, 255, 255, 0.05); }
+.dark.perps-theme-scope .bg-black\/\[0\.06\]    { background-color: rgba(255, 255, 255, 0.06); }
+.dark.perps-theme-scope .bg-black\/\[0\.07\]    { background-color: rgba(255, 255, 255, 0.07); }
+.dark.perps-theme-scope .bg-black\/\[0\.08\]    { background-color: rgba(255, 255, 255, 0.08); }
+.dark.perps-theme-scope .bg-black\/5            { background-color: rgba(255, 255, 255, 0.05); }
+.dark.perps-theme-scope .bg-\[\#1a1a1a\]        { background-color: rgba(255, 255, 255, 0.14); }
+.dark.perps-theme-scope .hover\:bg-\[\#ece8e3\]:hover     { background-color: rgba(255, 255, 255, 0.08); }
+.dark.perps-theme-scope .hover\:bg-\[\#f7f7f7\]:hover     { background-color: rgba(255, 255, 255, 0.05); }
+.dark.perps-theme-scope .hover\:bg-black\/\[0\.03\]:hover { background-color: rgba(255, 255, 255, 0.03); }
+.dark.perps-theme-scope .hover\:bg-gray-800:hover         { background-color: rgba(255, 255, 255, 0.12); }
+.dark.perps-theme-scope .from-\[\#f8f8f8\] { --tw-gradient-from: #1e1e1e var(--tw-gradient-from-position); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(30,30,30,0)); }
+.dark.perps-theme-scope .to-\[\#f0f0f0\]   { --tw-gradient-to: #181818 var(--tw-gradient-to-position); }
+.dark.perps-theme-scope .hover\:border-\[\#c5c5c5\]:hover { border-color: rgba(255, 255, 255, 0.18); }
+.dark.perps-theme-scope .border-black\/\[0\.06\]  { border-color: rgba(255, 255, 255, 0.06); }
+.dark.perps-theme-scope .border-black\/10          { border-color: rgba(255, 255, 255, 0.10); }
+.dark.perps-theme-scope input, .dark.perps-theme-scope textarea { color: #dedede; caret-color: #ededed; }
+.dark.perps-theme-scope input::placeholder, .dark.perps-theme-scope textarea::placeholder { color: rgba(255, 255, 255, 0.25); }
+.dark.perps-theme-scope .placeholder\:text-gray-400::placeholder { color: rgba(255, 255, 255, 0.25); }
+.dark.perps-theme-scope .disabled\:bg-gray-200:disabled   { background-color: rgba(255, 255, 255, 0.08); }
+.dark.perps-theme-scope .disabled\:text-gray-400:disabled { color: rgba(255, 255, 255, 0.28); }
+.dark.perps-theme-scope .bg-emerald-100\/60  { background-color: rgba(52, 211, 153, 0.15); }
+.dark.perps-theme-scope .bg-rose-100\/60     { background-color: rgba(248, 113, 113, 0.15); }
+.dark.perps-theme-scope .shadow-md  { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5); }
+.dark.perps-theme-scope .hover\:shadow-lg:hover { box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6); }
+
+.dark.perps-theme-scope .perps-chart-shell {
+  border-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.dark.perps-theme-scope .perps-chart-shell .border-b {
+  border-bottom-color: transparent !important;
+}
+
+.dark.perps-theme-scope .perps-chart-panel {
+  border-bottom-color: transparent !important;
+}
+
+.dark.perps-theme-scope .perps-chart-shell .tv-lightweight-charts {
+  border: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.dark.perps-theme-scope .perps-chart-shell .tv-lightweight-charts table,
+.dark.perps-theme-scope .perps-chart-shell .tv-lightweight-charts td,
+.dark.perps-theme-scope .perps-chart-shell .tv-lightweight-charts canvas {
+  border-color: transparent !important;
+  outline: none !important;
+}
+
+.dark.perps-theme-scope .perps-order-type-toggle {
+  padding: 2px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.dark.perps-theme-scope .perps-order-type-toggle button[aria-pressed="true"] {
+  border: 1px solid #ededed;
+  background-color: #ededed;
+  color: #111111;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.dark.perps-theme-scope .perps-order-type-toggle button[aria-pressed="false"] {
+  border: 1px solid transparent;
+  background-color: transparent;
+  color: #8a8a8a;
+}
+
+.dark.perps-theme-scope .perps-order-type-toggle button[aria-pressed="false"]:hover {
+  background-color: rgba(255, 255, 255, 0.07);
+  color: #d8d8d8;
+}
+.dark.perps-theme-scope .hover\:shadow-md:hover { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5); }
+
+/* Perps: gradient button vars (LONG/SHORT cards) */
+.dark.perps-theme-scope .from-emerald-50 { --tw-gradient-from: rgba(52,211,153,0.12) var(--tw-gradient-from-position); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(52,211,153,0)); }
+.dark.perps-theme-scope .to-emerald-100\/60 { --tw-gradient-to: rgba(52,211,153,0.18) var(--tw-gradient-to-position); }
+.dark.perps-theme-scope .from-rose-50 { --tw-gradient-from: rgba(248,113,113,0.12) var(--tw-gradient-from-position); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(248,113,113,0)); }
+.dark.perps-theme-scope .to-rose-100\/60 { --tw-gradient-to: rgba(248,113,113,0.18) var(--tw-gradient-to-position); }
+.dark.perps-theme-scope .hover\:from-emerald-500:hover { --tw-gradient-from: #10b981 var(--tw-gradient-from-position); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(16,185,129,0)); }
+.dark.perps-theme-scope .hover\:to-emerald-600:hover   { --tw-gradient-to: #059669 var(--tw-gradient-to-position); }
+.dark.perps-theme-scope .hover\:from-rose-500:hover    { --tw-gradient-from: #f43f5e var(--tw-gradient-from-position); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(244,63,94,0)); }
+.dark.perps-theme-scope .hover\:to-rose-600:hover      { --tw-gradient-to: #e11d48 var(--tw-gradient-to-position); }
+
+/* Perps: PerpsPositions panel backgrounds */
+.dark.perps-theme-scope .bg-\[\#fafbfc\]       { background-color: #161616; }
+.dark.perps-theme-scope .bg-\[\#f5f5f5\]       { background-color: #1e1e1e; }
+.dark.perps-theme-scope .bg-emerald-50\/60     { background-color: rgba(52,211,153,0.10); }
+.dark.perps-theme-scope .bg-rose-50\/60        { background-color: rgba(248,113,113,0.10); }
+.dark.perps-theme-scope .bg-emerald-50         { background-color: rgba(52,211,153,0.12); }
+.dark.perps-theme-scope .bg-rose-50            { background-color: rgba(248,113,113,0.12); }
+.dark.perps-theme-scope .bg-amber-50\/60       { background-color: rgba(251,191,36,0.10); }
+.dark.perps-theme-scope .hover\:bg-\[\#fafbfc\]:hover  { background-color: #1e1e1e; }
+.dark.perps-theme-scope .hover\:bg-rose-50:hover       { background-color: rgba(248,113,113,0.12); }
+.dark.perps-theme-scope .hover\:bg-emerald-600:hover   { background-color: #059669; }
+.dark.perps-theme-scope .hover\:bg-rose-600:hover      { background-color: #e11d48; }
+
+/* Perps: text colors in positions/order panels */
+.dark.perps-theme-scope .text-\[\#666\]        { color: #b0b0b0; }
+.dark.perps-theme-scope .text-\[\#92400e\]     { color: #fcd34d; }
+.dark.perps-theme-scope .text-\[\#d97706\]     { color: #fbbf24; }
+.dark.perps-theme-scope .text-emerald-600      { color: #34d399; }
+.dark.perps-theme-scope .text-emerald-500      { color: #6ee7b7; }
+.dark.perps-theme-scope .text-rose-500         { color: #f87171; }
+.dark.perps-theme-scope .text-rose-400         { color: #fca5a5; }
+.dark.perps-theme-scope .text-rose-600         { color: #f87171; }
+.dark.perps-theme-scope .text-amber-600        { color: #fbbf24; }
+.dark.perps-theme-scope .text-\[\#7c8db0\]     { color: #8a9ab8; }
+.dark.perps-theme-scope .text-blue-700         { color: #60a5fa; }
+.dark.perps-theme-scope .text-violet-700       { color: #a78bfa; }
+.dark.perps-theme-scope .text-cyan-700         { color: #22d3ee; }
+.dark.perps-theme-scope .text-orange-700       { color: #fb923c; }
+.dark.perps-theme-scope .text-amber-700        { color: #fcd34d; }
+.dark.perps-theme-scope .text-teal-700         { color: #2dd4bf; }
+.dark.perps-theme-scope .hover\:text-rose-500:hover    { color: #f87171; }
+.dark.perps-theme-scope .hover\:text-rose-600:hover    { color: #f87171; }
+.dark.perps-theme-scope .hover\:text-\[\#666\]:hover   { color: #c0c0c0; }
+
+/* Perps: borders in positions/order panels */
+.dark.perps-theme-scope .border-amber-200\/40  { border-color: rgba(251,191,36,0.25); }
+.dark.perps-theme-scope .border-\[\#e5e7eb\]   { border-color: rgba(255,255,255,0.08); }
+.dark.perps-theme-scope .border-black\/\[0\.04\] { border-color: rgba(255,255,255,0.04); }
+.dark.perps-theme-scope .border-black\/\[0\.08\] { border-color: rgba(255,255,255,0.045); }
+.dark.perps-theme-scope .border-black\/\[0\.12\] { border-color: rgba(255,255,255,0.12); }
+.dark.perps-theme-scope .border-emerald-200    { border-color: rgba(52,211,153,0.30); }
+.dark.perps-theme-scope .border-rose-200       { border-color: rgba(248,113,113,0.30); }
+.dark.perps-theme-scope .border-amber-200      { border-color: rgba(251,191,36,0.30); }
+.dark.perps-theme-scope .border-amber-400      { border-color: rgba(251,191,36,0.50); }
+.dark.perps-theme-scope .hover\:border-rose-200:hover  { border-color: rgba(248,113,113,0.40); }
+.dark.perps-theme-scope .hover\:border-black\/\[0\.12\]:hover { border-color: rgba(255,255,255,0.12); }
+
+/* Perps: PerpsMarketCard action button shadows */
+.dark.perps-theme-scope .shadow-\[0_1px_3px_rgba\(16\,185\,129\,0\.12\)\,inset_0_1px_0_rgba\(255\,255\,255\,0\.7\)\] {
+  box-shadow: 0 1px 3px rgba(52,211,153,0.20), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.dark.perps-theme-scope .shadow-\[0_1px_3px_rgba\(244\,63\,94\,0\.12\)\,inset_0_1px_0_rgba\(255\,255\,255\,0\.7\)\] {
+  box-shadow: 0 1px 3px rgba(248,113,113,0.20), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.dark.perps-theme-scope .hover\:shadow-\[0_3px_12px_rgba\(16\,185\,129\,0\.2\)\]:hover {
+  box-shadow: 0 3px 12px rgba(52,211,153,0.30);
+}
+.dark.perps-theme-scope .hover\:shadow-\[0_3px_12px_rgba\(244\,63\,94\,0\.2\)\]:hover {
+  box-shadow: 0 3px 12px rgba(248,113,113,0.30);
+}
+.dark.perps-theme-scope .hover\:shadow-\[0_8px_30px_rgba\(0\,0\,0\,0\.06\)\]:hover {
+  box-shadow: 0 8px 30px rgba(0,0,0,0.55);
+}
+
+/* Perps: PerpsMarketCard category tag light backgrounds */
+.dark.perps-theme-scope .bg-blue-50            { background-color: rgba(96,165,250,0.12); }
+.dark.perps-theme-scope .bg-violet-50          { background-color: rgba(167,139,250,0.12); }
+.dark.perps-theme-scope .bg-cyan-50            { background-color: rgba(34,211,238,0.12); }
+.dark.perps-theme-scope .bg-orange-50          { background-color: rgba(251,146,60,0.12); }
+.dark.perps-theme-scope .bg-fuchsia-50         { background-color: rgba(232,121,249,0.12); }
+.dark.perps-theme-scope .bg-pink-50            { background-color: rgba(244,114,182,0.12); }
+.dark.perps-theme-scope .bg-slate-100          { background-color: rgba(148,163,184,0.12); }
+.dark.perps-theme-scope .bg-teal-50            { background-color: rgba(45,212,191,0.12); }
+.dark.perps-theme-scope .bg-amber-50           { background-color: rgba(251,191,36,0.12); }
+.dark.perps-theme-scope .bg-\[\#f0f4ff\]       { background-color: rgba(96,165,250,0.10); }
+.dark.perps-theme-scope .bg-\[\#f8fafc\]       { background-color: #1a1a1a; }
+.dark.perps-theme-scope .text-black\/25        { color: rgba(255,255,255,0.28); }
+.dark.perps-theme-scope .text-black\/20        { color: rgba(255,255,255,0.22); }
+.dark.perps-theme-scope .hover\:text-white:hover { color: #dedede; }
+.dark.perps-theme-scope [data-perps-market-search]:hover,
+.dark.perps-theme-scope [data-perps-market-search]:focus {
+  color: #ffffff !important;
+  caret-color: #ffffff;
+}
+.dark.perps-theme-scope [data-perps-market-search]:hover::placeholder {
+  color: rgba(255, 255, 255, 0.58);
+}
+.dark.perps-theme-scope [data-perps-market-search-wrap]:hover [data-perps-market-search-icon] {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* Dark-only polish for /perps market cards */
+.dark.perps-theme-scope [data-market-card] {
+  background: linear-gradient(180deg, #1b1b1b 0%, #161616 100%) !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 8px 24px rgba(0, 0, 0, 0.22) !important;
+}
+
+.dark.perps-theme-scope [data-market-card]:hover {
+  background: linear-gradient(180deg, #232323 0%, #191919 100%) !important;
+  border-color: rgba(255, 255, 255, 0.32) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.13),
+    0 14px 34px rgba(0, 0, 0, 0.42),
+    0 0 0 1px rgba(255, 255, 255, 0.04) !important;
+}
+
+/* Hyperliquid deposit modal dark-mode fixes (scoped, light mode untouched) */
+.dark.perps-theme-scope [data-hl-deposit-modal] {
+  background: linear-gradient(180deg, #171717 0%, #111111 100%);
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55);
+}
+.dark.perps-theme-scope [data-hl-deposit-modal] .border-\[\#f0f0f0\] { border-color: rgba(255, 255, 255, 0.14); }
+.dark.perps-theme-scope [data-hl-deposit-modal] .border-\[\#e5e7eb\] { border-color: rgba(255, 255, 255, 0.10); }
+.dark.perps-theme-scope [data-hl-deposit-modal] .bg-\[\#fafafa\] { background-color: rgba(255, 255, 255, 0.03); }
+.dark.perps-theme-scope [data-hl-deposit-modal] .bg-\[\#fafbfc\] { background-color: rgba(255, 255, 255, 0.03); }
+.dark.perps-theme-scope [data-hl-deposit-modal] .bg-\[\#f5f5f5\] { background-color: rgba(255, 255, 255, 0.08); }
+.dark.perps-theme-scope [data-hl-deposit-modal] .bg-\[\#f0f0f0\] { background-color: rgba(255, 255, 255, 0.10); }
+.dark.perps-theme-scope [data-hl-deposit-modal] .hover\:bg-\[\#f5f5f5\]:hover { background-color: rgba(255, 255, 255, 0.10); }
+.dark.perps-theme-scope [data-hl-deposit-modal] .hover\:bg-\[\#f9f9f9\]:hover { background-color: rgba(255, 255, 255, 0.08); }
+.dark.perps-theme-scope [data-hl-deposit-modal] .hover\:bg-\[\#fafbfc\]:hover { background-color: rgba(255, 255, 255, 0.06); }
+.dark.perps-theme-scope [data-hl-deposit-modal] .hover\:border-\[\#1a1a1a\]:hover { border-color: rgba(255, 255, 255, 0.24); }
+.dark.perps-theme-scope [data-hl-deposit-modal] .hover\:border-\[\#d1d5db\]:hover { border-color: rgba(255, 255, 255, 0.22); }
+.dark.perps-theme-scope [data-hl-deposit-modal] .focus-within\:border-\[\#1a1a1a\]:focus-within { border-color: rgba(255, 255, 255, 0.30); }
+.dark.perps-theme-scope [data-hl-deposit-modal] .text-\[\#9ca3af\] { color: rgba(255, 255, 255, 0.52); }
+.dark.perps-theme-scope [data-hl-deposit-modal] .text-\[\#666\] { color: rgba(255, 255, 255, 0.62); }
+.dark.perps-theme-scope [data-hl-deposit-modal] .text-\[\#1a1a1a\] { color: #f3f4f6; }
+.dark.perps-theme-scope [data-hl-deposit-modal] .hover\:text-\[\#1a1a1a\]:hover { color: #dedede; }
+
+/* ── Security scope ──────────────────────────────────────────────── */
+.dark.security-theme-scope { background-color: #0a0a0a; color: #dedede; }
+
+.dark.security-theme-scope .bg-white          { background-color: #141414; }
+.dark.security-theme-scope .bg-white\/95 {
+  background-color: rgba(18, 18, 18, 0.85);
+  border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03), 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+.dark.security-theme-scope .border-\[\#e5e7eb\]    { border-color: rgba(255, 255, 255, 0.08); }
+.dark.security-theme-scope .border-\[\#e7e9eb\]    { border-color: rgba(255, 255, 255, 0.08); }
+.dark.security-theme-scope .border-\[\#e0e0e0\]    { border-color: rgba(255, 255, 255, 0.10); }
+.dark.security-theme-scope .border-\[\#e8e4df\]    { border-color: rgba(255, 255, 255, 0.08); }
+.dark.security-theme-scope .border-\[\#d1d5db\]    { border-color: rgba(255, 255, 255, 0.10); }
+.dark.security-theme-scope .border-gray-200        { border-color: rgba(255, 255, 255, 0.12); }
+.dark.security-theme-scope .border-gray-900        { border-color: rgba(255, 255, 255, 0.40); }
+.dark.security-theme-scope .text-\[\#1a1a1a\]      { color: #dedede; }
+.dark.security-theme-scope .text-black             { color: #dedede; }
+.dark.security-theme-scope .text-gray-900          { color: #dedede; }
+.dark.security-theme-scope .text-\[\#9ca3af\]      { color: #8a8a8a; }
+.dark.security-theme-scope .text-\[\#6b7280\]      { color: #a0a0a0; }
+.dark.security-theme-scope .text-gray-600          { color: #a0a0a0; }
+.dark.security-theme-scope .text-gray-400          { color: rgba(255, 255, 255, 0.30); }
+.dark.security-theme-scope .text-black\/30         { color: rgba(255, 255, 255, 0.38); }
+.dark.security-theme-scope .text-black\/40         { color: rgba(255, 255, 255, 0.50); }
+.dark.security-theme-scope .text-black\/60         { color: rgba(255, 255, 255, 0.72); }
+.dark.security-theme-scope .hover\:text-\[\#1a1a1a\]:hover  { color: #ffffff; }
+.dark.security-theme-scope .hover\:text-black:hover          { color: #ffffff; }
+.dark.security-theme-scope .hover\:text-gray-600:hover       { color: #c0c0c0; }
+.dark.security-theme-scope .bg-\[\#f5f3f0\]        { background-color: rgba(255, 255, 255, 0.05); }
+.dark.security-theme-scope .bg-\[\#f8f8f8\]        { background-color: #1e1e1e; }
+.dark.security-theme-scope .bg-\[\#f0f0f0\]        { background-color: #181818; }
+.dark.security-theme-scope .bg-\[\#e5e7eb\]        { background-color: rgba(255, 255, 255, 0.07); }
+.dark.security-theme-scope .hover\:bg-\[\#ece8e3\]:hover     { background-color: rgba(255, 255, 255, 0.08); }
+.dark.security-theme-scope .hover\:bg-\[\#f7f7f7\]:hover     { background-color: rgba(255, 255, 255, 0.05); }
+.dark.security-theme-scope .hover\:bg-gray-800:hover         { background-color: rgba(255, 255, 255, 0.12); }
+.dark.security-theme-scope .from-\[\#f8f8f8\] { --tw-gradient-from: #1e1e1e var(--tw-gradient-from-position); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(30,30,30,0)); }
+.dark.security-theme-scope .to-\[\#f0f0f0\]   { --tw-gradient-to: #181818 var(--tw-gradient-to-position); }
+.dark.security-theme-scope .hover\:border-\[\#c5c5c5\]:hover { border-color: rgba(255, 255, 255, 0.18); }
+.dark.security-theme-scope .hover\:border-gray-400:hover     { border-color: rgba(255, 255, 255, 0.20); }
+.dark.security-theme-scope input, .dark.security-theme-scope textarea { color: #dedede; caret-color: #ededed; }
+.dark.security-theme-scope input::placeholder, .dark.security-theme-scope textarea::placeholder { color: rgba(255, 255, 255, 0.25); }
+.dark.security-theme-scope .placeholder\:text-gray-400::placeholder { color: rgba(255, 255, 255, 0.25); }
+.dark.security-theme-scope .disabled\:bg-gray-200:disabled   { background-color: rgba(255, 255, 255, 0.08); }
+.dark.security-theme-scope .disabled\:text-gray-400:disabled { color: rgba(255, 255, 255, 0.28); }
+.dark.security-theme-scope .shadow-md  { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5); }
+.dark.security-theme-scope .hover\:shadow-lg:hover { box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6); }
+.dark.security-theme-scope .hover\:shadow-md:hover { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5); }
+
+/* ─────────────────────────────────────────────────────────────────────
+   Dashboard dark-mode overrides (scoped to `.dark.dashboard-theme-scope`)
+   Covers: DashboardClient, DashboardHeader, DashboardContent, AnalyticsSidebar,
+   FilterTags, KanbanBoard, KanbanColumn, MissionCard, PositionCard, StatBlock,
+   WalletSelector, CombinedOverview, MarketOverview, PortfolioSummary, QuickStats,
+   TradingActivity, TradeRow, WalletAnalysisCard, WalletOverview, TokenList,
+   LoadingState, ErrorBoundary, PremiumGate
+   ───────────────────────────────────────────────────────────────────── */
+
+/* --- Base --- */
+.dark.dashboard-theme-scope { background-color: #0a0a0a; color: #dedede; }
+
+/* --- Backgrounds: whites / off-whites → dark --- */
+.dark.dashboard-theme-scope .bg-white              { background-color: #141414; }
+.dark.dashboard-theme-scope .bg-white\/50          { background-color: rgba(255,255,255,0.04); }
+.dark.dashboard-theme-scope .bg-white\/90          { background-color: rgba(20,20,20,0.92); }
+.dark.dashboard-theme-scope .bg-\[\#fafbfc\]       { background-color: #161616; }
+.dark.dashboard-theme-scope .bg-\[\#fafafa\]       { background-color: #121212; }
+.dark.dashboard-theme-scope .bg-\[\#f8f9fa\]       { background-color: #1a1a1a; }
+.dark.dashboard-theme-scope .bg-\[\#f5f5f5\]       { background-color: #1e1e1e; }
+.dark.dashboard-theme-scope .bg-neutral-50         { background-color: #161616; }
+.dark.dashboard-theme-scope .bg-neutral-100        { background-color: #1e1e1e; }
+.dark.dashboard-theme-scope .bg-neutral-200        { background-color: rgba(255,255,255,0.10); }
+.dark.dashboard-theme-scope .bg-neutral-300        { background-color: rgba(255,255,255,0.14); }
+.dark.dashboard-theme-scope .bg-gray-200           { background-color: rgba(255,255,255,0.10); }
+.dark.dashboard-theme-scope .bg-\[\#1D2B3A\]       { background-color: #0d1a27; }
+
+/* Overlay */
+.dark.dashboard-theme-scope .bg-black\/40          { background-color: rgba(0,0,0,0.7); }
+
+/* Active/selected pills */
+.dark.dashboard-theme-scope .bg-black              { background-color: rgba(255,255,255,0.90); }
+.dark.dashboard-theme-scope .bg-\[\#1a1a1a\]       { background-color: rgba(255,255,255,0.14); }
+
+/* Hover backgrounds */
+.dark.dashboard-theme-scope .hover\:bg-\[\#f7f7f7\]:hover     { background-color: rgba(255,255,255,0.05); }
+.dark.dashboard-theme-scope .hover\:bg-\[\#f5f5f5\]:hover     { background-color: rgba(255,255,255,0.05); }
+.dark.dashboard-theme-scope .hover\:bg-neutral-100:hover      { background-color: rgba(255,255,255,0.05); }
+.dark.dashboard-theme-scope .hover\:bg-neutral-800:hover      { background-color: rgba(255,255,255,0.10); }
+.dark.dashboard-theme-scope .hover\:bg-black\/\[0\.02\]:hover { background-color: rgba(255,255,255,0.02); }
+.dark.dashboard-theme-scope .hover\:bg-white:hover            { background-color: rgba(255,255,255,0.08); }
+.dark.dashboard-theme-scope .hover\:bg-white\/30:hover        { background-color: rgba(255,255,255,0.12); }
+.dark.dashboard-theme-scope .hover\:bg-red-600:hover          { background-color: #dc2626; }
+.dark.dashboard-theme-scope .hover\:bg-red-700:hover          { background-color: #b91c1c; }
+
+/* Active (click) backgrounds */
+.dark.dashboard-theme-scope .active\:bg-\[\#f5f5f5\]:active    { background-color: rgba(255,255,255,0.08); }
+.dark.dashboard-theme-scope .active\:bg-\[\#f7f7f7\]:active    { background-color: rgba(255,255,255,0.08); }
+
+/* DashboardClient gradient hero */
+.dark.dashboard-theme-scope .from-violet-50        { --tw-gradient-from: rgba(139,92,246,0.10) var(--tw-gradient-from-position); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(139,92,246,0)); }
+.dark.dashboard-theme-scope .via-blue-50           { --tw-gradient-via: rgba(96,165,250,0.08) var(--tw-gradient-via-position); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-via), var(--tw-gradient-to, rgba(96,165,250,0)); }
+.dark.dashboard-theme-scope .to-cyan-50            { --tw-gradient-to: rgba(34,211,238,0.08) var(--tw-gradient-to-position); }
+
+/* WalletSelector / TokenList / PremiumGate gradient buttons — keep dark */
+.dark.dashboard-theme-scope .from-\[\#1a1a1a\]     { --tw-gradient-from: #1a1a1a var(--tw-gradient-from-position); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(26,26,26,0)); }
+.dark.dashboard-theme-scope .to-\[\#3b3b3b\]       { --tw-gradient-to: #3b3b3b var(--tw-gradient-to-position); }
+
+/* CombinedOverview agent section */
+.dark.dashboard-theme-scope .from-blue-50          { --tw-gradient-from: rgba(96,165,250,0.08) var(--tw-gradient-from-position); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(96,165,250,0)); }
+.dark.dashboard-theme-scope .via-white             { --tw-gradient-via: #141414 var(--tw-gradient-via-position); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-via), var(--tw-gradient-to, rgba(20,20,20,0)); }
+.dark.dashboard-theme-scope .to-indigo-50\/30      { --tw-gradient-to: rgba(99,102,241,0.06) var(--tw-gradient-to-position); }
+
+/* Semantic accent backgrounds */
+.dark.dashboard-theme-scope .bg-emerald-50         { background-color: rgba(52,211,153,0.12); }
+.dark.dashboard-theme-scope .bg-emerald-100        { background-color: rgba(52,211,153,0.18); }
+.dark.dashboard-theme-scope .bg-rose-50            { background-color: rgba(248,113,113,0.12); }
+.dark.dashboard-theme-scope .bg-rose-100           { background-color: rgba(248,113,113,0.18); }
+.dark.dashboard-theme-scope .bg-red-50             { background-color: rgba(239,68,68,0.12); }
+.dark.dashboard-theme-scope .bg-red-50\/50         { background-color: rgba(239,68,68,0.08); }
+.dark.dashboard-theme-scope .bg-red-600            { background-color: #dc2626; }
+.dark.dashboard-theme-scope .bg-amber-50           { background-color: rgba(251,191,36,0.12); }
+.dark.dashboard-theme-scope .bg-amber-400          { background-color: #d97706; }
+.dark.dashboard-theme-scope .bg-blue-50            { background-color: rgba(96,165,250,0.12); }
+.dark.dashboard-theme-scope .bg-blue-100           { background-color: rgba(96,165,250,0.18); }
+.dark.dashboard-theme-scope .bg-blue-500\/10       { background-color: rgba(96,165,250,0.12); }
+.dark.dashboard-theme-scope .bg-green-50           { background-color: rgba(52,211,153,0.10); }
+.dark.dashboard-theme-scope .bg-green-50\/50       { background-color: rgba(52,211,153,0.08); }
+.dark.dashboard-theme-scope .bg-yellow-50          { background-color: rgba(251,191,36,0.12); }
+.dark.dashboard-theme-scope .bg-purple-50          { background-color: rgba(168,85,247,0.12); }
+.dark.dashboard-theme-scope .bg-blue-500           { background-color: #3b82f6; }
+.dark.dashboard-theme-scope .bg-cyan-50            { background-color: rgba(34,211,238,0.12); }
+.dark.dashboard-theme-scope .bg-slate-50           { background-color: rgba(148,163,184,0.10); }
+
+/* --- Text: primary --- */
+.dark.dashboard-theme-scope .text-black            { color: #dedede; }
+.dark.dashboard-theme-scope .text-\[\#1a1a1a\]     { color: #dedede; }
+.dark.dashboard-theme-scope .text-\[\#3a3a3a\]     { color: #d0d0d0; }
+.dark.dashboard-theme-scope .text-\[\#48484b\]     { color: #c0c0c0; }
+.dark.dashboard-theme-scope .text-white            { color: #ffffff; }
+
+/* --- Text: muted --- */
+.dark.dashboard-theme-scope .text-\[\#6b7280\]     { color: #a0a0a0; }
+.dark.dashboard-theme-scope .text-\[\#9ca3af\]     { color: #8a8a8a; }
+.dark.dashboard-theme-scope .text-\[\#a1a1aa\]     { color: #888888; }
+.dark.dashboard-theme-scope .text-\[\#d1d5db\]     { color: rgba(255,255,255,0.18); }
+.dark.dashboard-theme-scope .text-\[\#e5e7eb\]     { color: rgba(255,255,255,0.14); }
+.dark.dashboard-theme-scope .text-neutral-500      { color: #909090; }
+.dark.dashboard-theme-scope .text-neutral-600      { color: #a0a0a0; }
+.dark.dashboard-theme-scope .text-neutral-400      { color: rgba(255,255,255,0.30); }
+.dark.dashboard-theme-scope .text-black\/30        { color: rgba(255,255,255,0.38); }
+.dark.dashboard-theme-scope .text-black\/10        { color: rgba(255,255,255,0.12); }
+.dark.dashboard-theme-scope .text-black\/40        { color: rgba(255,255,255,0.50); }
+
+/* Semantic accent text */
+.dark.dashboard-theme-scope .text-emerald-500      { color: #6ee7b7; }
+.dark.dashboard-theme-scope .text-emerald-600      { color: #34d399; }
+.dark.dashboard-theme-scope .text-emerald-700      { color: #34d399; }
+.dark.dashboard-theme-scope .text-green-600        { color: #34d399; }
+.dark.dashboard-theme-scope .text-green-600\/60    { color: rgba(52,211,153,0.60); }
+.dark.dashboard-theme-scope .text-green-700        { color: #34d399; }
+.dark.dashboard-theme-scope .text-rose-500         { color: #f87171; }
+.dark.dashboard-theme-scope .text-rose-600         { color: #f87171; }
+.dark.dashboard-theme-scope .text-rose-700         { color: #f87171; }
+.dark.dashboard-theme-scope .text-red-500          { color: #f87171; }
+.dark.dashboard-theme-scope .text-red-600          { color: #f87171; }
+.dark.dashboard-theme-scope .text-red-600\/60      { color: rgba(248,113,113,0.60); }
+.dark.dashboard-theme-scope .text-red-700          { color: #fca5a5; }
+.dark.dashboard-theme-scope .text-red-900          { color: #fca5a5; }
+.dark.dashboard-theme-scope .text-red-200          { color: rgba(252,165,165,0.80); }
+.dark.dashboard-theme-scope .text-red-50           { color: rgba(252,165,165,0.50); }
+.dark.dashboard-theme-scope .text-amber-600        { color: #fbbf24; }
+.dark.dashboard-theme-scope .text-amber-700        { color: #fcd34d; }
+.dark.dashboard-theme-scope .text-violet-500       { color: #a78bfa; }
+.dark.dashboard-theme-scope .text-violet-600       { color: #a78bfa; }
+.dark.dashboard-theme-scope .text-blue-600         { color: #60a5fa; }
+.dark.dashboard-theme-scope .text-blue-700         { color: #93c5fd; }
+.dark.dashboard-theme-scope .text-purple-600       { color: #c084fc; }
+.dark.dashboard-theme-scope .text-cyan-600         { color: #22d3ee; }
+.dark.dashboard-theme-scope .text-cyan-50          { color: rgba(34,211,238,0.50); }
+.dark.dashboard-theme-scope .text-yellow-600       { color: #fbbf24; }
+.dark.dashboard-theme-scope .text-violet-500       { color: #a78bfa; }
+
+/* Hover text */
+.dark.dashboard-theme-scope .hover\:text-black:hover           { color: #dedede; }
+.dark.dashboard-theme-scope .hover\:text-\[\#1a1a1a\]:hover   { color: #dedede; }
+.dark.dashboard-theme-scope .hover\:text-\[\#6b7280\]:hover   { color: #b0b0b0; }
+.dark.dashboard-theme-scope .hover\:text-black\/30:hover      { color: rgba(255,255,255,0.38); }
+.dark.dashboard-theme-scope .hover\:text-black\/40:hover      { color: rgba(255,255,255,0.50); }
+
+/* --- Borders --- */
+.dark.dashboard-theme-scope .border-\[\#e5e7eb\]    { border-color: rgba(255,255,255,0.08); }
+.dark.dashboard-theme-scope .border-\[\#f1f3f4\]    { border-color: rgba(255,255,255,0.05); }
+.dark.dashboard-theme-scope .border-\[\#f0f0f0\]    { border-color: rgba(255,255,255,0.06); }
+.dark.dashboard-theme-scope .border-black\/\[0\.08\]{ border-color: rgba(255,255,255,0.08); }
+.dark.dashboard-theme-scope .border-black\/5        { border-color: rgba(255,255,255,0.05); }
+.dark.dashboard-theme-scope .border-black\/10       { border-color: rgba(255,255,255,0.10); }
+.dark.dashboard-theme-scope .border-black\/\[0\.06\]{ border-color: rgba(255,255,255,0.06); }
+.dark.dashboard-theme-scope .border-black           { border-color: rgba(255,255,255,0.25); }
+.dark.dashboard-theme-scope .border-neutral-300     { border-color: rgba(255,255,255,0.12); }
+.dark.dashboard-theme-scope .border-neutral-400     { border-color: rgba(255,255,255,0.18); }
+.dark.dashboard-theme-scope .border-\[\#3a3a3a\]    { border-color: rgba(255,255,255,0.25); }
+
+/* Semantic accent borders */
+.dark.dashboard-theme-scope .border-emerald-200     { border-color: rgba(52,211,153,0.30); }
+.dark.dashboard-theme-scope .border-rose-200        { border-color: rgba(248,113,113,0.30); }
+.dark.dashboard-theme-scope .border-rose-100        { border-color: rgba(248,113,113,0.20); }
+.dark.dashboard-theme-scope .border-red-300         { border-color: rgba(239,68,68,0.35); }
+.dark.dashboard-theme-scope .border-red-200         { border-color: rgba(239,68,68,0.30); }
+.dark.dashboard-theme-scope .border-red-50          { border-color: rgba(239,68,68,0.20); }
+.dark.dashboard-theme-scope .border-amber-200       { border-color: rgba(251,191,36,0.30); }
+.dark.dashboard-theme-scope .border-blue-200        { border-color: rgba(96,165,250,0.30); }
+.dark.dashboard-theme-scope .border-green-200       { border-color: rgba(52,211,153,0.30); }
+.dark.dashboard-theme-scope .border-yellow-200      { border-color: rgba(251,191,36,0.30); }
+
+/* Hover borders */
+.dark.dashboard-theme-scope .hover\:border-black:hover         { border-color: rgba(255,255,255,0.30); }
+.dark.dashboard-theme-scope .hover\:border-neutral-400:hover   { border-color: rgba(255,255,255,0.22); }
+.dark.dashboard-theme-scope .focus\:border-\[\#6b7280\]:focus  { border-color: rgba(255,255,255,0.30); }
+
+/* --- Shadows --- */
+.dark.dashboard-theme-scope .shadow-\[0px_8px_24px_0px_rgba\(0\,0\,0\,0\.06\)\] {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.55);
+}
+.dark.dashboard-theme-scope .shadow-\[0_8px_40px_rgba\(0\,0\,0\,0\.12\)\] {
+  box-shadow: 0 8px 40px rgba(0,0,0,0.60);
+}
+.dark.dashboard-theme-scope .shadow-\[0px_4px_16px_0px_rgba\(0\,0\,0\,0\.04\)\] {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.50);
+}
+.dark.dashboard-theme-scope .shadow-\[0_4px_16px_rgba\(0\,0\,0\,0\.06\)\] {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.55);
+}
+.dark.dashboard-theme-scope .hover\:shadow-md:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.55); }
+.dark.dashboard-theme-scope .hover\:shadow-\[0_4px_16px_rgba\(0\,0\,0\,0\.06\)\]:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.55);
+}
+
+/* --- Inputs --- */
+.dark.dashboard-theme-scope input,
+.dark.dashboard-theme-scope textarea { color: #dedede; caret-color: #ededed; }
+.dark.dashboard-theme-scope input::placeholder,
+.dark.dashboard-theme-scope textarea::placeholder { color: rgba(255,255,255,0.25); }
+
+/* --- KanbanColumn translucent card --- */
+.dark.dashboard-theme-scope .bg-white\/20          { background-color: rgba(255,255,255,0.04); }
+.dark.dashboard-theme-scope .bg-white\/15          { background-color: rgba(255,255,255,0.03); }
+.dark.dashboard-theme-scope .border-white\/30      { border-color: rgba(255,255,255,0.12); }
+.dark.dashboard-theme-scope .border-black\/20      { border-color: rgba(255,255,255,0.12); }
+
+/* DashboardContent Kanban bg */
+.dark.dashboard-theme-scope .hover\:bg-white\/30:hover { background-color: rgba(255,255,255,0.08); }
+
+/* ── Navbar: default header bg/border inside dashboard scope ── */
+.dark.dashboard-theme-scope .bg-white\/95 {
+  background-color: rgba(18, 18, 18, 0.85);
+  border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03), 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+.dark.dashboard-theme-scope .border-\[\#e7e9eb\] { border-color: rgba(255,255,255,0.08); }
+.dark.dashboard-theme-scope .border-\[\#e8e4df\] { border-color: rgba(255,255,255,0.08); }
+
+/* Logo image: invert so the dark icon stays visible on dark navbar */
+.dark.dashboard-theme-scope [data-site-logo] { filter: invert(1); }
+
+/* Inline-styled dropdown panels (Leagues, Agents) — attribute selectors */
+.dark.dashboard-theme-scope [data-site-dropdown-panel] {
+  background: #1a1a1a !important;
+  border-color: rgba(255,255,255,0.10) !important;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.4) !important;
+}
+.dark.dashboard-theme-scope [data-site-dropdown-row]:hover,
+.dark.dashboard-theme-scope [data-site-dropdown-row][data-active="true"] {
+  background: rgba(255,255,255,0.06) !important;
+}
+
+/* Nav link active/hover bg — Leagues & Agents buttons */
+.dark.dashboard-theme-scope .bg-\[\#f5f3f0\]          { background-color: rgba(255,255,255,0.08); }
+.dark.dashboard-theme-scope .hover\:bg-\[\#f5f3f0\]:hover { background-color: rgba(255,255,255,0.06); }
+.dark.dashboard-theme-scope .hover\:bg-\[\#fafaf8\]:hover { background-color: rgba(255,255,255,0.04); }
+.dark.dashboard-theme-scope .text-\[\#3a3a3a\]        { color: #d0d0d0; }
+
+/* ── Trading Activity ── */
+/* Filter pill track */
+.dark.dashboard-theme-scope .bg-\[\#f0f0f0\]          { background-color: #202020; }
+/* Active pill within filter track */
+.dark.dashboard-theme-scope .bg-\[\#f0f0f0\] .bg-white { background-color: #333333; }
+.dark.dashboard-theme-scope .hover\:bg-white\/50:hover { background-color: rgba(255,255,255,0.06); }
+/* Trade list row dividers */
+.trade-list-rows { border-top: 1px solid #e8e8e8; }
+.trade-list-rows > * + * { border-top: 1px solid #e8e8e8; }
+.dark.dashboard-theme-scope .trade-list-rows { border-top: 1px solid rgba(255,255,255,0.07); }
+.dark.dashboard-theme-scope .trade-list-rows > * + * { border-top: 1px solid rgba(255,255,255,0.07); }
+/* Spinner top border */
+.dark.dashboard-theme-scope .border-t-\[\#1a1a1a\]    { border-top-color: rgba(255,255,255,0.80); }
+/* Stat strip boxes */
+.dark.dashboard-theme-scope .bg-\[\#fafbfc\]          { background-color: #1a1a1a; }
+/* Export CSV button hover */
+.dark.dashboard-theme-scope .hover\:text-\[\#1a1a1a\]:hover  { color: #dedede; }
+.dark.dashboard-theme-scope .hover\:border-\[\#1a1a1a\]:hover { border-color: rgba(255,255,255,0.40); }
+
+/* ── TradeRow hover ── */
+.dark.dashboard-theme-scope .hover\:bg-\[\#fafbfc\]:hover { background-color: #1e1e1e; }
+/* Expanded detail border */
+.dark.dashboard-theme-scope .border-\[\#f0f0f0\]      { border-color: rgba(255,255,255,0.06); }
+
+/* Text selection */
+.dark.dashboard-theme-scope ::selection { background-color: rgba(255,255,255,0.15); color: #dedede; }
+
+/* Dark-only polish for the main /markets browse cards. */
+.dark.markets-theme-scope [data-market-card] {
+  background: linear-gradient(180deg, #1b1b1b 0%, #161616 100%) !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 8px 24px rgba(0, 0, 0, 0.22) !important;
+}
+
+.dark.markets-theme-scope [data-market-card]:hover {
+  background: linear-gradient(180deg, #232323 0%, #191919 100%) !important;
+  border-color: rgba(255, 255, 255, 0.32) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.13),
+    0 14px 34px rgba(0, 0, 0, 0.42),
+    0 0 0 1px rgba(255, 255, 255, 0.04) !important;
+}
+
+.dark.markets-theme-scope [data-signal-feed-card] {
+  background: linear-gradient(180deg, #1b1b1b 0%, #151515 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 8px 24px rgba(0, 0, 0, 0.22) !important;
+}
+
+.dark.markets-theme-scope [data-signal-feed-card]:hover {
+  background: linear-gradient(180deg, #242424 0%, #191919 100%) !important;
+  border-color: rgba(255, 255, 255, 0.34) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.13),
+    0 14px 34px rgba(0, 0, 0, 0.44),
+    0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+}
+
+.dark.markets-theme-scope [data-signal-feed-card] .bg-gradient-to-b {
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0)) !important;
+}
+
+.dark.markets-theme-scope [data-watchlist-card],
+.dark.markets-theme-scope [data-portfolio-position-card],
+.dark.markets-theme-scope [data-watchlist-panel],
+.dark.markets-theme-scope [data-portfolio-panel] {
+  background: linear-gradient(180deg, #1b1b1b 0%, #151515 100%) !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 8px 24px rgba(0, 0, 0, 0.22) !important;
+}
+
+.dark.markets-theme-scope [data-watchlist-card]:hover,
+.dark.markets-theme-scope [data-portfolio-position-card]:hover,
+.dark.markets-theme-scope [data-watchlist-panel]:hover,
+.dark.markets-theme-scope [data-portfolio-panel]:hover {
+  background: linear-gradient(180deg, #242424 0%, #191919 100%) !important;
+  border-color: rgba(255, 255, 255, 0.34) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.13),
+    0 14px 34px rgba(0, 0, 0, 0.44),
+    0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+}
+
+.dark.markets-theme-scope [data-watchlist-card] .bg-gradient-to-b,
+.dark.markets-theme-scope [data-watchlist-panel] .bg-gradient-to-br {
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0)) !important;
+}
+
+.dark.markets-theme-scope [data-watchlist-panel] .grid.bg-white,
+.dark.markets-theme-scope [data-portfolio-panel] .grid.bg-white {
+  background-color: rgba(255, 255, 255, 0.025) !important;
+}
+
+/* Shared chat sidebar dark-mode cleanup for ORACLE, SECURO, DeFAI, and HYPERION. */
+:where(
+  .dark.markets-theme-scope,
+  .dark.defai-theme-scope,
+  .dark.perps-theme-scope,
+  .dark.security-theme-scope
+) [data-agent-chat-scope] [data-chat-sidebar] {
+  border-right-width: 0 !important;
+  background: #111111 !important;
+  box-shadow: 1px 0 0 rgba(255, 255, 255, 0.03), 12px 0 32px rgba(0, 0, 0, 0.34) !important;
+}
+
+:where(
+  .dark.markets-theme-scope,
+  .dark.defai-theme-scope,
+  .dark.perps-theme-scope,
+  .dark.security-theme-scope
+) [data-agent-chat-scope] [data-chat-sidebar] > .border-b {
+  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+:where(
+  .dark.markets-theme-scope,
+  .dark.defai-theme-scope,
+  .dark.perps-theme-scope,
+  .dark.security-theme-scope
+) [data-agent-chat-scope] [data-chat-sidebar] svg {
+  color: #ffffff;
+  stroke: currentColor;
+}
+
+:where(
+  .dark.markets-theme-scope,
+  .dark.defai-theme-scope,
+  .dark.perps-theme-scope,
+  .dark.security-theme-scope
+) [data-agent-chat-scope] [data-chat-sidebar] [data-chat-sidebar-control],
+:where(
+  .dark.markets-theme-scope,
+  .dark.defai-theme-scope,
+  .dark.perps-theme-scope,
+  .dark.security-theme-scope
+) [data-agent-chat-scope] [data-chat-sidebar] [data-chat-delete-button] {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: transparent !important;
+  color: #ffffff !important;
+}
+
+:where(
+  .dark.markets-theme-scope,
+  .dark.defai-theme-scope,
+  .dark.perps-theme-scope,
+  .dark.security-theme-scope
+) [data-agent-chat-scope] [data-chat-sidebar] [data-chat-sidebar-control]:hover,
+:where(
+  .dark.markets-theme-scope,
+  .dark.defai-theme-scope,
+  .dark.perps-theme-scope,
+  .dark.security-theme-scope
+) [data-agent-chat-scope] [data-chat-sidebar] [data-chat-delete-button][title="Delete chats"]:hover {
+  background: rgba(255, 255, 255, 0.11) !important;
+}
+
+/* ================================================================
+   Google Translate widget — we use it as the whole-site translation
+   engine via components/i18n/GoogleTranslateController.tsx, but the
+   default banner + tooltip + body-offset Google injects are UI-ugly
+   and break layout, so we hide them. The Settings dropdown becomes
+   the only user-facing surface for language switching.
+   ================================================================ */
+
+/* The injected "Google Translate" banner at the top of the page */
+.goog-te-banner-frame,
+.goog-te-banner-frame.skiptranslate,
+#goog-gt-tt,
+.goog-tooltip,
+.goog-tooltip:hover {
+  display: none !important;
+}
+
+/* Google nudges <body> down by ~40px for its banner — undo that. */
+body {
+  top: 0 !important;
+  position: static !important;
+}
+
+/* Our mount point — keep it at zero dimensions so it never appears. */
+#google_translate_element,
+.goog-te-gadget,
+.goog-te-gadget * {
+  height: 0 !important;
+  overflow: hidden !important;
+  line-height: 0 !important;
+}
+.goog-te-gadget-icon { display: none !important; }
+.goog-te-gadget-simple { display: none !important; }
+
+/* Prevent Google's dotted underline highlight on translated words. */
+.goog-text-highlight {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Tag any chrome you do NOT want translated (brand names, team
+   abbreviations, numeric tickers) with `translate="no"` in the JSX —
+   Google will skip it automatically. */
+
+/* Perps order-history light-mode styling */
+.perps-theme-scope:not(.dark) .perps-subtab-inactive {
+  color: #6b7280 !important;
+}
+.perps-theme-scope:not(.dark) .perps-subtab-inactive:hover {
+  color: #374151 !important;
+}
+.perps-theme-scope:not(.dark) .perps-tab-count-inactive {
+  background-color: #e5e7eb !important;
+  color: #6b7280 !important;
+}
+
+/* Perps order-history dark-mode styling — replaces inline dark: prefixes */
+.dark.perps-theme-scope .perps-subtab-container {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+.dark.perps-theme-scope .perps-viewtoggle-container {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+.dark.perps-theme-scope .perps-subtab-active {
+  background-color: rgb(34, 34, 34) !important;
+  color: #ffffff !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+}
+.dark.perps-theme-scope .perps-subtab-inactive {
+  color: rgba(255, 255, 255, 0.55) !important;
+}
+.dark.perps-theme-scope .perps-subtab-inactive:hover {
+  color: rgba(255, 255, 255, 0.80) !important;
+}
+.dark.perps-theme-scope .perps-tab-count-active {
+  background-color: #ffffff;
+  color: #000000;
+}
+.dark.perps-theme-scope .perps-tab-count-inactive {
+  background-color: rgba(255, 255, 255, 0.20);
+  color: rgba(255, 255, 255, 0.90);
+}
+
+/* Perps layout theming */
+.perps-theme-scope .perps-layout-bg {
+  background-color: #ffffff;
+}
+.dark.perps-theme-scope .perps-layout-bg {
+  background-color: #121212;
+}
+
+.perps-theme-scope .perps-navbar {
+  background-color: rgba(255, 255, 255, 0.95);
+  border-color: #e5e7eb;
+}
+.dark.perps-theme-scope .perps-navbar {
+  background-color: rgba(18, 18, 18, 0.85);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03), 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+
+.perps-theme-scope .perps-nav-btn {
+  border-color: #e5e7eb;
+  color: #1a1a1a;
+  background-color: transparent;
+}
+.perps-theme-scope .perps-nav-btn:hover {
+  background-color: #f7f7f7;
+}
+.dark.perps-theme-scope .perps-nav-btn {
+  border-color: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.9);
+}
+.dark.perps-theme-scope .perps-nav-btn:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.perps-theme-scope .perps-back-link {
+  color: #000000;
+}
+.dark.perps-theme-scope .perps-back-link {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.perps-theme-scope .perps-tab-bar {
+  border-color: #e5e7eb;
+  background-color: transparent;
+}
+.dark.perps-theme-scope .perps-tab-bar {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.perps-theme-scope .perps-tab-btn {
+  border-color: #e5e7eb;
+  background-color: #ffffff;
+  color: #9ca3af;
+}
+.perps-theme-scope .perps-tab-btn:hover {
+  background-color: #f7f7f7;
+}
+.perps-theme-scope .perps-tab-btn.active {
+  background-color: #3a3a3a;
+  color: #ffffff;
+}
+.dark.perps-theme-scope .perps-tab-btn {
+  border-color: rgba(255, 255, 255, 0.08);
+  background-color: transparent;
+  color: rgba(255, 255, 255, 0.5);
+}
+.dark.perps-theme-scope .perps-tab-btn:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.8);
+}
+.dark.perps-theme-scope .perps-tab-btn.active {
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+.perps-theme-scope .perps-mobile-dropdown {
+  border-color: #e5e7eb;
+  background-color: #ffffff;
+}
+.dark.perps-theme-scope .perps-mobile-dropdown {
+  border-color: rgba(255, 255, 255, 0.08);
+  background-color: #121212;
+}
+
+.perps-theme-scope .perps-mobile-nav-item {
+  background-color: #ffffff;
+  color: #9ca3af;
+}
+.perps-theme-scope .perps-mobile-nav-item:hover {
+  background-color: #f7f7f7;
+  color: #000000;
+}
+.perps-theme-scope .perps-mobile-nav-item.active {
+  background-color: #3a3a3a;
+  color: #ffffff;
+}
+.dark.perps-theme-scope .perps-mobile-nav-item {
+  background-color: transparent;
+  color: rgba(255, 255, 255, 0.5);
+}
+.dark.perps-theme-scope .perps-mobile-nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.9);
+}
+.dark.perps-theme-scope .perps-mobile-nav-item.active {
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+/* Perps skeleton loading states */
+.perps-theme-scope .perps-skeleton-border {
+  border-color: rgba(0, 0, 0, 0.06);
+}
+.perps-theme-scope .perps-skeleton-bg {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+.perps-theme-scope .perps-skeleton-bg-light {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.perps-theme-scope .perps-skeleton-card {
+  background-color: #ffffff;
+  border-color: rgba(0, 0, 0, 0.08);
+}
+.perps-theme-scope .perps-skeleton-spinner {
+  border-color: rgba(0, 0, 0, 0.2);
+  border-top-color: rgba(0, 0, 0, 0.6);
+}
+.perps-theme-scope .perps-skeleton-text {
+  color: rgba(0, 0, 0, 0.3);
+}
+.perps-theme-scope .perps-skeleton-line {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+.dark.perps-theme-scope .perps-skeleton-border {
+  border-color: rgba(255, 255, 255, 0.06);
+}
+.dark.perps-theme-scope .perps-skeleton-bg {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+.dark.perps-theme-scope .perps-skeleton-bg-light {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+.dark.perps-theme-scope .perps-skeleton-card {
+  background-color: #1a1a1a;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+.dark.perps-theme-scope .perps-skeleton-spinner {
+  border-color: rgba(255, 255, 255, 0.2);
+  border-top-color: rgba(255, 255, 255, 0.6);
+}
+.dark.perps-theme-scope .perps-skeleton-text {
+  color: rgba(255, 255, 255, 0.3);
+}
+.dark.perps-theme-scope .perps-skeleton-line {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+/* Perps market card theming */
+.perps-theme-scope .perps-card {
+  background-color: #ffffff;
+  border-color: #e5e7eb;
+}
+.perps-theme-scope .perps-card:hover {
+  border-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+.dark.perps-theme-scope .perps-card {
+  background-color: #1a1a1a;
+  border-color: #333;
+}
+.dark.perps-theme-scope .perps-card:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.perps-theme-scope .perps-card-glimmer {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), transparent);
+  opacity: 0.35;
+}
+.perps-theme-scope .perps-card:hover .perps-card-glimmer {
+  opacity: 0.55;
+}
+.dark.perps-theme-scope .perps-card-glimmer {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15), transparent);
+  opacity: 0.25;
+}
+.dark.perps-theme-scope .perps-card:hover .perps-card-glimmer {
+  opacity: 0.40;
+}
+
+.perps-theme-scope .perps-card-title {
+  color: #1a1a1a;
+}
+.dark.perps-theme-scope .perps-card-title {
+  color: #ffffff;
+}
+
+.perps-theme-scope .perps-card-price {
+  color: #1a1a1a;
+}
+.perps-theme-scope .perps-card-price.flash-up {
+  color: #059669;
+}
+.perps-theme-scope .perps-card-price.flash-down {
+  color: #f43f5e;
+}
+.dark.perps-theme-scope .perps-card-price {
+  color: #ffffff;
+}
+.dark.perps-theme-scope .perps-card-price.flash-up {
+  color: #34d399;
+}
+.dark.perps-theme-scope .perps-card-price.flash-down {
+  color: #fb7185;
+}
+
+.perps-theme-scope .perps-card-stat-label {
+  color: #9ca3af;
+}
+.dark.perps-theme-scope .perps-card-stat-label {
+  color: #888888;
+}
+
+.perps-theme-scope .perps-card-stat-value {
+  color: #1a1a1a;
+}
+.dark.perps-theme-scope .perps-card-stat-value {
+  color: #ffffff;
+}
+
+.perps-theme-scope .perps-card-divider {
+  color: #e5e7eb;
+}
+.dark.perps-theme-scope .perps-card-divider {
+  color: #444444;
+}
+
+.perps-theme-scope .perps-card-funding-positive {
+  color: #059669;
+}
+.dark.perps-theme-scope .perps-card-funding-positive {
+  color: #34d399;
+}
+
+.perps-theme-scope .perps-card-funding-negative {
+  color: #f43f5e;
+}
+.dark.perps-theme-scope .perps-card-funding-negative {
+  color: #fb7185;
+}
+
+/* Perps leverage slider theming */
+.perps-theme-scope .perps-lev-label {
+  color: #9ca3af;
+}
+.dark.perps-theme-scope .perps-lev-label {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.perps-theme-scope .perps-lev-bar-empty {
+  background-color: #e5e7eb;
+}
+.dark.perps-theme-scope .perps-lev-bar-empty {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.perps-theme-scope .perps-lev-marker {
+  background-color: #f7f7f7;
+  color: #9ca3af;
+}
+.perps-theme-scope .perps-lev-marker:hover {
+  background-color: #eeeeee;
+  color: #666666;
+}
+.dark.perps-theme-scope .perps-lev-marker {
+  background-color: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+.dark.perps-theme-scope .perps-lev-marker:hover {
+  color: #ffffff;
+}
+
+/* ── Remove native number-input spinners site-wide ──
+   The default up/down increment/decrement arrows on <input type="number">
+   look dated; hide them everywhere. Users type or use our own steppers. */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* ── Markets: slightly larger, uniform text across every markets page ──
+   The markets UI leans on small arbitrary px sizes. Bump the smallest ones up
+   ~1px, scoped to .markets-theme-scope (which wraps ALL /markets pages incl.
+   the market detail page), so the whole section reads a touch larger and
+   consistent. Text-only — doesn't touch spacing/layout math or the virtualized
+   grid's measurements. */
+.markets-theme-scope .text-\[8px\]    { font-size: 9px; }
+.markets-theme-scope .text-\[9px\]    { font-size: 10px; }
+.markets-theme-scope .text-\[10px\]   { font-size: 11px; }
+.markets-theme-scope .text-\[11px\]   { font-size: 12px; }
+.markets-theme-scope .text-\[12px\]   { font-size: 13px; }
+.markets-theme-scope .text-\[12\.5px\]{ font-size: 13.5px; }
+.markets-theme-scope .text-\[13px\]   { font-size: 14px; }
+.markets-theme-scope .text-\[14px\]   { font-size: 15px; }

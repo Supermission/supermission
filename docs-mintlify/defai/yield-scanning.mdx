@@ -1,0 +1,71 @@
+---
+title: "Yield Scanning"
+description: "AI-powered yield discovery across DeFi protocols. Score-ranked opportunities with APY, TVL, risk analysis, and one-click deposits."
+---
+
+# Yield scanning
+
+The **DeFi Yields** agent scans 1,000+ liquidity pools and lending markets across Base protocols to find the best risk-adjusted yield opportunities. Results are score-ranked and come with one-click deposit execution.
+
+## How to use
+
+- `"What are the best yield opportunities on Base right now?"`
+- `"Find low-risk stablecoin yields above 5% APY"`
+- `"Compare lending rates across Base protocols"`
+
+## Result panel: DefiYieldResultPanel
+
+The result renders as a paginated card list (3 opportunities per page):
+
+### Per opportunity
+
+| Element | Description |
+|---------|-------------|
+| **Pool name** | Token pair or single asset name |
+| **Project** | Protocol name (Aerodrome, Morpho, Aave, Compound, etc.) |
+| **APY** | Annual percentage yield, color-coded by tier |
+| **TVL** | Total value locked in the pool |
+| **Risk score** | AI-assessed risk level |
+| **Stablecoin flag** | Whether the pool involves only stablecoins (lower IL risk) |
+| **IL risk** | Impermanent loss risk indicator |
+| **Execution button** | Opens pool details or triggers inline deposit |
+
+### Additional sections
+
+- **Filters applied** — shows what filters the AI used to narrow results
+- **AI insights** — narrative explaining the current yield landscape and recommendations
+- **Pagination** — navigate through opportunities (3 per page)
+
+## One-click deposits
+
+When you select an opportunity, the agent prepares an inline deposit:
+
+**For Morpho vaults** → `MorphoDepositInline`:
+- Shows: amount, vault name, APY
+- Steps: Check balance → Approve USDC → Deposit → Done
+- Uses `useMorphoDeposit()` hook
+
+**For Aave/Compound** → `DefiDepositInline`:
+- Shows: amount, protocol name, APY
+- Steps: Check balance → Approve USDC → Deposit → Done
+- Uses `useDefiInvest()` hook
+
+Each deposit shows multi-step progress with checkmarks, spinners, and transaction hash links.
+
+## Protocols covered
+
+| Protocol | Type | Assets |
+|----------|------|--------|
+| **Morpho** | Lending/Borrowing | USDC, ETH, wstETH vaults with curated strategies |
+| **Aave V3** | Lending | USDC, ETH, WBTC, and other major assets |
+| **Compound III** | Lending | USDC supply market |
+| **Aerodrome** | DEX LP | Various pairs on Base |
+| **Moonwell** | Lending | USDC, ETH, and others on Base |
+
+<Info>
+  Yield scanning focuses on Base chain protocols. Cross-chain yield discovery is available through the Delphi agent in the Dashboard, which supports Base, Ethereum, Polygon, and Optimism.
+</Info>
+
+<Tip>
+  Sort by risk-adjusted return, not raw APY. A 15% APY on a stablecoin pool with $50M TVL is usually a better risk/reward than a 200% APY on a new pool with $100K TVL. The AI's scoring reflects this.
+</Tip>

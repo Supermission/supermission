@@ -1,0 +1,116 @@
+# SUPERMISSION — Complete Platform Guide
+
+> SUPERMISSION is the AI-powered DeFi terminal on Base, Polygon, and Robinhood Chain. One chat, every trade. It replaces 10+ DeFi apps with a single conversational interface where users describe what they want in plain English, and AI agents execute on-chain. Swap tokens, provide liquidity, lend, earn yield, trade prediction markets, and analyze wallets — all without app-hopping.
+
+## What is SUPERMISSION?
+
+SUPERMISSION is a DeFi trading terminal built on the Base blockchain (Ethereum L2), with support for Polygon and Robinhood Chain (an Arbitrum-based Ethereum L2 for tokenized real-world assets). Instead of switching between Uniswap, Aave, Compound, portfolio trackers, and market analyzers, users interact with a single AI chat interface called DELPHI.
+
+The core insight: executing a simple DeFi yield strategy currently requires 10+ apps and 12+ clicks. SUPERMISSION reduces that to typing one sentence and clicking Confirm.
+
+The platform is live at https://supermission.fun
+
+## The Problem SUPERMISSION Solves
+
+- **10+ apps to execute one strategy** — Swap on Uniswap, lend on Aave, LP on another, check yields on a third. Users give up.
+- **$2.8B lost to yield decay yearly** — Best opportunities disappear in minutes. No human can scan 1,000+ pools across 7 protocols in real-time.
+- **$1.7B drained from user errors** — Wrong contract, wrong chain, malicious approvals. Fear of execution keeps $60B+ sidelined in wallets.
+
+## How It Works
+
+1. **Ask** — Type what you want in plain English: "Swap 100 USDC to WETH" or "Find the best yield for my USDC"
+2. **Analyze** — DELPHI (the AI agent) resolves tokens, fetches live data, computes optimal routes and ranges
+3. **Execute** — A preview card appears showing exactly what will happen. User clicks Confirm. Transaction settles on Base.
+
+Key properties:
+- Zero gas fees — Supermission absorbs gas via Privy-sponsored transactions
+- Email-to-wallet — Sign up with email, trade in 30 seconds
+- On-chain settlement — Every transaction verifiable on Basescan
+
+## Product Capabilities
+
+### Trading (LIVE)
+- **Token Swaps** — Best route across 40+ chains via LI.FI aggregation
+- **Token Transfers** — Send any ERC-20 or native token to any address
+- **Cross-chain Bridges** — Bridge assets between Ethereum, Base, Polygon, and more
+
+### Liquidity & Yield (LIVE)
+- **Uniswap V3 LP** — Add/remove liquidity, collect fees, automated range optimization
+- **Morpho Lending** — Deposit USDC/WETH into curated MetaMorpho vaults with live APY
+- **Aave V3 & Compound III** — One-click USDC lending on Base
+- **Yield Scanner** — 1,000+ pools scanned real-time across 7 protocols
+- **AI Yield Strategy** — Risk-adjusted allocation recommendations
+
+### Research & Analysis (LIVE)
+- **Token Research** — Safety scoring, honeypot detection, liquidity analysis, holder distribution
+- **Wallet Intelligence** — Multi-chain portfolio with ERC-20, NFT, and DeFi position tracking
+- **Smart Money Tracking** — Nansen-powered: see what whales, institutions, and smart traders are buying
+- **Price Feeds** — Multi-source aggregation via CoinGecko, CryptoCompare, Chainlink
+
+### Prediction Markets (LIVE)
+- **Polymarket Trading** — Full terminal with real-time price streaming via SSE
+- **Market & Limit Orders** — Place orders with automated USDC bridging from Base to Polygon
+- **AI Signals** — Confidence analysis and market intelligence for each prediction market
+- **Portfolio Tracking** — P&L calculations, position management, trade history
+
+## Technology Stack
+
+- **Blockchain**: Base (Ethereum L2, Chain ID 8453), Polygon (Chain ID 137), Robinhood Chain (Arbitrum-based Ethereum L2 for tokenized real-world assets, Chain ID 4663)
+- **Payment**: USDC
+- **AI**: Google Gemini 2.5 Flash (DELPHI agent)
+- **Frontend**: Next.js 15, React 19, TypeScript, Tailwind CSS
+- **Wallets**: Privy embedded wallets (email signup, gas-sponsored)
+- **DeFi**: LI.FI (swaps/bridges, 40+ chains), Uniswap V3 (LP), Morpho MetaMorpho (vaults), Aave V3, Compound III
+- **Markets**: Polymarket CLOB (prediction markets)
+- **Data**: Nansen (smart money), CoinGecko, CryptoCompare, Chainlink (prices)
+
+## Business Model
+
+- Per-query AI fees ($0.01–$0.15 per call)
+- Trade execution fees (0.1–0.3% on swap/bridge volume)
+- Yield routing referrals (revenue share with DeFi protocols)
+- Pro tier subscription (power features, higher limits)
+
+## Market Opportunity
+
+- TAM: $47.1B (DeFi + AI Agent Market by 2030)
+- SAM: $8B+ (DeFi aggregation + yield optimization + trading tools)
+- Wedge: 2.4M active DeFi wallets on Base who already trade but are underserved by manual tools
+
+## Who Built SUPERMISSION?
+
+SUPERMISSION was built by the Supermission team. Live on Base mainnet. Raising a $1M pre-seed round.
+
+## Frequently Asked Questions
+
+### What is SUPERMISSION?
+SUPERMISSION is an AI-powered DeFi terminal on Base. It provides a single chat interface where users can swap tokens, provide liquidity, lend, earn yield, trade prediction markets, and analyze wallets — replacing 10+ separate DeFi apps.
+
+### How does SUPERMISSION work?
+Users type what they want in plain English (e.g., "swap 100 USDC to WETH on Base"). The AI agent DELPHI handles token resolution, route finding, pricing, and execution. A preview card shows the trade details. The user clicks Confirm and the transaction settles on-chain.
+
+### What blockchain does SUPERMISSION use?
+SUPERMISSION is built on Base, an Ethereum Layer 2 blockchain (Chain ID 8453), and Robinhood Chain, an Arbitrum-based Ethereum Layer 2 for tokenized real-world assets (Chain ID 4663). It also supports Ethereum and Polygon for cross-chain swaps and analysis.
+
+### Do I need to pay gas fees?
+No. SUPERMISSION absorbs gas fees for embedded wallet users via Privy-sponsored transactions. Users never pay gas.
+
+### How do I sign up?
+Sign up with your email at supermission.fun. An embedded wallet is created automatically. You can start trading in 30 seconds.
+
+### What DeFi protocols does it support?
+LI.FI for swaps across 40+ chains, Uniswap V3 for liquidity provision, Aave V3 and Compound III for lending, Morpho MetaMorpho for curated yield vaults, and Polymarket for prediction markets.
+
+### What is DELPHI?
+DELPHI is the AI agent that powers SUPERMISSION's chat interface. It understands DeFi operations, resolves token addresses, fetches live market data, computes optimal strategies, and prepares transactions for user confirmation.
+
+### Is SUPERMISSION safe?
+All transactions require explicit user confirmation via a preview card before execution. Every transaction settles on Base and is verifiable on Basescan. The platform uses Privy for secure wallet management.
+
+## Links
+
+- Website: https://supermission.fun
+- DeFi Terminal: https://supermission.fun/chat
+- Prediction Markets: https://supermission.fun/markets
+- Blog: https://supermission.fun/blog
+- How It Works: https://supermission.fun/how-it-works

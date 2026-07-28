@@ -1,0 +1,99 @@
+---
+title: "DeFi Positions"
+description: "Track and manage your active lending positions and Uniswap V3 LP positions. Withdraw, collect fees, and remove liquidity."
+---
+
+# DeFi positions
+
+The Dashboard shows your active DeFi positions across lending protocols and Uniswap V3 LP pools. You can manage these positions directly — withdraw from lending, remove LP liquidity, and collect accumulated fees.
+
+## Lending positions
+
+The **DeFiPositions** component shows your active lending positions (only renders if you have positions — returns null otherwise):
+
+| Element | Description |
+|---------|-------------|
+| **Protocol name** | Aave V3, Compound III |
+| **Chain** | Which chain the position is on |
+| **Balance** | Formatted with asset symbol (e.g., "$1,234.56 USDC") |
+| **Withdraw button** | Orange-colored button to initiate withdrawal |
+
+### Withdraw flow
+
+Clicking **Withdraw** opens the **WithdrawModal**:
+
+<Steps>
+  <Step title="Confirmation">
+    Shows protocol name with icon, position balance to withdraw. Click **Withdraw** to proceed.
+  </Step>
+  <Step title="Processing">
+    Multi-step execution with progress indicators. Transaction link appears when submitted. Uses `useDefiWithdraw()` hook.
+  </Step>
+  <Step title="Success">
+    Checkmark icon, confirmation message, completed transaction link. Positions refetch automatically after successful withdrawal.
+  </Step>
+  <Step title="Error (if applicable)">
+    Error details displayed with a **Retry** button.
+  </Step>
+</Steps>
+
+## Uniswap V3 LP positions
+
+The **PositionsPanel** shows your Uniswap V3 liquidity positions:
+
+Each **PositionCard** displays:
+
+| Element | Description |
+|---------|-------------|
+| **Token pair** | e.g., USDC/ETH |
+| **Fee tier** | 0.05%, 0.3%, 1% |
+| **Current value** | USD value of the position |
+| **Uncollected fees** | Accumulated trading fees (token0 + token1 amounts) |
+| **Price range** | Lower and upper bound of your LP range |
+| **Remove button** | Opens RemoveLiquidityModal |
+
+### Remove liquidity flow
+
+The **RemoveLiquidityModal** supports two modes:
+
+<Tabs>
+  <Tab title="Remove Liquidity">
+    Withdraws your liquidity from the pool:
+    - Shows estimated token amounts you'll receive
+    - **Collect fees** checkbox — optionally collect accumulated fees during removal
+    - Multi-step execution: approval → remove → (collect fees if checked)
+    - Transaction hash links to block explorer
+  </Tab>
+  <Tab title="Collect Fees">
+    Just collects accumulated fees without removing liquidity:
+    - Shows fee amounts for both tokens
+    - Single-step execution
+    - Fees sent to your wallet
+  </Tab>
+</Tabs>
+
+## Add liquidity
+
+New LP positions are created through the Dashboard's DeFi swap/pools interface:
+
+### PoolsPanel
+
+Browse and add liquidity to Uniswap V3 pools:
+- **Chain tabs**: Base, Ethereum, Polygon
+- **Search input**: Filter pools by token symbol
+- **Pool cards**: Token pair, fee tier, TVL, estimated APR, volume, liquidity distribution
+- Click a pool to open the **AddLiquidityModal**
+
+### AddLiquidityModal
+
+| Section | Description |
+|---------|-------------|
+| **Pool info** | Fee tier, TVL, estimated APR |
+| **AI-Suggested Range** | Risk level selector: Conservative / Moderate / Aggressive. Range loads async with rationale explanation. |
+| **IL Risk indicator** | Impermanent Loss risk: Low (green) / Medium (amber) / High (red) |
+| **Token amounts** | Side-by-side inputs for token0 and token1 |
+| **Submit** | Executes the add liquidity transaction |
+
+<Info>
+  LP positions require the wallet to be connected. The panel shows a wallet connection prompt if not authenticated. Position data comes from on-chain Uniswap V3 contracts via the `useUniswapPositions()` hook.
+</Info>

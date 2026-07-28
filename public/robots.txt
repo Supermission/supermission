@@ -1,0 +1,47 @@
+# robots.txt for SUPERMISSION
+# https://supermission.fun
+
+User-agent: *
+Allow: /
+Disallow: /dashboard/
+Disallow: /admin/
+Disallow: /api/
+
+# Allow search engines and AI crawlers to index public API docs
+Allow: /api/og/
+Allow: /skill.md
+Allow: /skill.json
+
+# AI / LLM crawlers — welcome, read our docs
+User-agent: GPTBot
+Allow: /
+Disallow: /dashboard/
+Disallow: /admin/
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+# Sitemap
+Sitemap: https://supermission.fun/sitemap.xml
+
+# For AI agents and LLMs
+LLMs: https://supermission.fun/llms.txt
+LLMs-Full: https://supermission.fun/llms-full.txt

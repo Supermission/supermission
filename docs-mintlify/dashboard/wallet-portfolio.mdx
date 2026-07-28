@@ -1,0 +1,107 @@
+---
+title: "Wallet & Portfolio"
+description: "Multi-chain wallet overview with token balances, sparkline price charts, chain breakdown, and multi-wallet support for watch-only addresses."
+---
+
+# Wallet portfolio
+
+The **CombinedOverview** component is the primary dashboard view. It shows your complete portfolio across all connected chains with real-time balances, sparkline price history, and multi-wallet support.
+
+## Multi-wallet support
+
+You can monitor up to 3 wallets simultaneously:
+
+| Feature | Description |
+|---------|-------------|
+| **Active wallet** | Your primary connected wallet. Highlighted with dark gradient background. |
+| **Watch-only wallets** | Add any wallet address for monitoring (no trading). Click "Watch" button → enter address → validate → add. |
+| **Switching** | Click any wallet pill to make it the active view. All data below updates. |
+| **Removing** | X button on non-primary wallets to remove them from monitoring. |
+| **Copy** | Copy button for the active wallet address. |
+| **Explorer** | Direct link to BaseScan for the active wallet. |
+
+## Balance section
+
+| Element | Description |
+|---------|-------------|
+| **Total Portfolio USD** | Large 4xl font showing aggregate portfolio value across all chains |
+| **24h Change** | Percentage change with green/red color and trend arrow icon. Sourced from `useWalletOverview()` supplementary data. |
+| **Holdings count** | Number of distinct tokens held |
+| **Chains count** | Number of chains with assets |
+
+## Chain balances
+
+A grid of chain cards, each showing:
+
+| Chain | Data shown |
+|-------|-----------|
+| **Base** | ETH native balance + total USD value for all Base tokens |
+| **Robinhood Chain** | ETH native balance + USDG and total USD value |
+| **Polygon** | MATIC/POL native balance + total USD value |
+| **Arbitrum** | ETH native balance + total USD value |
+| **Ethereum** | ETH native balance + total USD value |
+
+Each card has the chain icon and name.
+
+## Token holdings list
+
+Every token in your portfolio, displayed as clickable rows:
+
+| Element | Description |
+|---------|-------------|
+| **Token icon** | With chain badge overlay (bottom-right corner showing which chain the token is on) |
+| **Token symbol** | e.g., USDC, WETH, AERO |
+| **Chain name** | Which chain this token is on |
+| **Sparkline chart** | 60×24px SVG mini-chart showing recent price history. Green if price is up, red if down. Hidden on mobile. Excluded for stablecoins (USDC, USDT, DAI, BUSD, TUSD, FRAX). |
+| **USD value** | Token balance in USD |
+| **Token balance** | Raw token amount |
+| **Portfolio %** | Percentage of total portfolio |
+| **Expand arrow** | ChevronRight icon — click to expand |
+
+### Token symbol mapping
+
+The sparkline system maps variant symbols to canonical ones:
+- USDC, USDC.e, USDbC → USDC
+- WETH, cbETH, wstETH, rETH → ETH
+- WBTC → BTC
+- POL, MATIC, WMATIC → MATIC
+
+### Expanded token detail
+
+Click any token row to expand and see the **TokenDetailPanel**:
+- Interactive price chart powered by `lightweight-charts` (TradingView)
+- Period selector: 24h, 7d, 30d, 90d
+- Area chart with color based on price direction (green up, red down)
+- 24h change calculation from chart data
+- Loading and error states with retry
+
+## Chain legend
+
+At the bottom of the token list, a legend showing which chains are present in your portfolio with their icons.
+
+## Data sources
+
+| Source | Data | Refresh |
+|--------|------|---------|
+| `useWalletData()` | Token balances, chain breakdown, portfolio summary | 15s polling, 30s stale time |
+| `useWalletOverview()` | 24h change percentage | Supplementary |
+| `useBatchSparklines()` | Historical price data for sparklines | On demand |
+| `usePriceHistory()` | Detailed price data for TokenDetailPanel | On expand |
+
+## AI wallet analysis
+
+Below the portfolio overview, the **WalletAnalysisCard** offers on-demand AI analysis:
+
+- Click **"Analyze Wallet"** button
+- Uses MiniMax API to analyze your portfolio
+- Returns:
+  - **Portfolio Health Score** — Excellent/Good/Fair/Poor with color coding
+  - **Risk Score** — 0-100, colored red/yellow/green
+  - **Diversification Rating**
+  - **Concentration Risk** — Low/Medium/High
+  - **Top Holdings summary**
+  - **Recommendations** section with actionable advice
+
+<Info>
+  Wallet data refreshes every 15 seconds when the page is visible. Polling pauses when the tab is in the background to save resources. The `useServerBalance` hook checks USDC and ETH balances every 10 seconds independently for trading readiness.
+</Info>

@@ -1,0 +1,24 @@
+{
+  "name": "SUPERMISSION",
+  "description": "AI-powered DeFi terminal on Base. One chat to swap, lend, earn yield, trade prediction markets, and analyze wallets.",
+  "url": "https://supermission.fun",
+  "type": "defi-terminal",
+  "version": "2.0.0",
+  "documentation": {
+    "human_readable": "https://supermission.fun/skill.md",
+    "machine_readable": "https://supermission.fun/skill.json",
+    "llms_txt": "https://supermission.fun/llms.txt"
+  },
+  "capabilities": ["token-swaps", "yield-farming", "liquidity-provision", "prediction-markets", "wallet-analysis", "smart-money-tracking"],
+  "blockchain": {
+    "chain": "base",
+    "chainId": 8453,
+    "payment_token": "USDC",
+    "usdc_contract": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+  },
+  "endpoints": {
+    "chat": "https://supermission.fun/chat",
+    "markets": "https://supermission.fun/markets"
+  },
+  "discovery_note": "SUPERMISSION is an AI-powered DeFi terminal. Users interact via a single chat interface where the AI agent DELPHI executes swaps, lending, yield farming, prediction market trades, and wallet analysis on-chain."
+}

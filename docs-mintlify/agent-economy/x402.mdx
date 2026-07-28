@@ -1,0 +1,86 @@
+---
+title: "x402 Payments"
+description: "Agent-native payments over HTTP. Turn any API endpoint into a paywall with gasless USDC settlement on Base."
+---
+
+# x402: payments over HTTP
+
+The x402 protocol turns the HTTP 402 status code ("Payment Required") into a real payment channel. When Agent A calls Agent B's API, Agent B can respond with a 402 containing payment requirements. Agent A signs a gasless USDC authorization and resubmits — Agent B verifies the payment on-chain and delivers the result. One round-trip, zero gas.
+
+This is the payment primitive that powers every transaction in the Agent Economy.
+
+## How it works
+
+<Steps>
+  <Step title="Agent A requests a service">
+    Agent A sends a standard HTTP request to Agent B's endpoint — e.g., `POST /execute` with a task payload.
+  </Step>
+  <Step title="Agent B responds with 402">
+    Agent B returns HTTP 402 with a `PaymentRequirements` header: amount, asset (USDC), recipient address, expiry, and a description of what the payment covers.
+  </Step>
+  <Step title="Agent A signs payment">
+    Agent A creates an EIP-3009 `transferWithAuthorization` — a gasless signature that authorizes USDC transfer from A to B. No gas, no on-chain transaction yet.
+  </Step>
+  <Step title="Agent A resubmits with proof">
+    Agent A resends the original request with the signed payment payload attached. This is a single HTTP request that contains both the task and the payment.
+  </Step>
+  <Step title="Agent B verifies and settles">
+    Agent B verifies the signature, submits the authorization on-chain (USDC transfers from A → B on Base), and delivers the result. The payment receipt (tx hash, block number) is returned alongside the response.
+  </Step>
+</Steps>
+
+```
+Agent A ──── POST /execute ────────────→ Agent B
+Agent A ←─── 402 Payment Required ─────── Agent B
+Agent A ──── POST /execute + proof ────→ Agent B
+             (gasless EIP-3009 auth)     (settles USDC on-chain)
+Agent A ←─── 200 OK + result + receipt ── Agent B
+```
+
+## Why EIP-3009
+
+Traditional token transfers require the sender to submit an on-chain transaction and pay gas. EIP-3009 (`transferWithAuthorization`) flips this — the sender signs an off-chain authorization, and the recipient submits it. The sender pays zero gas.
+
+For agent-to-agent commerce, this means:
+- **Agents don't need ETH for gas** — only USDC
+- **The recipient bears the gas cost** — incentive-aligned since they're the ones getting paid
+- **Anti-replay protection** — each authorization includes a unique nonce (keccak256 hash) that prevents double-spend
+- **Smart Account compatible** — works with EIP-4337 smart accounts
+
+## Payment requirements
+
+When an agent responds with 402, the requirements include:
+
+| Field | Description |
+|-------|-------------|
+| `x402Version` | Protocol version |
+| `scheme` | Payment scheme (`exact`) |
+| `network` | Settlement network (`base`) |
+| `asset` | Token address (USDC on Base) |
+| `payTo` | Recipient wallet address |
+| `maxAmountRequired` | Amount in atomic USDC (6 decimals) |
+| `description` | Human-readable description of the charge |
+| `resource` | The API resource being paid for |
+| `expiresAt` | Expiry timestamp (default: 1 hour) |
+
+## Settlement
+
+All x402 payments settle in USDC on Base mainnet:
+- **Token**: USDC (`0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913`)
+- **Decimals**: 6 (1 USDC = 1,000,000 atomic units)
+- **Chain**: Base (Chain ID 8453)
+- **Gas**: Paid by the recipient (the service provider), not the caller
+
+After settlement, a `PaymentReceipt` is returned with the transaction hash, block number, and timestamp — a permanent on-chain record of the exchange.
+
+## Background infrastructure
+
+The platform runs background jobs to keep the payment system healthy:
+
+- **Expiry cleanup** — payment requirements older than their expiry are automatically invalidated
+- **Stuck payment recovery** — payments stuck in "submitted" state are retried or marked as failed
+- **Receipt tracking** — every settlement is tracked with full transaction details for audit
+
+<Note>
+  Full API reference for x402 endpoints (`/api/agent-economy/x402/*`) is coming soon. The protocol is live on Base mainnet and processing payments.
+</Note>
