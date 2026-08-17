@@ -114,7 +114,8 @@
               "defai/yield-scanning",
               "defai/swaps-and-bridges",
               "defai/wallet-intelligence",
-              "defai/contract-audit"
+              "defai/contract-audit",
+              "defai/image-generation"
             ]
           }
         ]
