@@ -34,6 +34,7 @@
     "@privy-io/wagmi": "^4.0.2",
     "@rainbow-me/rainbowkit": "^2.2.10",
     "@sparticuz/chromium": "^143.0.4",
+    "@stripe/stripe-js": "^1.54.2",
     "@supabase/ssr": "^0.7.0",
     "@supabase/supabase-js": "^2.75.1",
     "@tailwindcss/typography": "^0.5.19",
@@ -44,6 +45,7 @@
     "@upstash/redis": "^1.37.0",
     "@vercel/analytics": "^1.5.0",
     "ai": "^6.0.101",
+    "axios": "^1.21.0",
     "cheerio": "^1.1.2",
     "clsx": "^2.1.1",
     "ethers": "^5.7.2",
@@ -52,10 +54,10 @@
     "framer-motion": "^12.23.24",
     "html-to-image": "^1.11.13",
     "html2canvas": "^1.4.1",
-    "jspdf": "^2.5.2",
+    "jspdf": "^4.2.1",
     "lightweight-charts": "^5.1.0",
     "lucide-react": "^0.548.0",
-    "next": "15.5.9",
+    "next": "15.5.28",
     "openai": "^6.3.0",
     "permissionless": "^0.3.4",
     "puppeteer-core": "^24.40.0",
@@ -67,7 +69,6 @@
     "resend": "^6.10.0",
     "rss-parser": "^3.13.0",
     "sonner": "^2.0.7",
-    "supabase": "^2.76.5",
     "tailwind-merge": "^3.3.1",
     "viem": "^2.46.3",
     "wagmi": "^2.18.2",
@@ -88,9 +89,13 @@
     "concurrently": "^9.2.1",
     "dotenv": "^17.2.3",
     "eslint": "^9",
-    "eslint-config-next": "15.5.5",
+    "eslint-config-next": "15.5.28",
+    "supabase": "^2.122.0",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^4.1.2"
+  },
+  "overrides": {
+    "@coinbase/cdp-sdk": "1.44.0"
   }
 }
