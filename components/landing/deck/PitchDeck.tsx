@@ -975,7 +975,7 @@ function SlideTeam() {
               <p>3,200+ on-chain transactions processed, 850+ wallets onboarded, before any fundraise.</p>
             </>
           }
-          handle="@divyanshueth"
+          handle="@trydiv"
         />
         <TeamCard
           photoTone="light"
